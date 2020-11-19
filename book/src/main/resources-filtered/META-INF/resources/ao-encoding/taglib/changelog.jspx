@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
+Copyright (C) 2016, 2017, 2019, 2020  AO Industries, Inc.
+    support@aoindustries.com
+    7262 Bull Pen Cir
+    Mobile, AL 36695
+
+This file is part of ao-encoding-taglib.
+
+ao-encoding-taglib is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ao-encoding-taglib is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
+-->
+<jsp:root
+	xmlns:ao="https://aoindustries.com/ao-taglib/"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:changelog="https://semanticcms.com/changelog/taglib/"
+	xmlns:core="https://semanticcms.com/core/taglib/"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	version="2.1"
+>
+	<jsp:directive.page language="java" pageEncoding="UTF-8" />
+	<jsp:directive.page session="false" />
+	<core:page
+		title="@{documented.name} Changelog"
+		shortTitle="Changelog"
+		tocLevels="1"
+		datePublished="2020-11-18T11:39:31-06:00"
+	>
+		<!-- The current snapshot, unreleased version -->
+		<c:set var="version" value="@{com.aoindustries:ao-encoding-taglib:pom.version}" />
+		<ao:assert
+			test="${!fn:startsWith(version, '@')}"
+			message="Version not substituted: #{version}"
+		/>
+		<c:if test="${fn:endsWith(version, '-SNAPSHOT') and !fn:endsWith(version, '-POST-SNAPSHOT')}">
+			<changelog:release
+				projectName="@{documented.name}"
+				version="#{version}"
+				groupId="@{project.groupId}"
+				artifactId="@{documented.artifactId}"
+				scmUrl="@{project.scm.url}"
+			>
+				<ul>
+					<li>New project for character encoding in JSP split from <core:link book="/ao-taglib" page="/index.jspx" />.</li>
+					<li>
+						Tags changed from <code>SimpleTag</code> to <code>BodyTag</code> to better interact with legacy JSP
+						that use scriptlets.  The auto-encoding base <code>SimpleTag</code> implementations remain for
+						compatibility.
+					</li>
+					<li>
+						Added tags to fill-out all the currently supported media types:
+						<ol>
+							<li><core:link page="ao-encoding.tld/tag-javascript" /></li>
+							<li><core:link page="ao-encoding.tld/tag-json" /></li>
+							<li><core:link page="ao-encoding.tld/tag-ldJson" /></li>
+							<li><core:link page="ao-encoding.tld/tag-url" /></li>
+						</ol>
+					</li>
+				</ul>
+			</changelog:release>
+		</c:if>
+	</core:page>
+</jsp:root>
