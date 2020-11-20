@@ -22,8 +22,8 @@
  */
 package com.aoindustries.encoding.taglib;
 
-import com.aoindustries.io.LocalizedIOException;
 import static com.aoindustries.encoding.taglib.ApplicationResources.accessor;
+import com.aoindustries.io.LocalizedIOException;
 import java.io.IOException;
 import java.io.Writer;
 

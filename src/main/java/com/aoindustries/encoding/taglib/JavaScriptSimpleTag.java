@@ -27,12 +27,14 @@ import com.aoindustries.encoding.MediaType;
 /**
  * @author  AO Industries, Inc.
  */
-public class JavaScriptTag extends EncodingFilteredBodyTag {
-
-	private static final long serialVersionUID = 1L;
+public class JavaScriptSimpleTag extends EncodingFilteredSimpleTag {
 
 	@Override
 	public MediaType getContentType() {
 		return MediaType.JAVASCRIPT;
 	}
+
+/* BodyTag only:
+	private static final long serialVersionUID = 1L;
+/**/
 }

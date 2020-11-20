@@ -35,9 +35,11 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 		shortTitle="@{documented.shortTitle}"
 		description="@{documented.description}"
 		datePublished="2020-11-18T11:39:31-06:00"
+		dateModified="2020-11-19T17:22:03-06:00"
 	>
 		<core:child page="changelog.jspx" />
 		<core:child page="ao-encoding.tld/" />
+		<core:child page="ao-encoding-legacy.tld/" />
 		<core:child page="apidocs/index.jspx" />
 		<header>
 			<ao:include
@@ -59,6 +61,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 				<li><core:link page="index.jspx">Project Home</core:link></li>
 				<li><core:link page="changelog.jspx">Changelog</core:link></li>
 				<li><core:link page="ao-encoding.tld/">Taglib Reference</core:link></li>
+				<li><core:link page="ao-encoding-legacy.tld/">Taglib Reference (Legacy)</core:link></li>
 				<li><core:link page="apidocs/index.jspx">API Docs</core:link></li>
 				<li><ao:a href="https://search.maven.org/artifact/${ao:encodeURIComponent('@{project.groupId}')}/${ao:encodeURIComponent('@{documented.artifactId}')}">Maven Central Repository</ao:a></li>
 				<li><ao:a href="@{project.scm.url}">GitHub</ao:a></li>

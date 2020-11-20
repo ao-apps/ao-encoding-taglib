@@ -92,7 +92,10 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 								<artifactItem>
 									<groupId>com.aoindustries</groupId><artifactId>ao-encoding-taglib</artifactId><version>1.0.0-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
 									<type>jar</type>
-									<includes>META-INF/ao-encoding.tld</includes>
+									<includes>
+										META-INF/ao-encoding.tld,
+										META-INF/ao-encoding-legacy.tld
+									</includes>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
@@ -110,6 +113,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 									<directory>${project.build.directory}/dependency/META-INF</directory>
 									<includes>
 										<include>ao-encoding.tld</include>
+										<include>ao-encoding-legacy.tld</include>
 									</includes>
 								</resource>
 							</resources>

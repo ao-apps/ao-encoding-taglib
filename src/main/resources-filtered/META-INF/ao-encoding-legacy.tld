@@ -24,13 +24,13 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
 <!DOCTYPE taglib [
 
 <!-- Implementation-specific settings -->
-<!ENTITY tld "ao-encoding.tld">
-<!ENTITY tld_displayName "@{project.name}">
-<!ENTITY tld_uri "@{project.url}">
-<!ENTITY tld_description "&lt;em&gt;This is the scriptless implementation based on &lt;a rel=&quot;nofollow&quot; href=&quot;@{javadoc.link.javaee}javax/servlet/jsp/tagext/SimpleTagSupport.html&quot;&gt;javax.servlet.jsp.tagext.SimpleTagSupport&lt;/a&gt;.&lt;/em&gt;
-For compatibility with legacy applications that use JSP scriptlets, please use &lt;a href=&quot;@{project.url}ao-encoding-legacy.tld/&quot;&gt;@{project.name} Reference (Legacy)&lt;/a&gt;.">
-<!ENTITY BodyTag "SimpleTag">
-<!ENTITY JSP "scriptless">
+<!ENTITY tld "ao-encoding-legacy.tld">
+<!ENTITY tld_displayName "@{project.name} (Legacy)">
+<!ENTITY tld_uri "@{project.url}legacy">
+<!ENTITY tld_description "&lt;em&gt;This is the legacy implementation for compatibility with applications that use JSP scriptlets.&lt;/em&gt;
+When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}ao-encoding.tld/&quot;&gt;@{project.name} Reference&lt;/a&gt;.">
+<!ENTITY BodyTag "BodyTag">
+<!ENTITY JSP "JSP">
 
 ]>
 <!-- Everything below this line should be an exact match between both implementations -->

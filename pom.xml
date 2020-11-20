@@ -36,7 +36,10 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 		<shortTitle>Taglib</shortTitle>
 		<javadoc.breadcrumbs><![CDATA[<a target="${javadoc.target}" href="https://aoindustries.com/ao-encoding/">AO Encoding</a>
 / <a target="${javadoc.target}" href="${project.url}">${shortTitle}</a>]]></javadoc.breadcrumbs>
-		<javadoc.taglibReference><![CDATA[<li><a target="${javadoc.target}" href="${project.url}ao-encoding.tld/">Taglib Reference</a></li>]]></javadoc.taglibReference>
+		<javadoc.taglibReference><![CDATA[
+			<li><a target="${javadoc.target}" href="${project.url}ao-encoding.tld/">Taglib Reference</a></li>
+			<li><a target="${javadoc.target}" href="${project.url}ao-encoding-legacy.tld/">Taglib Reference (Legacy)</a></li>
+		]]></javadoc.taglibReference>
 	</properties>
 
 	<name>AO Encoding Taglib</name>

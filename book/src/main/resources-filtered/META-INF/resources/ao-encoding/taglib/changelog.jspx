@@ -37,6 +37,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 		shortTitle="Changelog"
 		tocLevels="1"
 		datePublished="2020-11-18T11:39:31-06:00"
+		dateModified="2020-11-19T17:22:03-06:00"
 	>
 		<!-- The current snapshot, unreleased version -->
 		<c:set var="version" value="@{com.aoindustries:ao-encoding-taglib:pom.version}" />
@@ -55,9 +56,8 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 				<ul>
 					<li>New project for character encoding in JSP split from <core:link book="/ao-taglib" page="/index.jspx" />.</li>
 					<li>
-						Tags changed from <code>SimpleTag</code> to <code>BodyTag</code> to better interact with legacy JSP
-						that use scriptlets.  The auto-encoding base <code>SimpleTag</code> implementations remain for
-						compatibility.
+						Added <core:link page="ao-encoding-legacy.tld/">alternate implementation</core:link> compatible
+						with legacy JSP that use scriptlets.
 					</li>
 					<li>
 						Added tags to fill-out all the currently supported media types:
@@ -68,6 +68,19 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 							<li><core:link page="ao-encoding.tld/tag-url" /></li>
 						</ol>
 					</li>
+					<li>
+						<p>
+							Now registering exception types for use with <code>Throwables.newSurrogate(…)</code> that supports creating new instances
+							of throwables in order to have caller stack trace.  When wrapped, the original throwable is the
+							cause of the new throwable.  When not wrapped, the original throwable is used directly and
+							caller stack trace is lost.
+						</p>
+						<p>
+							This is used to maintain exception types and states across thread boundaries, such as when an exception cause
+							is obtained from an <code>ExecutionException</code>.
+						</p>
+					</li>
+					<!-- TODO: New encode type="..." tag for dynamic type, or allow body on out? -->
 				</ul>
 			</changelog:release>
 		</c:if>

@@ -24,7 +24,6 @@ package com.aoindustries.encoding.taglib;
 
 import com.aoindustries.encoding.Coercion;
 import com.aoindustries.encoding.MediaType;
-import com.aoindustries.encoding.taglib.EncodingNullSimpleTag;
 import com.aoindustries.io.Writable;
 import com.aoindustries.lang.Strings;
 import com.aoindustries.util.i18n.BundleLookupMarkup;
@@ -40,8 +39,7 @@ import org.w3c.dom.Node;
 /**
  * @author  AO Industries, Inc.
  */
-// TODO: Change to BodyTag
-public class OutTag extends EncodingNullSimpleTag {
+public class OutSimpleTag extends EncodingNullSimpleTag {
 
 	private Object value;
 	private ValueExpression def;
