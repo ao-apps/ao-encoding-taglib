@@ -53,6 +53,45 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	<short-name>encoding</short-name>
 	<uri>&tld_uri;</uri>
 	<tag>
+		<!-- datePublished="2020-11-21T17:26:24-06:00" -->
+		<description><![CDATA[
+			<p class="semanticcms-tag-reference-summary">
+				Manually establishes an encoding context when automatic detection is not possible.
+			</p>
+			<p>
+				The content type depends on the value provided to the type attribute.
+				The content is checked for well-formedness based on its type:
+			</p>
+			<ul>
+				<li><code>javascript</code>, <code>application/javascript</code>, or <code>text/javascript</code> - no validation</li>
+				<li><code>json</code> or <code>application/json</code> - no validation</li>
+				<li><code>ld_json</code> or <code>application/ld+json</code> - no validation</li>
+				<li><code>text</code> or <code>text/plain</code> - no validation</li>
+				<li><code>url</code> or <code>text/url</code> - must be a valid URL</li>
+				<li><code>xhtml</code> or <code>application/xhtml+xml</code> - must be well-formed XHTML content. (Note: Currently only checks character values.)</li>
+				<li><code>xhtml_attribute</code> or <code>application/xhtml+xml+attribute</code> - must be a valid XHTML attribute.</li>
+				<li><code>mysql</code> or <code>text/x+mysql</code> - must be valid for the MySQL command line "mysql"</li>
+				<li><code>psql</code> or <code>text/x+psql</code> - must be valid for the PostgreSQL command line "psql"</li>
+				<li><code>sh</code> or <code>text/x+sh</code> - must be valid shell script</li>
+			</ul>
+		]]></description>
+		<name>encoding</name>
+		<tag-class>&package;.EncodingTag</tag-class>
+		<tei-class>com.aoindustries.encoding.taglib.EncodingTagTEI</tei-class>
+		<body-content>&JSP;</body-content>
+		<attribute>
+			<description><![CDATA[
+				<p>
+					Specifies the type of content contained in the tag body
+				</p>
+			]]></description>
+			<name>type</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
 		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
 		<description><![CDATA[
@@ -141,9 +180,8 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 				such as for HTML snippets.
 			</p>
 			<p>
-				The content type depends on the value provided to the type attribute, and
-				defaults to <code>text/plain</code>.  The content is checked for well-formedness based
-				on its type:
+				The content type depends on the value provided to the type attribute, and defaults to <code>text/plain</code>.
+				The content is checked for well-formedness based on its type:
 			</p>
 			<ul>
 				<li><code>javascript</code>, <code>application/javascript</code>, or <code>text/javascript</code> - no validation</li>
