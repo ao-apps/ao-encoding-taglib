@@ -35,6 +35,9 @@ High performance streaming character encoding in a JSP environment.
 * [Maven Central Repository](https://search.maven.org/artifact/com.aoindustries/ao-encoding-taglib)
 * [GitHub](https://github.com/aoindustries/ao-encoding-taglib)
 
+## Related Projects
+* [AO Taglib](https://github.com/aoindustries/ao-taglib)
+
 ## Contact Us
 For questions or support, please [contact us](https://aoindustries.com/contact):
 
