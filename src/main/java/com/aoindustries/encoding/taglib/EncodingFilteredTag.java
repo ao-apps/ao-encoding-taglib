@@ -70,9 +70,9 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
  *
  * @author  AO Industries, Inc.
  */
-public abstract class EncodingFilteredSimpleTag extends SimpleTagSupport {
+public abstract class EncodingFilteredTag extends SimpleTagSupport {
 
-	private static final Logger logger = Logger.getLogger(EncodingFilteredSimpleTag.class.getName());
+	private static final Logger logger = Logger.getLogger(EncodingFilteredTag.class.getName());
 
 	/**
 	 * Gets the type of data that is contained by this tag.

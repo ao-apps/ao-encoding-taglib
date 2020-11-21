@@ -37,30 +37,36 @@ import javax.servlet.ServletRequest;
 //       Or done as a registrable subrequest event?  (Remove self from subrequest attributes OnSubrequest)
 //       Or should this just be reset of SemantiCCMS page captures only?
 //       Basically, how do we know when in a new page, and the old tag context is not actually what we want?
-class RequestEncodingContext {
+// Java 9: Make module-private
+public class RequestEncodingContext {
 
 	private static final String CURRENT_CONTEXT_REQUEST_ATTRIBUTE = RequestEncodingContext.class.getName() + ".currentContext";
 
-	static RequestEncodingContext getCurrentContext(ServletRequest request) {
+	// Java 9: Make module-private
+	public static RequestEncodingContext getCurrentContext(ServletRequest request) {
 		return (RequestEncodingContext)request.getAttribute(CURRENT_CONTEXT_REQUEST_ATTRIBUTE);
 	}
 
-	static void setCurrentContext(ServletRequest request, RequestEncodingContext context) {
+	// Java 9: Make module-private
+	public static void setCurrentContext(ServletRequest request, RequestEncodingContext context) {
 		request.setAttribute(CURRENT_CONTEXT_REQUEST_ATTRIBUTE, context);
 	}
 
 	/**
 	 * The content type that is currently be written or null if not set.
 	 */
-	final MediaType contentType;
+	// Java 9: Make module-private
+	final public MediaType contentType;
 
 	/**
 	 * The validator that is ensuring the data being written is valid for the current
 	 * outputType.
 	 */
-	final ValidMediaInput validMediaInput;
+	// Java 9: Make module-private
+	final public ValidMediaInput validMediaInput;
 
-	RequestEncodingContext(MediaType contentType, ValidMediaInput validMediaInput) {
+	// Java 9: Make module-private
+	public RequestEncodingContext(MediaType contentType, ValidMediaInput validMediaInput) {
 		this.contentType = contentType;
 		this.validMediaInput = validMediaInput;
 	}

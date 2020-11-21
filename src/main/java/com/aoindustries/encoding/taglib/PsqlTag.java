@@ -27,11 +27,11 @@ import com.aoindustries.encoding.MediaType;
 /**
  * @author  AO Industries, Inc.
  */
-public class ShSimpleTag extends EncodingFilteredSimpleTag {
+public class PsqlTag extends EncodingFilteredTag {
 
 	@Override
 	public MediaType getContentType() {
-		return MediaType.SH;
+		return MediaType.PSQL;
 	}
 
 /* BodyTag only:

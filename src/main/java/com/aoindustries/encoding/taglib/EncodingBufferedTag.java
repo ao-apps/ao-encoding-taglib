@@ -49,7 +49,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 /**
  * <p>
- * The exhibits all of the behavior of {@link EncodingFilteredSimpleTag} with
+ * The exhibits all of the behavior of {@link EncodingFilteredTag} with
  * the only exception being that it buffers its content instead of using filters.
  * This allows the tag to capture its body.  Character validation is performed
  * as the data goes into the buffer to ensure the captured data is correct for
@@ -67,9 +67,9 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
  *
  * @author  AO Industries, Inc.
  */
-public abstract class EncodingBufferedSimpleTag extends SimpleTagSupport {
+public abstract class EncodingBufferedTag extends SimpleTagSupport {
 
-	private static final Logger logger = Logger.getLogger(EncodingBufferedSimpleTag.class.getName());
+	private static final Logger logger = Logger.getLogger(EncodingBufferedTag.class.getName());
 
 	/**
 	 * Creates an instance of the currently preferred {@link BufferWriter}.

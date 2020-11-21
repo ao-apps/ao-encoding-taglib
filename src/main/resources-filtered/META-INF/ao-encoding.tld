@@ -29,7 +29,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
 <!ENTITY tld_uri "@{project.url}">
 <!ENTITY tld_description "&lt;em&gt;This is the scriptless implementation based on &lt;a rel=&quot;nofollow&quot; href=&quot;@{javadoc.link.javaee}javax/servlet/jsp/tagext/SimpleTagSupport.html&quot;&gt;javax.servlet.jsp.tagext.SimpleTagSupport&lt;/a&gt;.&lt;/em&gt;
 For compatibility with legacy applications that use JSP scriptlets, please use &lt;a href=&quot;@{project.url}ao-encoding-legacy.tld/&quot;&gt;@{project.name} Reference (Legacy)&lt;/a&gt;.">
-<!ENTITY BodyTag "SimpleTag">
+<!ENTITY package "com.aoindustries.encoding.taglib">
 <!ENTITY JSP "scriptless">
 
 ]>
@@ -39,7 +39,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
 	version="2.1">
 	<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-	<!-- dateModified="2020-11-19T17:22:03-06:00" -->
+	<!-- dateModified="2020-11-21T02:21:23-06:00" -->
 	<description><![CDATA[
 		<p>@{description.html}</p>
 		<p>]]>&tld_description;<![CDATA[</p>
@@ -54,7 +54,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	<uri>&tld_uri;</uri>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-19T17:22:03-06:00" -->
+		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a JavaScript context when automatic detection is not possible.
@@ -68,12 +68,12 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 			</p>
 		]]></description>
 		<name>javascript</name>
-		<tag-class>com.aoindustries.encoding.taglib.JavaScript&BodyTag;</tag-class>
+		<tag-class>&package;.JavaScriptTag</tag-class>
 		<body-content>&JSP;</body-content>
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-19T17:22:03-06:00" -->
+		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a JSON context when automatic detection is not possible.
@@ -87,12 +87,12 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 			</p>
 		]]></description>
 		<name>json</name>
-		<tag-class>com.aoindustries.encoding.taglib.Json&BodyTag;</tag-class>
+		<tag-class>&package;.JsonTag</tag-class>
 		<body-content>&JSP;</body-content>
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-19T17:22:03-06:00" -->
+		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a JSON Linked Data context when automatic detection is not possible.
@@ -106,12 +106,12 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 			</p>
 		]]></description>
 		<name>ldJson</name>
-		<tag-class>com.aoindustries.encoding.taglib.LdJson&BodyTag;</tag-class>
+		<tag-class>&package;.LdJsonTag</tag-class>
 		<body-content>&JSP;</body-content>
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-19T17:22:03-06:00" -->
+		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a MySQL context when automatic detection is not possible.
@@ -122,12 +122,12 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 			</p>
 		]]></description>
 		<name>mysql</name>
-		<tag-class>com.aoindustries.encoding.taglib.Mysql&BodyTag;</tag-class>
+		<tag-class>&package;.MysqlTag</tag-class>
 		<body-content>&JSP;</body-content>
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-19T17:22:03-06:00" -->
+		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Writes the value with proper escaping based on the context of the tag.
@@ -164,7 +164,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 			</p>
 		]]></description>
 		<name>out</name>
-		<tag-class>com.aoindustries.encoding.taglib.OutSimpleTag</tag-class><!-- TODO: &BodyTag; -->
+		<tag-class>com.aoindustries.encoding.taglib.OutTag</tag-class>
 		<tei-class>com.aoindustries.encoding.taglib.OutTagTEI</tei-class>
 		<body-content>empty</body-content>
 		<attribute>
@@ -210,7 +210,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-19T17:22:03-06:00" -->
+		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a PostgreSQL context when automatic detection is not possible.
@@ -221,12 +221,12 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 			</p>
 		]]></description>
 		<name>psql</name>
-		<tag-class>com.aoindustries.encoding.taglib.Psql&BodyTag;</tag-class>
+		<tag-class>&package;.PsqlTag</tag-class>
 		<body-content>&JSP;</body-content>
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-19T17:22:03-06:00" -->
+		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a shell script context when automatic detection is not possible.
@@ -237,12 +237,12 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 			</p>
 		]]></description>
 		<name>sh</name>
-		<tag-class>com.aoindustries.encoding.taglib.Sh&BodyTag;</tag-class>
+		<tag-class>&package;.ShTag</tag-class>
 		<body-content>&JSP;</body-content>
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-19T17:22:03-06:00" -->
+		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a plaintext context when automatic detection is not possible.
@@ -271,12 +271,12 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 			</p>
 		]]></description>
 		<name>text</name>
-		<tag-class>com.aoindustries.encoding.taglib.Text&BodyTag;</tag-class>
+		<tag-class>&package;.TextTag</tag-class>
 		<body-content>&JSP;</body-content>
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-19T17:22:03-06:00" -->
+		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a URL context when automatic detection is not possible.
@@ -287,12 +287,12 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 			</p>
 		]]></description>
 		<name>url</name>
-		<tag-class>com.aoindustries.encoding.taglib.Url&BodyTag;</tag-class>
+		<tag-class>&package;.UrlTag</tag-class>
 		<body-content>&JSP;</body-content>
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-19T17:22:03-06:00" -->
+		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes an XHTML attribute context when automatic detection is not possible.
@@ -303,12 +303,12 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 			</p>
 		]]></description>
 		<name>xhtmlAttribute</name>
-		<tag-class>com.aoindustries.encoding.taglib.XhtmlAttribute&BodyTag;</tag-class>
+		<tag-class>&package;.XhtmlAttributeTag</tag-class>
 		<body-content>&JSP;</body-content>
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-19T17:22:03-06:00" -->
+		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes an XHTML context when automatic detection is not possible.
@@ -324,7 +324,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 			</p>
 		]]></description>
 		<name>xhtml</name>
-		<tag-class>com.aoindustries.encoding.taglib.Xhtml&BodyTag;</tag-class>
+		<tag-class>&package;.XhtmlTag</tag-class>
 		<body-content>&JSP;</body-content>
 	</tag>
 	<function>

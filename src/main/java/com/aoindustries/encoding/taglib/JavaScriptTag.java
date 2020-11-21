@@ -27,11 +27,11 @@ import com.aoindustries.encoding.MediaType;
 /**
  * @author  AO Industries, Inc.
  */
-public class JsonSimpleTag extends EncodingFilteredSimpleTag {
+public class JavaScriptTag extends EncodingFilteredTag {
 
 	@Override
 	public MediaType getContentType() {
-		return MediaType.JSON;
+		return MediaType.JAVASCRIPT;
 	}
 
 /* BodyTag only:

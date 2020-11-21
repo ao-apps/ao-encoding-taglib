@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020  AO Industries, Inc.
+ * Copyright (C) 2018, 2020  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -20,26 +20,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoindustries.encoding.taglib.book;
+package com.aoindustries.encoding.taglib.legacy;
 
-import com.semanticcms.tagreference.TagReferenceInitializer;
+import com.aoindustries.encoding.MediaType;
 
-public class AoEncodingLegacyTldInitializer extends TagReferenceInitializer {
+/**
+ * @author  AO Industries, Inc.
+ */
+public class MysqlTag extends EncodingFilteredBodyTag {
 
-	public AoEncodingLegacyTldInitializer() {
-		super(
-			Maven.properties.getProperty("documented.name") + " Reference (Legacy)",
-			"Taglib Reference (Legacy)",
-			"/ao-encoding/taglib",
-			"/ao-encoding-legacy.tld",
-			true,
-			Maven.properties.getProperty("documented.javadoc.link.javase"),
-			Maven.properties.getProperty("documented.javadoc.link.javaee"),
-			// Self
-			"com.aoindustries.encoding.taglib", Maven.properties.getProperty("project.url") + "apidocs/",
-			"com.aoindustries.encoding.taglib.legacy", Maven.properties.getProperty("project.url") + "apidocs/",
-			// Dependencies
-			"com.aoindustries.encoding", "https://aoindustries.com/ao-encoding/apidocs/"
-		);
+	@Override
+	public MediaType getContentType() {
+		return MediaType.MYSQL;
 	}
+
+/* BodyTag only: */
+	private static final long serialVersionUID = 1L;
+/**/
 }

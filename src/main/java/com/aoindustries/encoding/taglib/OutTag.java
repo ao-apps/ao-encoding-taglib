@@ -39,7 +39,8 @@ import org.w3c.dom.Node;
 /**
  * @author  AO Industries, Inc.
  */
-public class OutSimpleTag extends EncodingNullSimpleTag {
+// TODO: OutBodyTag and OutSimpleTag
+public class OutTag extends EncodingNullTag {
 
 	private Object value;
 	private ValueExpression def;

@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020  AO Industries, Inc.
+ * Copyright (C) 2009, 2010, 2011, 2016, 2017, 2020  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -27,14 +27,14 @@ import com.aoindustries.encoding.MediaType;
 /**
  * @author  AO Industries, Inc.
  */
-public class JavaScriptBodyTag extends EncodingFilteredBodyTag {
+public class XhtmlTag extends EncodingFilteredTag {
 
 	@Override
 	public MediaType getContentType() {
-		return MediaType.JAVASCRIPT;
+		return MediaType.XHTML;
 	}
 
-/* BodyTag only: */
+/* BodyTag only:
 	private static final long serialVersionUID = 1L;
 /**/
 }

@@ -27,11 +27,11 @@ import com.aoindustries.encoding.MediaType;
 /**
  * @author  AO Industries, Inc.
  */
-public class UrlSimpleTag extends EncodingFilteredSimpleTag {
+public class LdJsonTag extends EncodingFilteredTag {
 
 	@Override
 	public MediaType getContentType() {
-		return MediaType.URL;
+		return MediaType.LD_JSON;
 	}
 
 /* BodyTag only:

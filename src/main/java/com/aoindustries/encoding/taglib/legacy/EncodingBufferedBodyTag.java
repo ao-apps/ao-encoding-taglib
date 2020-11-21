@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoindustries.encoding.taglib;
+package com.aoindustries.encoding.taglib.legacy;
 
 import com.aoindustries.encoding.Coercion;
 import com.aoindustries.encoding.EncodingContext;
@@ -29,6 +29,9 @@ import com.aoindustries.encoding.MediaType;
 import com.aoindustries.encoding.MediaValidator;
 import com.aoindustries.encoding.MediaWriter;
 import com.aoindustries.encoding.servlet.EncodingContextEE;
+import com.aoindustries.encoding.taglib.EncodingBufferedTag;
+import com.aoindustries.encoding.taglib.FailOnWriteWriter;
+import com.aoindustries.encoding.taglib.RequestEncodingContext;
 import com.aoindustries.io.buffer.AutoTempFileWriter;
 import com.aoindustries.io.buffer.BufferResult;
 import com.aoindustries.io.buffer.BufferWriter;
@@ -239,7 +242,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 		assert captureBuffer == null;
 		assert captureValidator == null;
 		ServletRequest request = pageContext.getRequest();
-		captureBuffer = EncodingBufferedSimpleTag.newBufferWriter(request, getTempFileThreshold());
+		captureBuffer = EncodingBufferedTag.newBufferWriter(request, getTempFileThreshold());
 		final MediaType myContentType = getContentType();
 		captureValidator = MediaValidator.getMediaValidator(myContentType, captureBuffer);
 		RequestEncodingContext.setCurrentContext(

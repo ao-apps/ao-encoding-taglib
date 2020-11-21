@@ -20,21 +20,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoindustries.encoding.taglib;
+package com.aoindustries.encoding.taglib.legacy;
 
 import com.aoindustries.encoding.MediaType;
 
 /**
  * @author  AO Industries, Inc.
  */
-public class TextSimpleTag extends EncodingFilteredSimpleTag {
+public class TextTag extends EncodingFilteredBodyTag {
 
 	@Override
 	public MediaType getContentType() {
 		return MediaType.TEXT;
 	}
 
-/* BodyTag only:
+/* BodyTag only: */
 	private static final long serialVersionUID = 1L;
 /**/
 }

@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoindustries.encoding.taglib;
+package com.aoindustries.encoding.taglib.legacy;
 
 import com.aoindustries.encoding.Coercion;
 import com.aoindustries.encoding.EncodingContext;
@@ -29,6 +29,7 @@ import com.aoindustries.encoding.MediaType;
 import com.aoindustries.encoding.MediaValidator;
 import com.aoindustries.encoding.MediaWriter;
 import com.aoindustries.encoding.servlet.EncodingContextEE;
+import com.aoindustries.encoding.taglib.RequestEncodingContext;
 import com.aoindustries.servlet.jsp.LocalizedJspTagException;
 import java.io.IOException;
 import java.io.Writer;

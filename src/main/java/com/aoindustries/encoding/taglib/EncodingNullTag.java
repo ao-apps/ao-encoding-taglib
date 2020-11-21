@@ -49,9 +49,9 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
  *
  * @author  AO Industries, Inc.
  */
-public abstract class EncodingNullSimpleTag extends SimpleTagSupport {
+public abstract class EncodingNullTag extends SimpleTagSupport {
 
-	private static final Logger logger = Logger.getLogger(EncodingNullSimpleTag.class.getName());
+	private static final Logger logger = Logger.getLogger(EncodingNullTag.class.getName());
 
 	/**
 	 * Gets the output type of this tag.  This is used to determine the correct

@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoindustries.encoding.taglib;
+package com.aoindustries.encoding.taglib.legacy;
 
 import com.aoindustries.servlet.jsp.LocalizedJspTagException;
 import java.io.Writer;

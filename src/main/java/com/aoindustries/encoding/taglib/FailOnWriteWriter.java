@@ -28,11 +28,13 @@ import java.io.IOException;
 import java.io.Writer;
 
 // TODO: Move to aocode-public (and eventually a separate ao-io/ao-io-utils)?
-final class FailOnWriteWriter extends Writer {
+// Java 9: Make module-private
+final public class FailOnWriteWriter extends Writer {
 
 	private static final FailOnWriteWriter instance = new FailOnWriteWriter();
 
-	static FailOnWriteWriter getInstance() {
+	// Java 9: Make module-private
+	public static FailOnWriteWriter getInstance() {
 		return instance;
 	}
 
