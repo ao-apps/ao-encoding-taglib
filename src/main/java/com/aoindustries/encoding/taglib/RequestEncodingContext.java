@@ -53,6 +53,30 @@ public class RequestEncodingContext {
 	}
 
 	/**
+	 * A context that performs no validation and discards all output.
+	 */
+	// Java 9: Make module-private
+	public static final RequestEncodingContext DISCARD = new RequestEncodingContext(
+		MediaType.TEXT,
+		new ValidMediaInput() {
+			@Override
+			public MediaType getValidMediaInputType() {
+				return MediaType.TEXT;
+			}
+
+			@Override
+			public boolean isValidatingMediaInputType(MediaType inputType) {
+				return inputType == MediaType.TEXT;
+			}
+
+			@Override
+			public boolean canSkipValidation(MediaType inputType) {
+				return true;
+			}
+		}
+	);
+
+	/**
 	 * The content type that is currently be written or null if not set.
 	 */
 	// Java 9: Make module-private

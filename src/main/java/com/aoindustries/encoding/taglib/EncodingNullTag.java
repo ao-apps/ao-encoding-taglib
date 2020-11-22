@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
@@ -195,11 +196,26 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 	 * actions before and/or after invoking the body.  Any overriding implementation should call
 	 * super.invoke(JspFragment) to invoke the body.
 	 * <p>
-	 * Discards all nested output, since this will not use the output.
+	 * Sets the {@link RequestEncodingContext} to {@link RequestEncodingContext#DISCARD} because no validation of the
+	 * content is necessary as the output is discarded.  This means nested tags that attempt to produce valid output
+	 * will not be limited by the parent encoding context of this tag.
+	 * </p>
+	 * <p>
+	 * Once the encoding context is set, invokes {@link JspFragment#invoke(java.io.Writer)} while discarding all nested
+	 * output.
 	 * </p>
 	 */
 	protected void invoke(JspFragment body) throws JspException, IOException {
-		body.invoke(NullWriter.getInstance());
+		final PageContext pageContext = (PageContext)getJspContext();
+		final ServletRequest request = pageContext.getRequest();
+		final RequestEncodingContext parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
+		RequestEncodingContext.setCurrentContext(request, RequestEncodingContext.DISCARD);
+		try {
+			body.invoke(NullWriter.getInstance());
+		} finally {
+			// Restore previous encoding context that is used for our output
+			RequestEncodingContext.setCurrentContext(request, parentEncodingContext);
+		}
 	}
 
 	/**

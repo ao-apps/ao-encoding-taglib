@@ -37,7 +37,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 		shortTitle="Changelog"
 		tocLevels="1"
 		datePublished="2020-11-18T11:39:31-06:00"
-		dateModified="2020-11-21T17:26:24-06:00"
+		dateModified="2020-11-21T21:46:34-06:00"
 	>
 		<!-- The current snapshot, unreleased version -->
 		<c:set var="version" value="@{com.aoindustries:ao-encoding-taglib:pom.version}" />
@@ -81,6 +81,11 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 						</p>
 					</li>
 					<li>New tag <core:link page="ao-encoding.tld/tag-encoding" /> that has a type defined in its type attribute.</li>
+					<li>
+						<code>EncodingNullTag</code> now sets <code>MediaType.TEXT</code> context before invoking the
+						JSP body.  This means nested tags that attempt to produce valid output will not be limited by the
+						parent encoding context of the tag.
+					</li>
 				</ul>
 			</changelog:release>
 		</c:if>
