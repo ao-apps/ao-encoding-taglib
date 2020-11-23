@@ -24,6 +24,7 @@ package com.aoindustries.encoding.taglib;
 
 import com.aoindustries.encoding.MediaType;
 import com.aoindustries.encoding.ValidMediaInput;
+import com.aoindustries.lang.NullArgumentException;
 import javax.servlet.ServletRequest;
 
 /**
@@ -77,7 +78,7 @@ public class RequestEncodingContext {
 	);
 
 	/**
-	 * The content type that is currently be written or null if not set.
+	 * The content type that is currently be written.
 	 */
 	// Java 9: Make module-private
 	final public MediaType contentType;
@@ -91,7 +92,7 @@ public class RequestEncodingContext {
 
 	// Java 9: Make module-private
 	public RequestEncodingContext(MediaType contentType, ValidMediaInput validMediaInput) {
-		this.contentType = contentType;
-		this.validMediaInput = validMediaInput;
+		this.contentType = NullArgumentException.checkNotNull(contentType, "contentType");
+		this.validMediaInput = NullArgumentException.checkNotNull(validMediaInput, "validMediaInput");
 	}
 }
