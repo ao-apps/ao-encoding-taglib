@@ -67,7 +67,7 @@ import javax.servlet.jsp.tagext.TryCatchFinally;
  * <ol>
  * <li>contentType - The characters are validated to this type as they go into the buffer.</li>
  * <li>outputType - Our output characters are validated to this type as they are written.</li>
- * <li>containerContentType - Our output characters are encoded to this type as they are written.</li>
+ * <li>containerType - Our output characters are encoded to this type as they are written.</li>
  * </ol>
  *
  * @author  AO Industries, Inc.
@@ -108,7 +108,9 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 
 	// Set in doStartTag
 	private transient RequestEncodingContext parentEncodingContext;
-	private transient MediaType containerContentType;
+	private transient MediaType containerType;
+	private transient Writer containerValidator;
+	private transient boolean writePrefixSuffix;
 	// Set in updateValidatingOut
 	private transient MediaType validatingOutputType;
 	private transient MediaEncoder mediaEncoder;
@@ -121,7 +123,9 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 
 	private void init() {
 		parentEncodingContext = null;
-		containerContentType = null;
+		containerType = null;
+		containerValidator = null;
+		writePrefixSuffix = false;
 		validatingOutputType = null;
 		mediaEncoder = null;
 		validatingOutEncodingContext = null;
@@ -141,31 +145,47 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	public int doStartTag() throws JspException {
 		try {
 			final ServletRequest request = pageContext.getRequest();
+			final JspWriter out = pageContext.getOut();
 
 			parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
 
-			// Determine the container's content type
+			// Determine the container's content type and validator
 			if(parentEncodingContext != null) {
 				// Use the output type of the parent
-				containerContentType = parentEncodingContext.contentType;
+				containerType = parentEncodingContext.contentType;
 				if(logger.isLoggable(Level.FINER)) {
-					logger.finer("containerContentType from parentEncodingContext: " + containerContentType);
+					logger.finer("containerType from parentEncodingContext: " + containerType);
 				}
-				assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerContentType)
+				assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerType)
 					: "It is a bug in the parent to not validate its input consistent with its content type";
+				// Already validated
+				containerValidator = out;
+				if(logger.isLoggable(Level.FINER)) {
+					logger.finer("containerValidator from parentEncodingContext: " + containerValidator);
+				}
 			} else {
 				final ServletResponse response = pageContext.getResponse();
 				// Use the content type of the response
 				String responseContentType = response.getContentType();
 				// Default to XHTML: TODO: Is there a better way since can't set content type early in response then reset again...
 				if(responseContentType == null) responseContentType = MediaType.XHTML.getContentType();
-				containerContentType = MediaType.getMediaTypeForContentType(responseContentType);
+				containerType = MediaType.getMediaTypeForContentType(responseContentType);
 				if(logger.isLoggable(Level.FINER)) {
-					logger.finer("containerContentType from responseContentType: " + containerContentType + " from " + responseContentType);
+					logger.finer("containerType from responseContentType: " + containerType + " from " + responseContentType);
+				}
+				// Need to add validator
+				containerValidator = MediaValidator.getMediaValidator(containerType, out);
+				if(logger.isLoggable(Level.FINER)) {
+					logger.finer("containerValidator from containerType: " + containerValidator + " from " + containerType);
 				}
 			}
 
-			updateValidatingOut(pageContext.getOut());
+			// Write any prefix
+			MediaType newOutputType = getOutputType();
+			writePrefixSuffix = (newOutputType != null);
+			if(writePrefixSuffix) writePrefix(containerType, containerValidator);
+
+			updateValidatingOut(pageContext.getOut(), newOutputType);
 			RequestEncodingContext.setCurrentContext(request, validatingOutEncodingContext);
 			return checkStartTagReturn(doStartTag(validatingOut));
 		} catch(IOException e) {
@@ -177,8 +197,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	 * Sets or replaces the validating out variables based on the current {@linkplain #getOutputType() output type}.
 	 * When the output type changes, which can happen during body invocation, the validating variables will be updated.
 	 */
-	private void updateValidatingOut(JspWriter out) throws JspException, IOException {
-		final MediaType newOutputType = getOutputType();
+	private void updateValidatingOut(JspWriter out, MediaType newOutputType) throws JspException, IOException {
 		if(validatingOut == null || newOutputType != validatingOutputType) {
 			final MediaEncoder newMediaEncoder;
 			final RequestEncodingContext newValidatingOutEncodingContext;
@@ -195,7 +214,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 				final HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
 				// Find the encoder
 				EncodingContext encodingContext = new EncodingContextEE(pageContext.getServletContext(), request, response);
-				newMediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerContentType);
+				newMediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerType);
 				if(newMediaEncoder != null) {
 					if(logger.isLoggable(Level.FINER)) {
 						logger.finer("Using MediaEncoder: " + newMediaEncoder);
@@ -342,7 +361,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 			final BufferResult capturedBody = captureBuffer.getResult();
 			captureBuffer = null;
 			captureValidator = null;
-			updateValidatingOut(bodyContent.getEnclosingWriter());
+			updateValidatingOut(bodyContent.getEnclosingWriter(), getOutputType());
 			RequestEncodingContext.setCurrentContext(pageContext.getRequest(), validatingOutEncodingContext);
 			int afterBodyReturn = BodyTagUtils.checkAfterBodyReturn(doAfterBody(capturedBody, validatingOut));
 			if(afterBodyReturn == EVAL_BODY_AGAIN) {
@@ -375,13 +394,17 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	@Override
 	public int doEndTag() throws JspException {
 		try {
-			updateValidatingOut(pageContext.getOut());
+			updateValidatingOut(pageContext.getOut(), getOutputType());
 			RequestEncodingContext.setCurrentContext(pageContext.getRequest(), validatingOutEncodingContext);
 			int endTagReturn = BodyTagUtils.checkEndTagReturn(doEndTag(validatingOut));
 			if(mediaEncoder != null) {
 				logger.finest("Writing encoder suffix");
 				writeEncoderSuffix(mediaEncoder, pageContext.getOut());
 			}
+
+			// Write any suffix
+			if(writePrefixSuffix) writeSuffix(containerType, containerValidator);
+
 			return endTagReturn;
 		} catch(IOException e) {
 			throw new JspTagException(e);
@@ -416,6 +439,23 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	}
 
 	/**
+	 * <p>
+	 * Writes any prefix in the container's media type.
+	 * The output must be valid for the provided type.
+	 * This will not be called when the initial output type is {@code null}.
+	 * </p>
+	 * <p>
+	 * This default implementation prints nothing.
+	 * </p>
+	 *
+	 * @see  #getOutputType()
+	 */
+	@SuppressWarnings("NoopMethodInAbstractClass")
+	protected void writePrefix(MediaType containerType, Writer out) throws JspTagException, IOException {
+		// By default, nothing is printed.
+	}
+
+	/**
 	 * Sets the media encoder options.  This is how subclass tag attributes
 	 * can effect the encoding.
 	 */
@@ -429,5 +469,22 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 
 	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {
 		mediaEncoder.writeSuffixTo(out);
+	}
+
+	/**
+	 * <p>
+	 * Writes any suffix in the container's media type.
+	 * The output must be valid for the provided type.
+	 * This will not be called when the initial output type is {@code null}.
+	 * </p>
+	 * <p>
+	 * This default implementation prints nothing.
+	 * </p>
+	 *
+	 * @see  #getOutputType()
+	 */
+	@SuppressWarnings("NoopMethodInAbstractClass")
+	protected void writeSuffix(MediaType containerType, Writer out) throws JspTagException, IOException {
+		// By default, nothing is printed.
 	}
 }

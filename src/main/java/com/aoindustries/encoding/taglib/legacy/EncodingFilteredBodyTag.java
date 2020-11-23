@@ -118,7 +118,8 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 
 	// Set in doStartTag
 	private transient RequestEncodingContext parentEncodingContext;
-	private transient MediaType containerContentType;
+	private transient MediaType containerType;
+	private transient Writer containerValidator;
 	// Set in updateValidatingOut
 	private transient MediaType validatingOutputType;
 	private transient MediaEncoder mediaEncoder;
@@ -130,7 +131,8 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 
 	private void init() {
 		parentEncodingContext = null;
-		containerContentType = null;
+		containerType = null;
+		containerValidator = null;
 		validatingOutputType = null;
 		mediaEncoder = null;
 		validatingOutEncodingContext = null;
@@ -149,29 +151,43 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	public int doStartTag() throws JspException {
 		try {
 			final ServletRequest request = pageContext.getRequest();
+			final JspWriter out = pageContext.getOut();
 
 			parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
 
-			// Determine the container's content type
+			// Determine the container's content type and validator
 			if(parentEncodingContext != null) {
 				// Use the output type of the parent
-				containerContentType = parentEncodingContext.contentType;
+				containerType = parentEncodingContext.contentType;
 				if(logger.isLoggable(Level.FINER)) {
-					logger.finer("containerContentType from parentEncodingContext: " + containerContentType);
+					logger.finer("containerType from parentEncodingContext: " + containerType);
 				}
-				assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerContentType)
+				assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerType)
 					: "It is a bug in the parent to not validate its input consistent with its content type";
+				// Already validated
+				containerValidator = out;
+				if(logger.isLoggable(Level.FINER)) {
+					logger.finer("containerValidator from parentEncodingContext: " + containerValidator);
+				}
 			} else {
 				final ServletResponse response = pageContext.getResponse();
 				// Use the content type of the response
 				String responseContentType = response.getContentType();
 				// Default to XHTML: TODO: Is there a better way since can't set content type early in response then reset again...
 				if(responseContentType == null) responseContentType = MediaType.XHTML.getContentType();
-				containerContentType = MediaType.getMediaTypeForContentType(responseContentType);
+				containerType = MediaType.getMediaTypeForContentType(responseContentType);
 				if(logger.isLoggable(Level.FINER)) {
-					logger.finer("containerContentType from responseContentType: " + containerContentType + " from " + responseContentType);
+					logger.finer("containerType from responseContentType: " + containerType + " from " + responseContentType);
+				}
+				// Need to add validator
+				containerValidator = MediaValidator.getMediaValidator(containerType, out);
+				if(logger.isLoggable(Level.FINER)) {
+					logger.finer("containerValidator from containerType: " + containerValidator + " from " + containerType);
 				}
 			}
+
+			// Write any prefix
+			writePrefix(containerType, containerValidator);
 
 			updateValidatingOut(pageContext.getOut());
 			bodyUnbuffered = !mode.buffered;
@@ -197,7 +213,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 			final HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
 			// Find the encoder
 			EncodingContext encodingContext = new EncodingContextEE(pageContext.getServletContext(), request, response);
-			newMediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerContentType);
+			newMediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerType);
 			if(newMediaEncoder != null) {
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("Using MediaEncoder: " + newMediaEncoder);
@@ -389,6 +405,10 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 				logger.finest("Writing encoder suffix");
 				writeEncoderSuffix(mediaEncoder, pageContext.getOut());
 			}
+
+			// Write any suffix
+			writeSuffix(containerType, containerValidator);
+
 			return endTagReturn;
 		} catch(IOException e) {
 			throw new JspTagException(e);
@@ -423,6 +443,20 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	}
 
 	/**
+	 * <p>
+	 * Writes any prefix in the container's media type.
+	 * The output must be valid for the provided type.
+	 * </p>
+	 * <p>
+	 * This default implementation prints nothing.
+	 * </p>
+	 */
+	@SuppressWarnings("NoopMethodInAbstractClass")
+	protected void writePrefix(MediaType containerType, Writer out) throws JspTagException, IOException {
+		// By default, nothing is printed.
+	}
+
+	/**
 	 * Sets the media encoder options.  This is how subclass tag attributes
 	 * can effect the encoding.
 	 */
@@ -436,5 +470,19 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 
 	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {
 		mediaEncoder.writeSuffixTo(out);
+	}
+
+	/**
+	 * <p>
+	 * Writes any suffix in the container's media type.
+	 * The output must be valid for the provided type.
+	 * </p>
+	 * <p>
+	 * This default implementation prints nothing.
+	 * </p>
+	 */
+	@SuppressWarnings("NoopMethodInAbstractClass")
+	protected void writeSuffix(MediaType containerType, Writer out) throws JspTagException, IOException {
+		// By default, nothing is printed.
 	}
 }

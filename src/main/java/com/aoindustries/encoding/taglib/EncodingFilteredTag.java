@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.JspFragment;
@@ -95,30 +96,45 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 
 		final RequestEncodingContext parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
 
-		// Determine the container's content type
-		final MediaType containerContentType;
+		// Determine the container's content type and validator
+		final MediaType containerType;
+		final Writer containerValidator;
 		if(parentEncodingContext != null) {
 			// Use the output type of the parent
-			containerContentType = parentEncodingContext.contentType;
+			containerType = parentEncodingContext.contentType;
 			if(logger.isLoggable(Level.FINER)) {
-				logger.finer("containerContentType from parentEncodingContext: " + containerContentType);
+				logger.finer("containerType from parentEncodingContext: " + containerType);
 			}
-			assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerContentType)
+			assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerType)
 				: "It is a bug in the parent to not validate its input consistent with its content type";
+			// Already validated
+			containerValidator = out;
+			if(logger.isLoggable(Level.FINER)) {
+				logger.finer("containerValidator from parentEncodingContext: " + containerValidator);
+			}
 		} else {
 			// Use the content type of the response
 			String responseContentType = response.getContentType();
 			// Default to XHTML: TODO: Is there a better way since can't set content type early in response then reset again...
 			if(responseContentType == null) responseContentType = MediaType.XHTML.getContentType();
-			containerContentType = MediaType.getMediaTypeForContentType(responseContentType);
+			containerType = MediaType.getMediaTypeForContentType(responseContentType);
 			if(logger.isLoggable(Level.FINER)) {
-				logger.finer("containerContentType from responseContentType: " + containerContentType + " from " + responseContentType);
+				logger.finer("containerType from responseContentType: " + containerType + " from " + responseContentType);
+			}
+			// Need to add validator
+			containerValidator = MediaValidator.getMediaValidator(containerType, out);
+			if(logger.isLoggable(Level.FINER)) {
+				logger.finer("containerValidator from containerType: " + containerValidator + " from " + containerType);
 			}
 		}
+
+		// Write any prefix
+		writePrefix(containerType, containerValidator);
+
 		// Find the encoder
 		final MediaType newOutputType = getContentType();
 		EncodingContext encodingContext = new EncodingContextEE(pageContext.getServletContext(), request, response);
-		MediaEncoder mediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerContentType);
+		MediaEncoder mediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerType);
 		if(mediaEncoder != null) {
 			if(logger.isLoggable(Level.FINER)) {
 				logger.finer("Using MediaEncoder: " + mediaEncoder);
@@ -179,6 +195,23 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 				}
 			}
 		}
+
+		// Write any suffix
+		writeSuffix(containerType, containerValidator);
+	}
+
+	/**
+	 * <p>
+	 * Writes any prefix in the container's media type.
+	 * The output must be valid for the provided type.
+	 * </p>
+	 * <p>
+	 * This default implementation prints nothing.
+	 * </p>
+	 */
+	@SuppressWarnings("NoopMethodInAbstractClass")
+	protected void writePrefix(MediaType containerType, Writer out) throws JspTagException, IOException {
+		// By default, nothing is printed.
 	}
 
 	/**
@@ -216,5 +249,19 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 
 	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {
 		mediaEncoder.writeSuffixTo(out);
+	}
+
+	/**
+	 * <p>
+	 * Writes any suffix in the container's media type.
+	 * The output must be valid for the provided type.
+	 * </p>
+	 * <p>
+	 * This default implementation prints nothing.
+	 * </p>
+	 */
+	@SuppressWarnings("NoopMethodInAbstractClass")
+	protected void writeSuffix(MediaType containerType, Writer out) throws JspTagException, IOException {
+		// By default, nothing is printed.
 	}
 }

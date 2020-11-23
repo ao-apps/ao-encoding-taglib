@@ -42,6 +42,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.JspFragment;
@@ -62,7 +63,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
  * <ol>
  * <li>contentType - The characters are validated to this type as they go into the buffer.</li>
  * <li>outputType - Our output characters are validated to this type as they are written.</li>
- * <li>containerContentType - Our output characters are encoded to this type as they are written.</li>
+ * <li>containerType - Our output characters are encoded to this type as they are written.</li>
  * </ol>
  *
  * @author  AO Industries, Inc.
@@ -188,29 +189,44 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 			final HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
 			final JspWriter out = pageContext.getOut();
 
-			// Determine the container's content type
-			final MediaType containerContentType;
+			// Determine the container's content type and validator
+			final MediaType containerType;
+			final Writer containerValidator;
 			if(parentEncodingContext != null) {
 				// Use the output type of the parent
-				containerContentType = parentEncodingContext.contentType;
+				containerType = parentEncodingContext.contentType;
 				if(logger.isLoggable(Level.FINER)) {
-					logger.finer("containerContentType from parentEncodingContext: " + containerContentType);
+					logger.finer("containerType from parentEncodingContext: " + containerType);
 				}
-				assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerContentType)
+				assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerType)
 					: "It is a bug in the parent to not validate its input consistent with its content type";
+				// Already validated
+				containerValidator = out;
+				if(logger.isLoggable(Level.FINER)) {
+					logger.finer("containerValidator from parentEncodingContext: " + containerValidator);
+				}
 			} else {
 				// Use the content type of the response
 				String responseContentType = response.getContentType();
 				// Default to XHTML: TODO: Is there a better way since can't set content type early in response then reset again...
 				if(responseContentType == null) responseContentType = MediaType.XHTML.getContentType();
-				containerContentType = MediaType.getMediaTypeForContentType(responseContentType);
+				containerType = MediaType.getMediaTypeForContentType(responseContentType);
 				if(logger.isLoggable(Level.FINER)) {
-					logger.finer("containerContentType from responseContentType: " + containerContentType + " from " + responseContentType);
+					logger.finer("containerType from responseContentType: " + containerType + " from " + responseContentType);
+				}
+				// Need to add validator
+				containerValidator = MediaValidator.getMediaValidator(containerType, out);
+				if(logger.isLoggable(Level.FINER)) {
+					logger.finer("containerValidator from containerType: " + containerValidator + " from " + containerType);
 				}
 			}
+
+			// Write any prefix
+			writePrefix(containerType, containerValidator);
+
 			// Find the encoder
 			EncodingContext encodingContext = new EncodingContextEE(pageContext.getServletContext(), request, response);
-			MediaEncoder mediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerContentType);
+			MediaEncoder mediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerType);
 			if(mediaEncoder != null) {
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("Using MediaEncoder: " + mediaEncoder);
@@ -271,6 +287,9 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 					}
 				}
 			}
+
+			// Write any suffix
+			writeSuffix(containerType, containerValidator);
 		}
 	}
 
@@ -281,6 +300,23 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 	 */
 	protected void invoke(JspFragment body, MediaValidator captureValidator) throws JspException, IOException {
 		body.invoke(captureValidator);
+	}
+
+	/**
+	 * <p>
+	 * Writes any prefix in the container's media type.
+	 * The output must be valid for the provided type.
+	 * This will not be called when the output type is {@code null}.
+	 * </p>
+	 * <p>
+	 * This default implementation prints nothing.
+	 * </p>
+	 *
+	 * @see  #getOutputType()
+	 */
+	@SuppressWarnings("NoopMethodInAbstractClass")
+	protected void writePrefix(MediaType containerType, Writer out) throws JspTagException, IOException {
+		// By default, nothing is printed.
 	}
 
 	/**
@@ -305,5 +341,22 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 
 	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {
 		mediaEncoder.writeSuffixTo(out);
+	}
+
+	/**
+	 * <p>
+	 * Writes any suffix in the container's media type.
+	 * The output must be valid for the provided type.
+	 * This will not be called when the output type is {@code null}.
+	 * </p>
+	 * <p>
+	 * This default implementation prints nothing.
+	 * </p>
+	 *
+	 * @see  #getOutputType()
+	 */
+	@SuppressWarnings("NoopMethodInAbstractClass")
+	protected void writeSuffix(MediaType containerType, Writer out) throws JspTagException, IOException {
+		// By default, nothing is printed.
 	}
 }

@@ -88,49 +88,44 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 
 			final RequestEncodingContext parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
 
-			// Determine the container's content type
-			final MediaType containerContentType;
-			if(parentEncodingContext != null) {
-				// Use the output type of the parent
-				containerContentType = parentEncodingContext.contentType;
-				if(logger.isLoggable(Level.FINER)) {
-					logger.finer("containerContentType from parentEncodingContext: " + containerContentType);
-				}
-				assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerContentType)
-					: "It is a bug in the parent to not validate its input consistent with its content type";
-			} else {
-				// Use the content type of the response
-				String responseContentType = response.getContentType();
-				// Default to XHTML: TODO: Is there a better way since can't set content type early in response then reset again...
-				if(responseContentType == null) responseContentType = MediaType.XHTML.getContentType();
-				containerContentType = MediaType.getMediaTypeForContentType(responseContentType);
-				if(logger.isLoggable(Level.FINER)) {
-					logger.finer("containerContentType from responseContentType: " + containerContentType + " from " + responseContentType);
-				}
-			}
-
-			// Determine the validator for the parent type.  This is to make sure prefix and suffix are valid.
+			// Determine the container's content type and validator
+			final MediaType containerType;
 			final Writer containerValidator;
 			if(parentEncodingContext != null) {
+				// Use the output type of the parent
+				containerType = parentEncodingContext.contentType;
+				if(logger.isLoggable(Level.FINER)) {
+					logger.finer("containerType from parentEncodingContext: " + containerType);
+				}
+				assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerType)
+					: "It is a bug in the parent to not validate its input consistent with its content type";
 				// Already validated
 				containerValidator = out;
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("containerValidator from parentEncodingContext: " + containerValidator);
 				}
 			} else {
-				// Need to add validator
-				containerValidator = MediaValidator.getMediaValidator(containerContentType, out);
+				// Use the content type of the response
+				String responseContentType = response.getContentType();
+				// Default to XHTML: TODO: Is there a better way since can't set content type early in response then reset again...
+				if(responseContentType == null) responseContentType = MediaType.XHTML.getContentType();
+				containerType = MediaType.getMediaTypeForContentType(responseContentType);
 				if(logger.isLoggable(Level.FINER)) {
-					logger.finer("containerValidator from containerContentType: " + containerValidator + " from " + containerContentType);
+					logger.finer("containerType from responseContentType: " + containerType + " from " + responseContentType);
+				}
+				// Need to add validator
+				containerValidator = MediaValidator.getMediaValidator(containerType, out);
+				if(logger.isLoggable(Level.FINER)) {
+					logger.finer("containerValidator from containerType: " + containerValidator + " from " + containerType);
 				}
 			}
 
 			// Write any prefix
-			writePrefix(containerContentType, containerValidator);
+			writePrefix(containerType, containerValidator);
 
 			// Find the encoder
 			EncodingContext encodingContext = new EncodingContextEE(pageContext.getServletContext(), request, response);
-			MediaEncoder mediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerContentType);
+			MediaEncoder mediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerType);
 			if(mediaEncoder != null) {
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("Using MediaEncoder: " + mediaEncoder);
@@ -193,7 +188,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 			}
 
 			// Write any suffix
-			writeSuffix(containerContentType, containerValidator);
+			writeSuffix(containerType, containerValidator);
 		}
 	}
 
@@ -266,6 +261,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 		// Do nothing by default
 	}
 
+	// TODO: Convert more exceptions to JspTagException?
 	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {
 		mediaEncoder.writeSuffixTo(out);
 	}
