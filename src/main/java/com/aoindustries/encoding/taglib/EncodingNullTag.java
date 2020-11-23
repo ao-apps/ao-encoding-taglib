@@ -69,10 +69,25 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 	@Deprecated
 	@Override
 	public void doTag() throws JspException, IOException {
+		final PageContext pageContext = (PageContext)getJspContext();
+		final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
+		final RequestEncodingContext parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
 		// The output type cannot be determined until the body of the tag is invoked, because nested tags may
 		// alter the resulting type.  We invoke the body first to accommodate nested tags.
+
 		JspFragment body = getJspBody();
-		if(body != null) invoke(body);
+		if(body != null) {
+			RequestEncodingContext.setCurrentContext(
+				request,
+				RequestEncodingContext.DISCARD
+			);
+			try {
+				invoke(body);
+			} finally {
+				// Restore previous encoding context that is used for our output
+				RequestEncodingContext.setCurrentContext(request, parentEncodingContext);
+			}
+		}
 
 		MediaType newOutputType = getOutputType();
 		if(newOutputType == null) {
@@ -81,12 +96,8 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 			doTag(FailOnWriteWriter.getInstance());
 			// suffix skipped
 		} else {
-			final PageContext pageContext = (PageContext)getJspContext();
-			final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
 			final HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
 			final JspWriter out = pageContext.getOut();
-
-			final RequestEncodingContext parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
 
 			// Determine the container's content type and validator
 			final MediaType containerType;
@@ -197,26 +208,17 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 	 * actions before and/or after invoking the body.  Any overriding implementation should call
 	 * super.invoke(JspFragment) to invoke the body.
 	 * <p>
-	 * Sets the {@link RequestEncodingContext} to {@link RequestEncodingContext#DISCARD} because no validation of the
-	 * content is necessary as the output is discarded.  This means nested tags that attempt to produce valid output
-	 * will not be limited by the parent encoding context of this tag.
+	 * The {@link RequestEncodingContext} has been set to {@link RequestEncodingContext#DISCARD} because no validation
+	 * of the content is necessary as the output is discarded.  This means nested tags that attempt to produce valid
+	 * output will not be limited by the parent encoding context of this tag.
 	 * </p>
 	 * <p>
-	 * Once the encoding context is set, invokes {@link JspFragment#invoke(java.io.Writer)} while discarding all nested
-	 * output.
+	 * This implementation invokes {@link JspFragment#invoke(java.io.Writer)}
+	 * while discarding all nested output.
 	 * </p>
 	 */
 	protected void invoke(JspFragment body) throws JspException, IOException {
-		final PageContext pageContext = (PageContext)getJspContext();
-		final ServletRequest request = pageContext.getRequest();
-		final RequestEncodingContext parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
-		RequestEncodingContext.setCurrentContext(request, RequestEncodingContext.DISCARD);
-		try {
-			body.invoke(NullWriter.getInstance());
-		} finally {
-			// Restore previous encoding context that is used for our output
-			RequestEncodingContext.setCurrentContext(request, parentEncodingContext);
-		}
+		body.invoke(NullWriter.getInstance());
 	}
 
 	/**
@@ -249,15 +251,17 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * Once the out JspWriter has been replaced to output the proper content
-	 * type, this version of invoke is called.
-	 * 
+	 * Once the out {@link JspWriter} has been replaced to output the proper content
+	 * type, this version of {@link #doTag()} is called.
+	 * <p>
 	 * The body, if present, has already been invoked and any output discarded.
-	 *
+	 * </p>
+	 * <p>
 	 * This default implementation does nothing.
+	 * </p>
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
-	protected void doTag(Writer out) throws JspTagException, IOException {
+	protected void doTag(Writer out) throws JspException, IOException {
 		// Do nothing by default
 	}
 

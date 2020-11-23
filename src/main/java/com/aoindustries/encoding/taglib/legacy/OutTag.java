@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoindustries.encoding.taglib;
+package com.aoindustries.encoding.taglib.legacy;
 
 import com.aoindustries.encoding.Coercion;
 import com.aoindustries.encoding.MediaType;
@@ -40,7 +40,7 @@ import org.w3c.dom.Node;
 /**
  * @author  AO Industries, Inc.
  */
-public class OutTag extends EncodingNullTag {
+public class OutTag extends EncodingNullBodyTag {
 
 	public OutTag() {
 		init();
@@ -51,7 +51,7 @@ public class OutTag extends EncodingNullTag {
 		return mediaType;
 	}
 
-/* BodyTag only:
+/* BodyTag only: */
 	private static final long serialVersionUID = 1L;
 /**/
 
@@ -70,10 +70,10 @@ public class OutTag extends EncodingNullTag {
 	}
 
 	private Object getDefault() {
-/* BodyTag only:
+/* BodyTag only: */
 		ELContext elContext = pageContext.getELContext();
 /**/
-/* SimpleTag only: */
+/* SimpleTag only:
 		ELContext elContext = getJspContext().getELContext();
 /**/
 		if(def == null) return null;
@@ -154,10 +154,10 @@ public class OutTag extends EncodingNullTag {
 	}
 
 	@Override
-/* BodyTag only:
+/* BodyTag only: */
 	protected int doEndTag(Writer out) throws JspTagException, IOException {
 /**/
-/* SimpleTag only: */
+/* SimpleTag only:
 	protected void doTag(Writer out) throws JspTagException, IOException {
 /**/
 		if(toStringResult != null) {
@@ -170,7 +170,7 @@ public class OutTag extends EncodingNullTag {
 				Coercion.write(_default, out);
 			}
 		}
-/* BodyTag only:
+/* BodyTag only: */
 		return EVAL_PAGE;
 /**/
 	}
@@ -180,7 +180,7 @@ public class OutTag extends EncodingNullTag {
 		if(lookupMarkup != null) lookupMarkup.appendSuffixTo(markupType, out);
 	}
 
-/* BodyTag only:
+/* BodyTag only: */
 	@Override
 	public void doFinally() {
 		try {

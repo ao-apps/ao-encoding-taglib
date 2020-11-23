@@ -29,7 +29,9 @@ import com.aoindustries.encoding.MediaType;
 import com.aoindustries.encoding.MediaValidator;
 import com.aoindustries.encoding.MediaWriter;
 import com.aoindustries.encoding.servlet.EncodingContextEE;
+import com.aoindustries.encoding.taglib.FailOnWriteWriter;
 import com.aoindustries.encoding.taglib.RequestEncodingContext;
+import com.aoindustries.io.NullWriter;
 import com.aoindustries.servlet.jsp.LocalizedJspTagException;
 import java.io.IOException;
 import java.io.Writer;
@@ -43,76 +45,31 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TryCatchFinally;
 
 /**
- * <p>
- * An implementation of {@link BodyTagSupport} that automatically validates its
- * content and automatically encodes its output correctly given its context.
- * It also validates its own output when used in a non-validating context.  For
- * higher performance, it filters the output from its body instead of buffering.
- * </p>
- * <p>
- * The content validation is primarily focused on making sure the contained data
- * is properly encoded.  This is to avoid data corruption or intermingling of
- * data and code.  It does not go through great lengths such as ensuring that
- * XHTML Strict is valid or JavaScript will run correctly.
- * </p>
- * <p>
- * In additional to checking that its contents are well behaved, it also is
- * well behaved for its container by properly encoding its output for its
- * context.  To determine its context, it uses the content type of the currently
- * registered {@link RequestEncodingContext} to perform proper encoding.
- * If it fails to find any such context, it uses the content type of the
- * {@link HttpServletResponse}.
- * </p>
- * <p>
- * Finally, if no existing {@link RequestEncodingContext} is found, this will
- * validate its own output against the content type of the
- * {@link HttpServletResponse} to make sure it is well-behaved.
- * </p>
+ * Automatically encodes its output based on tag context while discarding all
+ * content.  When the direct output of the body will not be used, this will
+ * increase efficiency by discarding all write operations immediately.
  *
  * @author  AO Industries, Inc.
  */
-public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements TryCatchFinally {
+public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryCatchFinally {
 
-	private static final Logger logger = Logger.getLogger(EncodingFilteredBodyTag.class.getName());
+	private static final Logger logger = Logger.getLogger(EncodingNullBodyTag.class.getName());
 
-	/**
-	 * Return value for {@link #doStartTag(java.io.Writer)}.  It will be converted
-	 * to either {@link #EVAL_BODY_INCLUDE} or {@link #EVAL_BODY_BUFFERED}, as
-	 * appropriate to the given filtering and validation.
-	 */
-	public static final int EVAL_BODY_FILTERED = 7;
-
-	static {
-		assert EVAL_BODY_FILTERED != SKIP_BODY;
-		assert EVAL_BODY_FILTERED != EVAL_BODY_INCLUDE;
-		assert EVAL_BODY_FILTERED != EVAL_BODY_BUFFERED;
-	}
-
-	public EncodingFilteredBodyTag() {
+	public EncodingNullBodyTag() {
 		init();
 	}
 
 	/**
-	 * Gets the type of data that is contained by this tag.
-	 * This is also the output type.
+	 * Gets the output type of this tag.  This is used to determine the correct
+	 * encoder.  If the tag never has any output this should return {@code null}.
+	 * When {@code null} is returned, any output will result in an error.
 	 */
-	public abstract MediaType getContentType();
-
-	private enum Mode {
-		PASSTHROUGH(false),
-		ENCODING(true),
-		VALIDATING(true);
-
-		private final boolean buffered;
-
-		private Mode(boolean buffered) {
-			this.buffered = buffered;
-		}
-	}
+	public abstract MediaType getOutputType();
 
 	private static final long serialVersionUID = 1L;
 
@@ -120,24 +77,24 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	private transient RequestEncodingContext parentEncodingContext;
 	private transient MediaType containerType;
 	private transient Writer containerValidator;
+	private transient boolean writePrefixSuffix;
 	// Set in updateValidatingOut
 	private transient MediaType validatingOutputType;
 	private transient MediaEncoder mediaEncoder;
 	private transient RequestEncodingContext validatingOutEncodingContext;
 	private transient Writer validatingOut;
-	private transient Mode mode;
-	// Set in doStartTag, possibly updated in initValidation
+	// Set in initDiscard
 	private transient boolean bodyUnbuffered;
 
 	private void init() {
 		parentEncodingContext = null;
 		containerType = null;
 		containerValidator = null;
+		writePrefixSuffix = false;
 		validatingOutputType = null;
 		mediaEncoder = null;
 		validatingOutEncodingContext = null;
 		validatingOut = null;
-		mode = null;
 		bodyUnbuffered = false;
 	}
 
@@ -187,85 +144,80 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 			}
 
 			// Write any prefix
-			writePrefix(containerType, containerValidator);
+			MediaType newOutputType = getOutputType();
+			writePrefixSuffix = (newOutputType != null);
+			if(writePrefixSuffix) writePrefix(containerType, containerValidator);
 
-			updateValidatingOut(pageContext.getOut());
-			bodyUnbuffered = !mode.buffered;
+			updateValidatingOut(pageContext.getOut(), newOutputType);
 			RequestEncodingContext.setCurrentContext(request, validatingOutEncodingContext);
-			return checkStartTagReturn(doStartTag(validatingOut), mode);
+			return checkStartTagReturn(doStartTag(validatingOut));
 		} catch(IOException e) {
 			throw new JspTagException(e);
 		}
 	}
 
 	/**
-	 * Sets or replaces the validating out variables based on the current {@linkplain #getContentType() output type}.
+	 * Sets or replaces the validating out variables based on the current {@linkplain #getOutputType() output type}.
 	 * When the output type changes, which can happen during body invocation, the validating variables will be updated.
 	 */
-	private void updateValidatingOut(JspWriter out) throws JspException, IOException {
-		final MediaType newOutputType = getContentType();
+	private void updateValidatingOut(JspWriter out, MediaType newOutputType) throws JspException, IOException {
 		if(validatingOut == null || newOutputType != validatingOutputType) {
 			final MediaEncoder newMediaEncoder;
 			final RequestEncodingContext newValidatingOutEncodingContext;
 			final Writer newValidatingOut;
-			final Mode newMode;
-			final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-			final HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
-			// Find the encoder
-			EncodingContext encodingContext = new EncodingContextEE(pageContext.getServletContext(), request, response);
-			newMediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerType);
-			if(newMediaEncoder != null) {
-				if(logger.isLoggable(Level.FINER)) {
-					logger.finer("Using MediaEncoder: " + newMediaEncoder);
-				}
-				logger.finest("Setting encoder options");
-				setMediaEncoderOptions(newMediaEncoder);
-				// Encode both our output and the content.  The encoder validates our input and guarantees valid output for our parent.
-				logger.finest("Writing encoder prefix");
-				writeEncoderPrefix(newMediaEncoder, out);
-				MediaWriter mediaWriter = new MediaWriter(encodingContext, newMediaEncoder, out);
-				newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, mediaWriter);
-				newValidatingOut = mediaWriter;
-				newMode = Mode.ENCODING;
+			if(newOutputType == null) {
+				// No output, error if anything written.
+				newMediaEncoder = null;
+				// prefix skipped
+				newValidatingOutEncodingContext = parentEncodingContext;
+				newValidatingOut = FailOnWriteWriter.getInstance();
+				// suffix skipped
 			} else {
-				// If parentValidMediaInput exists and is validating our output type, no additional validation is required
-				if(
-					parentEncodingContext != null
-					&& parentEncodingContext.validMediaInput.isValidatingMediaInputType(newOutputType)
-				) {
+				final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
+				final HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
+				// Find the encoder
+				EncodingContext encodingContext = new EncodingContextEE(pageContext.getServletContext(), request, response);
+				newMediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerType);
+				if(newMediaEncoder != null) {
 					if(logger.isLoggable(Level.FINER)) {
-						logger.finer("Passing-through with validating parent: " + parentEncodingContext.validMediaInput);
+						logger.finer("Using MediaEncoder: " + newMediaEncoder);
 					}
-					newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, parentEncodingContext.validMediaInput);
-					newValidatingOut = out;
-					newMode = Mode.PASSTHROUGH;
+					logger.finest("Setting encoder options");
+					setMediaEncoderOptions(newMediaEncoder);
+					// Encode our output.  The encoder guarantees valid output for our parent.
+					logger.finest("Writing encoder prefix");
+					writeEncoderPrefix(newMediaEncoder, out); // TODO: Skip prefix and suffix when empty?
+					MediaWriter mediaWriter = new MediaWriter(encodingContext, newMediaEncoder, out);
+					newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, mediaWriter);
+					newValidatingOut = mediaWriter;
 				} else {
-					// Not using an encoder and parent doesn't validate our output, validate our own output.
-					MediaValidator validator = MediaValidator.getMediaValidator(newOutputType, out);
-					if(logger.isLoggable(Level.FINER)) {
-						logger.finer("Using MediaValidator: " + validator);
+					// If parentValidMediaInput exists and is validating our output type, no additional validation is required
+					if(
+						parentEncodingContext != null
+						&& parentEncodingContext.validMediaInput.isValidatingMediaInputType(newOutputType)
+					) {
+						if(logger.isLoggable(Level.FINER)) {
+							logger.finer("Passing-through with validating parent: " + parentEncodingContext.validMediaInput);
+						}
+						newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, parentEncodingContext.validMediaInput);
+						newValidatingOut = out;
+					} else {
+						// Not using an encoder and parent doesn't validate our output, validate our own output.
+						MediaValidator validator = MediaValidator.getMediaValidator(newOutputType, out);
+						if(logger.isLoggable(Level.FINER)) {
+							logger.finer("Using MediaValidator: " + validator);
+						}
+						newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, validator);
+						newValidatingOut = validator;
 					}
-					newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, validator);
-					newValidatingOut = validator;
-					newMode = Mode.VALIDATING;
 				}
 			}
 			if(validatingOut != null) {
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer(
 						"Changing output type from "
-						+ validatingOutputType + " (mode " + mode + ") to "
-						+ newOutputType + " (mode " + newMode + ")"
-					);
-				}
-				if(mode.buffered != newMode.buffered) {
-					throw new LocalizedJspTagException(
-						ApplicationResources.accessor,
-						"EncodingFilteredBodyTag.updateValidatingOut.incompatibleBufferingMode",
-						validatingOutputType,
-						mode,
-						newOutputType,
-						newMode
+						+ validatingOutputType + " to "
+						+ newOutputType
 					);
 				}
 			}
@@ -273,7 +225,6 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 			mediaEncoder = newMediaEncoder;
 			validatingOutEncodingContext = newValidatingOutEncodingContext;
 			validatingOut = newValidatingOut;
-			mode = newMode;
 		}
 	}
 
@@ -283,55 +234,51 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	 *
 	 * @param  out  the output.  If passed-through, this will be a {@link JspWriter}
 	 *
-	 * @return  Must return either {@link #EVAL_BODY_FILTERED} (the default) or {@link #SKIP_BODY}
+	 * @return  Must return either {@link #EVAL_BODY_BUFFERED} (the default) or {@link #SKIP_BODY}
 	 */
 	protected int doStartTag(Writer out) throws JspException, IOException {
-		return EVAL_BODY_FILTERED;
+		return EVAL_BODY_BUFFERED;
 	}
 
-	private static int checkStartTagReturn(int startTagReturn, Mode mode) throws JspTagException {
-		if(startTagReturn == EVAL_BODY_FILTERED) {
-			return mode.buffered ? EVAL_BODY_BUFFERED : EVAL_BODY_INCLUDE;
+	private static int checkStartTagReturn(int startTagReturn) throws JspTagException {
+		if(startTagReturn == EVAL_BODY_BUFFERED) {
+			return EVAL_BODY_BUFFERED;
 		}
 		if(startTagReturn == SKIP_BODY) {
 			return SKIP_BODY;
 		}
 		throw new LocalizedJspTagException(
 			ApplicationResources.accessor,
-			"EncodingFilteredBodyTag.checkStartTagReturn.invalid",
+			"EncodingNullBodyTag.checkStartTagReturn.invalid",
 			startTagReturn
 		);
 	}
 
 	/**
-	 * If the {@linkplain Mode#buffered current mode is buffered}, attempts to
-	 * {@linkplain BodyTagUtils#unbuffer(javax.servlet.jsp.tagext.BodyContent, java.io.Writer) unbuffer} with direct
-	 * access to the current {@link #validatingOut}.
 	 * <p>
-	 * Sets {@link #bodyUnbuffered} to {@code true} when successfully directly performing validation.
+	 * Sets the {@link RequestEncodingContext} to {@link RequestEncodingContext#DISCARD} because no validation of the
+	 * content is necessary as the output is discarded.  This means nested tags that attempt to produce valid output
+	 * will not be limited by the parent encoding context of this tag.
+	 * </p>
+	 * <p>
+	 * Once the encoding context is set, attempts to {@linkplain BodyTagUtils#unbuffer(javax.servlet.jsp.tagext.BodyContent, java.io.Writer) unbuffer}
+	 * the current {@link BodyContent} in order to immediately discard all nested output.
+	 * </p>
+	 * <p>
+	 * Sets {@link #bodyUnbuffered} to {@code true} when successfully directly performing discard.
 	 * Otherwise, {@link #bodyUnbuffered} is {@code false} when the body content continues to use default buffering.
 	 * </p>
 	 */
-	private void initValidation() throws JspTagException {
-		ServletRequest request = pageContext.getRequest();
-		RequestEncodingContext.setCurrentContext(request, validatingOutEncodingContext);
-		if(mode.buffered) {
-			boolean alreadyUnbuffered = bodyUnbuffered;
-			bodyUnbuffered = BodyTagUtils.unbuffer(bodyContent, validatingOut);
-			if(alreadyUnbuffered && !bodyUnbuffered) {
-				throw new AssertionError("If BodyContent can be unbuffered once, it must be able to be unbuffered again");
-			}
-		} else {
-			assert bodyUnbuffered;
-		}
+	private void initDiscard() throws JspTagException {
+		RequestEncodingContext.setCurrentContext(pageContext.getRequest(), RequestEncodingContext.DISCARD);
+		bodyUnbuffered = BodyTagUtils.unbuffer(bodyContent, NullWriter.getInstance());
 	}
 
 	/**
 	 * <p>
 	 * The only way to replace the "out" variable in the generated JSP is to use
 	 * {@link #EVAL_BODY_BUFFERED}.  Without this, any writer given to {@link PageContext#pushBody(java.io.Writer)}
-	 * is not used.  We don't actually want to buffer the content, but only want to filter and validate the
-	 * data on-the-fly.
+	 * is not used.  We want to use {@link NullWriter} to discard data on-the-fly.
 	 * </p>
 	 * <p>
 	 * To workaround this issue, this very hackily replaces the writer field directly on the
@@ -344,9 +291,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	 */
 	@Override
 	public void doInitBody() throws JspTagException {
-		assert mode.buffered;
-		assert !bodyUnbuffered;
-		initValidation();
+		initDiscard();
 	}
 
 	/**
@@ -359,19 +304,17 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	public int doAfterBody() throws JspException {
 		try {
 			if(!bodyUnbuffered) {
-				assert mode.buffered;
 				if(logger.isLoggable(Level.FINER)) {
 					int charCount = bodyContent.getBufferSize() - bodyContent.getRemaining();
-					logger.finer((mode == Mode.ENCODING ? "Encoding" : "Validating ") + charCount + " buffered " + (charCount == 1 ? "character" : "characters"));
+					logger.finer("Dicarding " + charCount + " buffered " + (charCount == 1 ? "character" : "characters"));
 				}
-				bodyContent.writeOut(validatingOut);
 				bodyContent.clear();
 			}
-			updateValidatingOut(mode.buffered ? bodyContent.getEnclosingWriter() : pageContext.getOut());
+			updateValidatingOut(bodyContent.getEnclosingWriter(), getOutputType());
 			RequestEncodingContext.setCurrentContext(pageContext.getRequest(), validatingOutEncodingContext);
 			int afterBodyReturn = BodyTagUtils.checkAfterBodyReturn(doAfterBody(validatingOut));
 			if(afterBodyReturn == EVAL_BODY_AGAIN) {
-				initValidation();
+				initDiscard();
 			}
 			return afterBodyReturn;
 		} catch(IOException e) {
@@ -400,7 +343,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	@Override
 	public int doEndTag() throws JspException {
 		try {
-			updateValidatingOut(pageContext.getOut());
+			updateValidatingOut(pageContext.getOut(), getOutputType());
 			RequestEncodingContext.setCurrentContext(pageContext.getRequest(), validatingOutEncodingContext);
 			int endTagReturn = BodyTagUtils.checkEndTagReturn(doEndTag(validatingOut));
 			if(mediaEncoder != null) {
@@ -409,7 +352,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 			}
 
 			// Write any suffix
-			writeSuffix(containerType, containerValidator);
+			if(writePrefixSuffix) writeSuffix(containerType, containerValidator);
 
 			return endTagReturn;
 		} catch(IOException e) {
@@ -448,10 +391,13 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	 * <p>
 	 * Writes any prefix in the container's media type.
 	 * The output must be valid for the provided type.
+	 * This will not be called when the initial output type is {@code null}.
 	 * </p>
 	 * <p>
 	 * This default implementation prints nothing.
 	 * </p>
+	 *
+	 * @see  #getOutputType()
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
 	protected void writePrefix(MediaType containerType, Writer out) throws JspTagException, IOException {
@@ -478,10 +424,13 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	 * <p>
 	 * Writes any suffix in the container's media type.
 	 * The output must be valid for the provided type.
+	 * This will not be called when the initial output type is {@code null}.
 	 * </p>
 	 * <p>
 	 * This default implementation prints nothing.
 	 * </p>
+	 *
+	 * @see  #getOutputType()
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
 	protected void writeSuffix(MediaType containerType, Writer out) throws JspTagException, IOException {

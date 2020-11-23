@@ -91,10 +91,10 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 	public void doTag() throws JspException, IOException {
 		final PageContext pageContext = (PageContext)getJspContext();
 		final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
+		final RequestEncodingContext parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
+		final MediaType newOutputType = getContentType();
 		final HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
 		final JspWriter out = pageContext.getOut();
-
-		final RequestEncodingContext parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
 
 		// Determine the container's content type and validator
 		final MediaType containerType;
@@ -132,7 +132,6 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 		writePrefix(containerType, containerValidator);
 
 		// Find the encoder
-		final MediaType newOutputType = getContentType();
 		EncodingContext encodingContext = new EncodingContextEE(pageContext.getServletContext(), request, response);
 		MediaEncoder mediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerType);
 		if(mediaEncoder != null) {
@@ -230,7 +229,8 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 	 * Once the out {@link JspWriter} has been replaced to output the proper content
 	 * type, this version of {@link #doTag()} is called.
 	 * <p>
-	 * This default implementation invokes the jsp body, if present.
+	 * This implementation invokes {@link JspFragment#invoke(java.io.Writer)}
+	 * of the JSP body, if present.
 	 * </p>
 	 *
 	 * @param  out  the output.  If passed-through, this will be a {@link JspWriter}

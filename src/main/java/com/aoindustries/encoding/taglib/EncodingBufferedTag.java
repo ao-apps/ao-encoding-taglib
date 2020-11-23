@@ -32,6 +32,7 @@ import com.aoindustries.io.buffer.AutoTempFileWriter;
 import com.aoindustries.io.buffer.BufferResult;
 import com.aoindustries.io.buffer.BufferWriter;
 import com.aoindustries.io.buffer.CharArrayBufferWriter;
+import com.aoindustries.io.buffer.EmptyResult;
 import com.aoindustries.tempfiles.TempFileContext;
 import com.aoindustries.tempfiles.servlet.TempFileContextEE;
 import java.io.IOException;
@@ -152,12 +153,15 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 		final PageContext pageContext = (PageContext)getJspContext();
 		final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
 		final RequestEncodingContext parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
+		// The output type cannot be determined until the body of the tag is invoked, because nested tags may
+		// alter the resulting type.  We invoke the body first to accommodate nested tags.
 
-		// Capture the body output while validating
-		BufferWriter captureBuffer = newBufferWriter(request, getTempFileThreshold());
-		try {
-			JspFragment body = getJspBody();
-			if(body != null) {
+		final BufferResult capturedBody;
+		JspFragment body = getJspBody();
+		if(body != null) {
+			// Capture the body output while validating
+			BufferWriter captureBuffer = newBufferWriter(request, getTempFileThreshold());
+			try {
 				final MediaType myContentType = getContentType();
 				MediaValidator captureValidator = MediaValidator.getMediaValidator(myContentType, captureBuffer);
 				RequestEncodingContext.setCurrentContext(
@@ -171,13 +175,13 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 					// Restore previous encoding context that is used for our output
 					RequestEncodingContext.setCurrentContext(request, parentEncodingContext);
 				}
+			} finally {
+				captureBuffer.close();
 			}
-		} finally {
-			captureBuffer.close();
+			capturedBody = captureBuffer.getResult();
+		} else {
+			capturedBody = EmptyResult.getInstance();
 		}
-		final BufferResult capturedBody = captureBuffer.getResult();
-		captureBuffer = null; // Done with object, don't need to hold long-term reference
-		assert captureBuffer == null; // Avoid NetBeans "unused" warning
 
 		MediaType newOutputType = getOutputType();
 		if(newOutputType == null) {
@@ -235,7 +239,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 				setMediaEncoderOptions(mediaEncoder);
 				// Encode our output.  The encoder guarantees valid output for our parent.
 				logger.finest("Writing encoder prefix");
-				writeEncoderPrefix(mediaEncoder, out); // TODO: Skip prefix and suffix when empty?
+				writeEncoderPrefix(mediaEncoder, out); // TODO: Skip prefix and suffix when empty?  Pass capturedBody so implementation may decide?
 				try {
 					MediaWriter mediaWriter = new MediaWriter(encodingContext, mediaEncoder, out);
 					RequestEncodingContext.setCurrentContext(
@@ -297,6 +301,10 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 	 * Invokes the body.  This is only called when a body exists.  Subclasses may override this to perform
 	 * actions before and/or after invoking the body.  Any overriding implementation should call
 	 * super.invoke(JspFragment,MediaValidator) to invoke the body.
+	 * <p>
+	 * This implementation invokes {@link JspFragment#invoke(java.io.Writer)}
+	 * providing the capture validator.
+	 * </p>
 	 */
 	protected void invoke(JspFragment body, MediaValidator captureValidator) throws JspException, IOException {
 		body.invoke(captureValidator);
@@ -332,7 +340,14 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * Once the data is captured, this is called.
+	 * Once the out {@link JspWriter} has been replaced to output the proper content
+	 * type, this version of {@link #doTag()} is called.
+	 * <p>
+	 * The body, if present, has already been invoked and any output captured.
+	 * </p>
+	 * <p>
+	 * This default implementation does nothing.
+	 * </p>
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
 	protected void doTag(BufferResult capturedBody, Writer out) throws JspException, IOException {

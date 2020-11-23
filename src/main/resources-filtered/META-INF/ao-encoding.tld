@@ -31,6 +31,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
 For compatibility with legacy applications that use JSP scriptlets, please use &lt;a href=&quot;@{project.url}ao-encoding-legacy.tld/&quot;&gt;@{project.name} Reference (Legacy)&lt;/a&gt;.">
 <!ENTITY package "com.aoindustries.encoding.taglib">
 <!ENTITY JSP "scriptless">
+<!ENTITY aoTld "ao.tld">
 
 ]>
 <!-- Everything below this line should be an exact match between both implementations -->
@@ -93,7 +94,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
+		<!-- dateModified="2020-11-22T22:39:33-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a JavaScript context when automatic detection is not possible.
@@ -103,7 +104,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 				The content type of this tag is <code>application/javascript</code>.
 			</p>
 			<p>
-				For more advanced scenarios, please use <a href="https://aoindustries.com/ao-taglib/ao.tld/tag-script">&lt;ao:script&gt;</a>.
+				For more advanced scenarios, please use <a href="https://aoindustries.com/ao-taglib/]]>&aoTld;<![CDATA[/tag-script">&lt;ao:script&gt;</a>.
 			</p>
 		]]></description>
 		<name>javascript</name>
@@ -112,7 +113,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
+		<!-- dateModified="2020-11-22T22:39:33-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a JSON context when automatic detection is not possible.
@@ -122,7 +123,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 				The content type of this tag is <code>application/json</code>.
 			</p>
 			<p>
-				For more advanced scenarios, please use <a href="https://aoindustries.com/ao-taglib/ao.tld/tag-script">&lt;ao:script&gt;</a>.
+				For more advanced scenarios, please use <a href="https://aoindustries.com/ao-taglib/]]>&aoTld;<![CDATA[/tag-script">&lt;ao:script&gt;</a>.
 			</p>
 		]]></description>
 		<name>json</name>
@@ -131,7 +132,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
+		<!-- dateModified="2020-11-22T22:39:33-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a JSON Linked Data context when automatic detection is not possible.
@@ -141,7 +142,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 				The content type of this tag is <code>application/json</code>.
 			</p>
 			<p>
-				For more advanced scenarios, please use <a href="https://aoindustries.com/ao-taglib/ao.tld/tag-script">&lt;ao:script&gt;</a>.
+				For more advanced scenarios, please use <a href="https://aoindustries.com/ao-taglib/]]>&aoTld;<![CDATA[/tag-script">&lt;ao:script&gt;</a>.
 			</p>
 		]]></description>
 		<name>ldJson</name>
@@ -166,7 +167,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
+		<!-- dateModified="2020-11-22T22:39:33-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Writes the value with proper escaping based on the context of the tag.
@@ -196,13 +197,13 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 				<li><code>sh</code> or <code>text/x+sh</code> - must be valid shell script</li>
 			</ul>
 			<p>
-				To be able to use nested <a href="https://aoindustries.com/ao-taglib/ao.tld/tag-value">&lt;ao:value&gt;</a> and
-				<a href="https://aoindustries.com/ao-taglib/ao.tld/tag-type">&lt;ao:type&gt;</a> tags, use the compatible
-				<a href="https://aoindustries.com/ao-taglib/ao.tld/tag-out">&lt;ao:out&gt;</a>.
+				To be able to use nested <a href="https://aoindustries.com/ao-taglib/]]>&aoTld;<![CDATA[/tag-value">&lt;ao:value&gt;</a> and
+				<a href="https://aoindustries.com/ao-taglib/]]>&aoTld;<![CDATA[/tag-type">&lt;ao:type&gt;</a> tags, use the compatible
+				<a href="https://aoindustries.com/ao-taglib/]]>&aoTld;<![CDATA[/tag-out">&lt;ao:out&gt;</a>.
 			</p>
 		]]></description>
 		<name>out</name>
-		<tag-class>com.aoindustries.encoding.taglib.OutTag</tag-class>
+		<tag-class>&package;.OutTag</tag-class>
 		<tei-class>com.aoindustries.encoding.taglib.OutTagTEI</tei-class>
 		<body-content>empty</body-content>
 		<attribute>
