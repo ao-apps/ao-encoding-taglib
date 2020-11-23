@@ -136,8 +136,8 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	 *
 	 * @see  #doStartTag(java.io.Writer)
 	 */
-	@Override
 	@Deprecated
+	@Override
 	public int doStartTag() throws JspException {
 		try {
 			final ServletRequest request = pageContext.getRequest();
@@ -312,7 +312,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	 * </p>
 	 */
 	@Override
-	final public void doInitBody() throws JspTagException {
+	public void doInitBody() throws JspTagException {
 		try {
 			initCapture();
 		} catch(UnsupportedEncodingException e) {
@@ -325,8 +325,8 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	 *
 	 * @see  #doAfterBody(com.aoindustries.io.buffer.BufferResult, java.io.Writer)
 	 */
-	@Override
 	@Deprecated
+	@Override
 	public int doAfterBody() throws JspException {
 		try {
 			if(!bodyUnbuffered) {
@@ -371,8 +371,8 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	 *
 	 * @see  #doEndTag(java.io.Writer)
 	 */
-	@Override
 	@Deprecated
+	@Override
 	public int doEndTag() throws JspException {
 		try {
 			updateValidatingOut(pageContext.getOut());

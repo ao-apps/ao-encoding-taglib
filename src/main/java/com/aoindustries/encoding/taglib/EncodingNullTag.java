@@ -61,8 +61,14 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 	 */
 	public abstract MediaType getOutputType();
 
+	/**
+	 * @deprecated  You should probably be implementing in {@link #doTag(java.io.Writer)}
+	 *
+	 * @see  #doTag(java.io.Writer)
+	 */
+	@Deprecated
 	@Override
-	final public void doTag() throws JspException, IOException {
+	public void doTag() throws JspException, IOException {
 		// The output type cannot be determined until the body of the tag is invoked, because nested tags may
 		// alter the resulting type.  We invoke the body first to accommodate nested tags.
 		JspFragment body = getJspBody();

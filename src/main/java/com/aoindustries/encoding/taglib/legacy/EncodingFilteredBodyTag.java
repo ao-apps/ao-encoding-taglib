@@ -144,8 +144,8 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	 *
 	 * @see  #doStartTag(java.io.Writer)
 	 */
-	@Override
 	@Deprecated
+	@Override
 	public int doStartTag() throws JspException {
 		try {
 			final ServletRequest request = pageContext.getRequest();
@@ -325,7 +325,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	 * </p>
 	 */
 	@Override
-	final public void doInitBody() throws JspTagException {
+	public void doInitBody() throws JspTagException {
 		assert mode.buffered;
 		assert !bodyUnbuffered;
 		initValidation();
@@ -336,8 +336,8 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	 *
 	 * @see  #doAfterBody(java.io.Writer)
 	 */
-	@Override
 	@Deprecated
+	@Override
 	public int doAfterBody() throws JspException {
 		try {
 			if(!bodyUnbuffered) {
@@ -378,8 +378,8 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	 *
 	 * @see  #doEndTag(java.io.Writer)
 	 */
-	@Override
 	@Deprecated
+	@Override
 	public int doEndTag() throws JspException {
 		try {
 			updateValidatingOut(pageContext.getOut());

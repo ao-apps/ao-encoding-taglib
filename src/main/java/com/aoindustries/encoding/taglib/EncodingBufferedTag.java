@@ -140,6 +140,12 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 		return AutoTempFileWriter.DEFAULT_TEMP_FILE_THRESHOLD;
 	}
 
+	/**
+	 * @deprecated  You should probably be implementing in {@link #doTag(com.aoindustries.io.buffer.BufferResult, java.io.Writer)}
+	 *
+	 * @see  #doTag(com.aoindustries.io.buffer.BufferResult, java.io.Writer)
+	 */
+	@Deprecated
 	@Override
 	public void doTag() throws JspException, IOException {
 		final PageContext pageContext = (PageContext)getJspContext();

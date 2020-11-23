@@ -80,6 +80,12 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 	 */
 	public abstract MediaType getContentType();
 
+	/**
+	 * @deprecated  You should probably be implementing in {@link #doTag(java.io.Writer)}
+	 *
+	 * @see  #doTag(java.io.Writer)
+	 */
+	@Deprecated
 	@Override
 	public void doTag() throws JspException, IOException {
 		final PageContext pageContext = (PageContext)getJspContext();
