@@ -34,13 +34,16 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 <!ENTITY aoTld "ao.tld">
 
 ]>
-<!-- Everything below this line should be an exact match between both implementations -->
+<!-- <common> -->
 <taglib xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
 	version="2.1">
 	<!-- datePublished="2020-11-18T11:39:31-06:00" -->
 	<!-- dateModified="2020-11-21T02:21:23-06:00" -->
+<!-- </common> -->
+	<!-- allowRobots="auto" -->
+<!-- <common> -->
 	<description><![CDATA[
 		<p>@{description.html}</p>
 		<p>]]>&tld_description;<![CDATA[</p>
@@ -391,3 +394,4 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 		<example><![CDATA[<code>${encoding:getSerialization()}</code>]]></example>
 	</function>
 </taglib>
+<!-- </common> -->
