@@ -68,8 +68,8 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 		JspFragment body = getJspBody();
 		if(body != null) invoke(body);
 
-		MediaType myOutputType = getOutputType();
-		if(myOutputType == null) {
+		MediaType newOutputType = getOutputType();
+		if(newOutputType == null) {
 			// No output, error if anything written.
 			// prefix skipped
 			doTag(FailOnWriteWriter.getInstance());
@@ -124,7 +124,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 
 			// Find the encoder
 			EncodingContext encodingContext = new EncodingContextEE(pageContext.getServletContext(), request, response);
-			MediaEncoder mediaEncoder = MediaEncoder.getInstance(encodingContext, myOutputType, containerContentType);
+			MediaEncoder mediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerContentType);
 			if(mediaEncoder != null) {
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("Using MediaEncoder: " + mediaEncoder);
@@ -138,7 +138,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 					MediaWriter mediaWriter = new MediaWriter(encodingContext, mediaEncoder, out);
 					RequestEncodingContext.setCurrentContext(
 						request,
-						new RequestEncodingContext(myOutputType, mediaWriter)
+						new RequestEncodingContext(newOutputType, mediaWriter)
 					);
 					try {
 						doTag(mediaWriter);
@@ -154,14 +154,14 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 				// If parentValidMediaInput exists and is validating our output type, no additional validation is required
 				if(
 					parentEncodingContext != null
-					&& parentEncodingContext.validMediaInput.isValidatingMediaInputType(myOutputType)
+					&& parentEncodingContext.validMediaInput.isValidatingMediaInputType(newOutputType)
 				) {
 					if(logger.isLoggable(Level.FINER)) {
 						logger.finer("Passing-through with validating parent: " + parentEncodingContext.validMediaInput);
 					}
 					RequestEncodingContext.setCurrentContext(
 						request,
-						new RequestEncodingContext(myOutputType, parentEncodingContext.validMediaInput)
+						new RequestEncodingContext(newOutputType, parentEncodingContext.validMediaInput)
 					);
 					try {
 						doTag(out);
@@ -170,13 +170,13 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 					}
 				} else {
 					// Not using an encoder and parent doesn't validate our output, validate our own output.
-					MediaValidator validator = MediaValidator.getMediaValidator(myOutputType, out);
+					MediaValidator validator = MediaValidator.getMediaValidator(newOutputType, out);
 					if(logger.isLoggable(Level.FINER)) {
 						logger.finer("Using MediaValidator: " + validator);
 					}
 					RequestEncodingContext.setCurrentContext(
 						request,
-						new RequestEncodingContext(myOutputType, validator)
+						new RequestEncodingContext(newOutputType, validator)
 					);
 					try {
 						doTag(validator);

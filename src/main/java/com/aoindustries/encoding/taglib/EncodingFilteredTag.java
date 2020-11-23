@@ -110,9 +110,9 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 			}
 		}
 		// Find the encoder
-		final MediaType myContentType = getContentType();
+		final MediaType newOutputType = getContentType();
 		EncodingContext encodingContext = new EncodingContextEE(pageContext.getServletContext(), request, response);
-		MediaEncoder mediaEncoder = MediaEncoder.getInstance(encodingContext, myContentType, containerContentType);
+		MediaEncoder mediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerContentType);
 		if(mediaEncoder != null) {
 			if(logger.isLoggable(Level.FINER)) {
 				logger.finer("Using MediaEncoder: " + mediaEncoder);
@@ -126,7 +126,7 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 				MediaWriter mediaWriter = new MediaWriter(encodingContext, mediaEncoder, out);
 				RequestEncodingContext.setCurrentContext(
 					request,
-					new RequestEncodingContext(myContentType, mediaWriter)
+					new RequestEncodingContext(newOutputType, mediaWriter)
 				);
 				try {
 					doTag(mediaWriter);
@@ -142,14 +142,14 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 			// If parentValidMediaInput exists and is validating our output type, no additional validation is required
 			if(
 				parentEncodingContext != null
-				&& parentEncodingContext.validMediaInput.isValidatingMediaInputType(myContentType)
+				&& parentEncodingContext.validMediaInput.isValidatingMediaInputType(newOutputType)
 			) {
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("Passing-through with validating parent: " + parentEncodingContext.validMediaInput);
 				}
 				RequestEncodingContext.setCurrentContext(
 					request,
-					new RequestEncodingContext(myContentType, parentEncodingContext.validMediaInput)
+					new RequestEncodingContext(newOutputType, parentEncodingContext.validMediaInput)
 				);
 				try {
 					doTag(out);
@@ -158,13 +158,13 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 				}
 			} else {
 				// Not using an encoder and parent doesn't validate our output, validate our own output.
-				MediaValidator validator = MediaValidator.getMediaValidator(myContentType, out);
+				MediaValidator validator = MediaValidator.getMediaValidator(newOutputType, out);
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("Using MediaValidator: " + validator);
 				}
 				RequestEncodingContext.setCurrentContext(
 					request,
-					new RequestEncodingContext(myContentType, validator)
+					new RequestEncodingContext(newOutputType, validator)
 				);
 				try {
 					doTag(validator);
