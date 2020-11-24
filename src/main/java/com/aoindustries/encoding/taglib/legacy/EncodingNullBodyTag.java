@@ -290,7 +290,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	 * </p>
 	 */
 	@Override
-	public void doInitBody() throws JspTagException {
+	public void doInitBody() throws JspException {
 		initDiscard();
 	}
 
@@ -400,7 +400,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	 * @see  #getOutputType()
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
-	protected void writePrefix(MediaType containerType, Writer out) throws JspTagException, IOException {
+	protected void writePrefix(MediaType containerType, Writer out) throws JspException, IOException {
 		// By default, nothing is printed.
 	}
 
@@ -433,7 +433,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	 * @see  #getOutputType()
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
-	protected void writeSuffix(MediaType containerType, Writer out) throws JspTagException, IOException {
+	protected void writeSuffix(MediaType containerType, Writer out) throws JspException, IOException {
 		// By default, nothing is printed.
 	}
 }

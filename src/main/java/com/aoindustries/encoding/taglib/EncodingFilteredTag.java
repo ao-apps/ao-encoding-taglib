@@ -35,7 +35,6 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.JspFragment;
@@ -209,7 +208,7 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 	 * </p>
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
-	protected void writePrefix(MediaType containerType, Writer out) throws JspTagException, IOException {
+	protected void writePrefix(MediaType containerType, Writer out) throws JspException, IOException {
 		// By default, nothing is printed.
 	}
 
@@ -261,7 +260,7 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 	 * </p>
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
-	protected void writeSuffix(MediaType containerType, Writer out) throws JspTagException, IOException {
+	protected void writeSuffix(MediaType containerType, Writer out) throws JspException, IOException {
 		// By default, nothing is printed.
 	}
 }

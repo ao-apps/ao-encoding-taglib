@@ -343,7 +343,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	 * </p>
 	 */
 	@Override
-	public void doInitBody() throws JspTagException {
+	public void doInitBody() throws JspException {
 		assert mode.buffered;
 		assert !bodyUnbuffered;
 		initValidation();
@@ -454,7 +454,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	 * </p>
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
-	protected void writePrefix(MediaType containerType, Writer out) throws JspTagException, IOException {
+	protected void writePrefix(MediaType containerType, Writer out) throws JspException, IOException {
 		// By default, nothing is printed.
 	}
 
@@ -484,7 +484,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	 * </p>
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
-	protected void writeSuffix(MediaType containerType, Writer out) throws JspTagException, IOException {
+	protected void writeSuffix(MediaType containerType, Writer out) throws JspException, IOException {
 		// By default, nothing is printed.
 	}
 }

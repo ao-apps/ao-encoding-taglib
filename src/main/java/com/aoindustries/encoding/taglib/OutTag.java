@@ -34,6 +34,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import javax.el.ELContext;
 import javax.el.ValueExpression;
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import org.w3c.dom.Node;
 
@@ -127,7 +128,7 @@ public class OutTag extends EncodingNullTag {
 	}
 
 	@Override
-	protected void writePrefix(MediaType containerType, Writer out) throws IOException {
+	protected void writePrefix(MediaType containerType, Writer out) throws JspException, IOException {
 		Object effectiveValue = (value != null) ? value : getDefault();
 		if(effectiveValue != null) {
 			markupType = containerType.getMarkupType();
@@ -155,10 +156,10 @@ public class OutTag extends EncodingNullTag {
 
 	@Override
 /* BodyTag only:
-	protected int doEndTag(Writer out) throws JspTagException, IOException {
+	protected int doEndTag(Writer out) throws JspException, IOException {
 /**/
 /* SimpleTag only: */
-	protected void doTag(Writer out) throws JspTagException, IOException {
+	protected void doTag(Writer out) throws JspException, IOException {
 /**/
 		if(toStringResult != null) {
 			out.write(toStringResult);
@@ -176,7 +177,7 @@ public class OutTag extends EncodingNullTag {
 	}
 
 	@Override
-	protected void writeSuffix(MediaType containerType, Writer out) throws IOException {
+	protected void writeSuffix(MediaType containerType, Writer out) throws JspException, IOException {
 		if(lookupMarkup != null) lookupMarkup.appendSuffixTo(markupType, out);
 	}
 

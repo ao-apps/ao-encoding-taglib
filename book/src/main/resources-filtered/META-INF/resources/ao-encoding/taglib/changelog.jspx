@@ -37,7 +37,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 		shortTitle="Changelog"
 		tocLevels="1"
 		datePublished="2020-11-18T11:39:31-06:00"
-		dateModified="2020-11-21T21:46:34-06:00"
+		dateModified="2020-11-24T12:46:17-06:00"
 	>
 		<!-- The current snapshot, unreleased version -->
 		<c:set var="version" value="@{com.aoindustries:ao-encoding-taglib:pom.version}" />
@@ -85,6 +85,12 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 						<code>EncodingNullTag</code> now sets <code>MediaType.TEXT</code> context before invoking the
 						JSP body.  This means nested tags that attempt to produce valid output will not be limited by the
 						parent encoding context of the tag.
+					</li>
+					<li>
+						Cleaned-up use of <code>JspTagException</code> versus <code>JspException</code>.  Generally,
+						methods declare <code>throws JspException</code> while actually throwing instances of
+						<code>JspTagException</code>.  The exceptions to this are attribute setters and private
+						implemententation methods that both declare and throw <code>JspTagException</code>.
 					</li>
 				</ul>
 			</changelog:release>
