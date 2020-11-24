@@ -35,6 +35,7 @@ import com.aoindustries.encoding.taglib.RequestEncodingContext;
 import com.aoindustries.io.buffer.AutoTempFileWriter;
 import com.aoindustries.io.buffer.BufferResult;
 import com.aoindustries.io.buffer.BufferWriter;
+import com.aoindustries.io.buffer.EmptyResult;
 import com.aoindustries.servlet.jsp.LocalizedJspTagException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -120,6 +121,8 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	private transient BufferWriter captureBuffer;
 	private transient MediaValidator captureValidator;
 	private transient boolean bodyUnbuffered;
+	// Set in doAfterBody, provided to doEndTag
+	private transient BufferResult capturedBody;
 
 	private void init() {
 		parentEncodingContext = null;
@@ -133,6 +136,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 		captureBuffer = null;
 		captureValidator = null;
 		bodyUnbuffered = false;
+		capturedBody = EmptyResult.getInstance();
 	}
 
 	/**
@@ -358,7 +362,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 			}
 			captureValidator.flush();
 			captureBuffer.close();
-			final BufferResult capturedBody = captureBuffer.getResult();
+			capturedBody = captureBuffer.getResult();
 			captureBuffer = null;
 			captureValidator = null;
 			updateValidatingOut(bodyContent.getEnclosingWriter(), getOutputType());
@@ -377,6 +381,8 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	 * While the out {@link JspWriter} is still replaced to output the proper content
 	 * type, this version of {@link #doAfterBody()} is called.
 	 *
+	 * @param  capturedBody  The buffered result of the most recent body invocation.
+	 *
 	 * @param  out  the output.  If passed-through, this will be a {@link JspWriter}
 	 *
 	 * @return  Must return either {@link #SKIP_BODY} (the default) or {@link #EVAL_BODY_AGAIN}
@@ -386,9 +392,9 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	}
 
 	/**
-	 * @deprecated  You should probably be implementing in {@link #doEndTag(java.io.Writer)}
+	 * @deprecated  You should probably be implementing in {@link #doEndTag(com.aoindustries.io.buffer.BufferResult, java.io.Writer)}
 	 *
-	 * @see  #doEndTag(java.io.Writer)
+	 * @see  #doEndTag(com.aoindustries.io.buffer.BufferResult, java.io.Writer)
 	 */
 	@Deprecated
 	@Override
@@ -396,7 +402,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 		try {
 			updateValidatingOut(pageContext.getOut(), getOutputType());
 			RequestEncodingContext.setCurrentContext(pageContext.getRequest(), validatingOutEncodingContext);
-			int endTagReturn = BodyTagUtils.checkEndTagReturn(doEndTag(validatingOut));
+			int endTagReturn = BodyTagUtils.checkEndTagReturn(doEndTag(capturedBody, validatingOut));
 			if(mediaEncoder != null) {
 				logger.finest("Writing encoder suffix");
 				writeEncoderSuffix(mediaEncoder, pageContext.getOut());
@@ -415,11 +421,14 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	 * While the out {@link JspWriter} is still replaced to output the proper content
 	 * type, this version of {@link #doEndTag()} is called.
 	 *
+	 * @param  capturedBody  The buffered result of the most recent body invocation or {@link EmptyResult#getInstance()}
+	 *                       when body never invoked.
+	 *
 	 * @param  out  the output.  If passed-through, this will be a {@link JspWriter}
 	 *
 	 * @return  Must return either {@link #EVAL_PAGE} (the default) or {@link #SKIP_PAGE}
 	 */
-	protected int doEndTag(Writer out) throws JspException, IOException {
+	protected int doEndTag(BufferResult capturedBody, Writer out) throws JspException, IOException {
 		return EVAL_PAGE;
 	}
 
