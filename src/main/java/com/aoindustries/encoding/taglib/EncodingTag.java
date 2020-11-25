@@ -25,7 +25,6 @@ package com.aoindustries.encoding.taglib;
 import com.aoindustries.encoding.MediaType;
 import com.aoindustries.lang.Strings;
 import java.io.UnsupportedEncodingException;
-import javax.servlet.jsp.JspTagException;
 
 /**
  * @author  AO Industries, Inc.
@@ -42,14 +41,14 @@ public class EncodingTag extends EncodingFilteredTag {
 /**/
 
 	private MediaType mediaType;
-	public void setType(String type) throws JspTagException {
+	public void setType(String type) {
 		String typeStr = Strings.trim(type);
 		MediaType newMediaType = MediaType.getMediaTypeByName(typeStr);
 		if(newMediaType==null) {
 			try {
 				newMediaType = MediaType.getMediaTypeForContentType(typeStr);
 			} catch(UnsupportedEncodingException e) {
-				throw new JspTagException(e);
+				throw new IllegalArgumentException(e);
 			}
 		}
 		this.mediaType = newMediaType;
