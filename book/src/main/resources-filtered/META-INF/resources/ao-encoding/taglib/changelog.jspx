@@ -37,7 +37,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 		shortTitle="Changelog"
 		tocLevels="1"
 		datePublished="2020-11-18T11:39:31-06:00"
-		dateModified="2020-11-24T12:46:17-06:00"
+		dateModified="2020-11-24T21:32:41-06:00"
 	>
 		<!-- The current snapshot, unreleased version -->
 		<c:set var="version" value="@{com.aoindustries:ao-encoding-taglib:pom.version}" />
@@ -52,48 +52,57 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 				groupId="@{project.groupId}"
 				artifactId="@{documented.artifactId}"
 				scmUrl="@{project.scm.url}"
-			>
-				<ul>
-					<li>New project for character encoding in JSP split from <core:link book="/ao-taglib" page="/index.jspx" />.</li>
-					<li>
-						Added <core:link page="ao-encoding-legacy.tld/">alternate implementation</core:link> compatible
-						with legacy JSP that use scriptlets.
-					</li>
-					<li>
-						Added tags to fill-out all the currently supported media types:
-						<ol>
-							<li><core:link page="ao-encoding.tld/tag-javascript" /></li>
-							<li><core:link page="ao-encoding.tld/tag-json" /></li>
-							<li><core:link page="ao-encoding.tld/tag-ldJson" /></li>
-							<li><core:link page="ao-encoding.tld/tag-url" /></li>
-						</ol>
-					</li>
-					<li>
-						<p>
-							Now registering exception types for use with <code>Throwables.newSurrogate(…)</code> that supports creating new instances
-							of throwables in order to have caller stack trace.  When wrapped, the original throwable is the
-							cause of the new throwable.  When not wrapped, the original throwable is used directly and
-							caller stack trace is lost.
-						</p>
-						<p>
-							This is used to maintain exception types and states across thread boundaries, such as when an exception cause
-							is obtained from an <code>ExecutionException</code>.
-						</p>
-					</li>
-					<li>New tag <core:link page="ao-encoding.tld/tag-encoding" /> that has a type defined in its type attribute.</li>
-					<li>
-						<code>EncodingNullTag</code> now sets <code>MediaType.TEXT</code> context before invoking the
-						JSP body.  This means nested tags that attempt to produce valid output will not be limited by the
-						parent encoding context of the tag.
-					</li>
-					<li>
-						Cleaned-up use of <code>JspTagException</code> versus <code>JspException</code>.  Generally,
-						methods declare <code>throws JspException</code> while actually throwing instances of
-						<code>JspTagException</code>.  The exceptions to this are attribute setters and private
-						implemententation methods that both declare and throw <code>JspTagException</code>.
-					</li>
-				</ul>
-			</changelog:release>
+			/>
 		</c:if>
+
+		<changelog:release
+			projectName="@{documented.name}"
+			version="1.0.0"
+			datePublished="2020-11-24T21:32:41-06:00"
+			groupId="@{project.groupId}"
+			artifactId="@{documented.artifactId}"
+			scmUrl="@{project.scm.url}"
+		>
+			<ul>
+				<li>New project for character encoding in JSP split from <core:link book="/ao-taglib" page="/index.jspx" />.</li>
+				<li>
+					Added <core:link page="ao-encoding-legacy.tld/">alternate implementation</core:link> compatible
+					with legacy JSP that use scriptlets.
+				</li>
+				<li>
+					Added tags to fill-out all the currently supported media types:
+					<ol>
+						<li><core:link page="ao-encoding.tld/tag-javascript" /></li>
+						<li><core:link page="ao-encoding.tld/tag-json" /></li>
+						<li><core:link page="ao-encoding.tld/tag-ldJson" /></li>
+						<li><core:link page="ao-encoding.tld/tag-url" /></li>
+					</ol>
+				</li>
+				<li>
+					<p>
+						Now registering exception types for use with <code>Throwables.newSurrogate(…)</code> that supports creating new instances
+						of throwables in order to have caller stack trace.  When wrapped, the original throwable is the
+						cause of the new throwable.  When not wrapped, the original throwable is used directly and
+						caller stack trace is lost.
+					</p>
+					<p>
+						This is used to maintain exception types and states across thread boundaries, such as when an exception cause
+						is obtained from an <code>ExecutionException</code>.
+					</p>
+				</li>
+				<li>New tag <core:link page="ao-encoding.tld/tag-encoding" /> that has a type defined in its type attribute.</li>
+				<li>
+					<code>EncodingNullTag</code> now sets <code>MediaType.TEXT</code> context before invoking the
+					JSP body.  This means nested tags that attempt to produce valid output will not be limited by the
+					parent encoding context of the tag.
+				</li>
+				<li>
+					Cleaned-up use of <code>JspTagException</code> versus <code>JspException</code>.  Generally,
+					methods declare <code>throws JspException</code> while actually throwing instances of
+					<code>JspTagException</code>.  The exceptions to this are attribute setters and private
+					implemententation methods that both declare and throw <code>JspTagException</code>.
+				</li>
+			</ul>
+		</changelog:release>
 	</core:page>
 </jsp:root>
