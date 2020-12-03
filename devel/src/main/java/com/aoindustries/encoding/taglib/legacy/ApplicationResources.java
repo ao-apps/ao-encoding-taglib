@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2009, 2010, 2011, 2013, 2015, 2016, 2017, 2020  AO Industries, Inc.
+ * Copyright (C) 2020  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -20,40 +20,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoindustries.encoding.taglib;
+package com.aoindustries.encoding.taglib.legacy;
 
-import com.aoindustries.util.i18n.ApplicationResourcesAccessor;
 import com.aoindustries.util.i18n.EditableResourceBundle;
 import com.aoindustries.util.i18n.EditableResourceBundleSet;
-import com.aoindustries.util.i18n.Locales;
 import java.io.File;
-import java.util.Arrays;
+import java.util.Locale;
 
 /**
- * Provides a simplified interface for obtaining localized values from the ApplicationResources.properties files.
- *
  * @author  AO Industries, Inc.
  */
 public final class ApplicationResources extends EditableResourceBundle {
 
 	static final EditableResourceBundleSet bundleSet = new EditableResourceBundleSet(
-		ApplicationResources.class.getName(),
-		Arrays.asList(
-			Locales.ROOT,
-			Locales.JAPANESE
-		)
+		ApplicationResources.class,
+		Locale.ROOT,
+		Locale.JAPANESE
 	);
 
-	/**
-	 * Do not use directly.
-	 */
-	public ApplicationResources() {
-		super(
-			Locales.ROOT,
-			bundleSet,
-			new File(System.getProperty("user.home")+"/maven2/ao/ao-encoding-taglib/src/main/resources/com/aoindustries/encoding/taglib/ApplicationResources.properties")
-		);
+	static File getSourceFile(String filename) {
+		return new File(System.getProperty("user.home") + "/maven2/ao/ao-encoding-taglib/src/main/resources/com/aoindustries/encoding/taglib/legacy", filename);
 	}
 
-	static final ApplicationResourcesAccessor accessor = ApplicationResourcesAccessor.getInstance(bundleSet.getBaseName());
+	public ApplicationResources() {
+		super(Locale.ROOT, bundleSet, getSourceFile("ApplicationResources.properties"));
+	}
 }

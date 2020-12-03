@@ -32,6 +32,7 @@ import com.aoindustries.encoding.servlet.EncodingContextEE;
 import com.aoindustries.encoding.taglib.EncodingBufferedTag;
 import com.aoindustries.encoding.taglib.FailOnWriteWriter;
 import com.aoindustries.encoding.taglib.RequestEncodingContext;
+import com.aoindustries.i18n.Resources;
 import com.aoindustries.io.buffer.AutoTempFileWriter;
 import com.aoindustries.io.buffer.BufferResult;
 import com.aoindustries.io.buffer.BufferWriter;
@@ -76,6 +77,8 @@ import javax.servlet.jsp.tagext.TryCatchFinally;
 public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements TryCatchFinally {
 
 	private static final Logger logger = Logger.getLogger(EncodingBufferedBodyTag.class.getName());
+
+	private static final Resources RESOURCES = Resources.getResources(EncodingBufferedBodyTag.class.getPackage());
 
 	public EncodingBufferedBodyTag() {
 		init();
@@ -289,7 +292,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 			return SKIP_BODY;
 		}
 		throw new LocalizedJspTagException(
-			ApplicationResources.accessor,
+			RESOURCES,
 			"EncodingBufferedBodyTag.checkStartTagReturn.invalid",
 			startTagReturn
 		);

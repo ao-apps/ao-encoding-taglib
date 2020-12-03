@@ -31,6 +31,7 @@ import com.aoindustries.encoding.MediaWriter;
 import com.aoindustries.encoding.servlet.EncodingContextEE;
 import com.aoindustries.encoding.taglib.FailOnWriteWriter;
 import com.aoindustries.encoding.taglib.RequestEncodingContext;
+import com.aoindustries.i18n.Resources;
 import com.aoindustries.io.NullWriter;
 import com.aoindustries.servlet.jsp.LocalizedJspTagException;
 import java.io.IOException;
@@ -59,6 +60,8 @@ import javax.servlet.jsp.tagext.TryCatchFinally;
 public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryCatchFinally {
 
 	private static final Logger logger = Logger.getLogger(EncodingNullBodyTag.class.getName());
+
+	private static final Resources RESOURCES = Resources.getResources(EncodingNullBodyTag.class.getPackage());
 
 	public EncodingNullBodyTag() {
 		init();
@@ -248,7 +251,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 			return SKIP_BODY;
 		}
 		throw new LocalizedJspTagException(
-			ApplicationResources.accessor,
+			RESOURCES,
 			"EncodingNullBodyTag.checkStartTagReturn.invalid",
 			startTagReturn
 		);

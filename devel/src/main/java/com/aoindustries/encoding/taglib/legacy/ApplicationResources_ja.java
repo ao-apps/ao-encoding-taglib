@@ -22,38 +22,19 @@
  */
 package com.aoindustries.encoding.taglib.legacy;
 
-import com.aoindustries.util.i18n.ApplicationResourcesAccessor;
 import com.aoindustries.util.i18n.EditableResourceBundle;
-import com.aoindustries.util.i18n.EditableResourceBundleSet;
-import com.aoindustries.util.i18n.Locales;
-import java.io.File;
-import java.util.Arrays;
+import java.util.Locale;
 
 /**
- * Provides a simplified interface for obtaining localized values from the ApplicationResources.properties files.
- *
  * @author  AO Industries, Inc.
  */
-public final class ApplicationResources extends EditableResourceBundle {
+public final class ApplicationResources_ja extends EditableResourceBundle {
 
-	static final EditableResourceBundleSet bundleSet = new EditableResourceBundleSet(
-		ApplicationResources.class.getName(),
-		Arrays.asList(
-			Locales.ROOT,
-			Locales.JAPANESE
-		)
-	);
-
-	/**
-	 * Do not use directly.
-	 */
-	public ApplicationResources() {
+	public ApplicationResources_ja() {
 		super(
-			Locales.ROOT,
-			bundleSet,
-			new File(System.getProperty("user.home")+"/maven2/ao/ao-encoding-taglib/src/main/resources/com/aoindustries/encoding/taglib/legacy/ApplicationResources.properties")
+			Locale.JAPANESE,
+			ApplicationResources.bundleSet,
+			ApplicationResources.getSourceFile("ApplicationResources_ja.properties")
 		);
 	}
-
-	static final ApplicationResourcesAccessor accessor = ApplicationResourcesAccessor.getInstance(bundleSet.getBaseName());
 }

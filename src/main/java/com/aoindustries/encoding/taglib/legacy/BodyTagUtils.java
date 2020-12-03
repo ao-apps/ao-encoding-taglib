@@ -22,6 +22,7 @@
  */
 package com.aoindustries.encoding.taglib.legacy;
 
+import com.aoindustries.i18n.Resources;
 import com.aoindustries.servlet.jsp.LocalizedJspTagException;
 import java.io.Writer;
 import java.lang.reflect.Field;
@@ -45,12 +46,14 @@ final class BodyTagUtils  {
 
 	private static final Logger logger = Logger.getLogger(BodyTagUtils.class.getName());
 
+	private static final Resources RESOURCES = Resources.getResources(BodyTagUtils.class.getPackage());
+
 	static int checkAfterBodyReturn(int afterBodyReturn) throws JspTagException {
 		if(
 			afterBodyReturn != SKIP_BODY
 			&& afterBodyReturn != EVAL_BODY_AGAIN
 		) throw new LocalizedJspTagException(
-			ApplicationResources.accessor,
+			RESOURCES,
 			"BodyTagUtils.checkAfterBodyReturn.invalid",
 			afterBodyReturn
 		);
@@ -62,7 +65,7 @@ final class BodyTagUtils  {
 			endTagReturn != EVAL_PAGE
 			&& endTagReturn != SKIP_PAGE
 		) throw new LocalizedJspTagException(
-			ApplicationResources.accessor,
+			RESOURCES,
 			"BodyTagUtils.checkEndTagReturn.invalid",
 			endTagReturn
 		);

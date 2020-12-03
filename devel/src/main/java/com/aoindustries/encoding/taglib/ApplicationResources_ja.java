@@ -23,24 +23,18 @@
 package com.aoindustries.encoding.taglib;
 
 import com.aoindustries.util.i18n.EditableResourceBundle;
-import com.aoindustries.util.i18n.Locales;
-import java.io.File;
+import java.util.Locale;
 
 /**
- * Provides a simplified interface for obtaining localized values from the ApplicationResources.properties files.
- *
  * @author  AO Industries, Inc.
  */
 public final class ApplicationResources_ja extends EditableResourceBundle {
 
-	/**
-	 * Do not use directly.
-	 */
 	public ApplicationResources_ja() {
 		super(
-			Locales.JAPANESE,
+			Locale.JAPANESE,
 			ApplicationResources.bundleSet,
-			new File(System.getProperty("user.home")+"/maven2/ao/ao-encoding-taglib/src/main/resources/com/aoindustries/encoding/taglib/ApplicationResources_ja.properties")
+			ApplicationResources.getSourceFile("ApplicationResources_ja.properties")
 		);
 	}
 }

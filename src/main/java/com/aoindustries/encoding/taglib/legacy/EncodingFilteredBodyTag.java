@@ -30,6 +30,7 @@ import com.aoindustries.encoding.MediaValidator;
 import com.aoindustries.encoding.MediaWriter;
 import com.aoindustries.encoding.servlet.EncodingContextEE;
 import com.aoindustries.encoding.taglib.RequestEncodingContext;
+import com.aoindustries.i18n.Resources;
 import com.aoindustries.servlet.jsp.LocalizedJspTagException;
 import java.io.IOException;
 import java.io.Writer;
@@ -78,6 +79,8 @@ import javax.servlet.jsp.tagext.TryCatchFinally;
 public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements TryCatchFinally {
 
 	private static final Logger logger = Logger.getLogger(EncodingFilteredBodyTag.class.getName());
+
+	private static final Resources RESOURCES = Resources.getResources(EncodingFilteredBodyTag.class.getPackage());
 
 	/**
 	 * Return value for {@link #doStartTag(java.io.Writer)}.  It will be converted
@@ -260,7 +263,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 				}
 				if(mode.buffered != newMode.buffered) {
 					throw new LocalizedJspTagException(
-						ApplicationResources.accessor,
+						RESOURCES,
 						"EncodingFilteredBodyTag.updateValidatingOut.incompatibleBufferingMode",
 						validatingOutputType,
 						mode,
@@ -297,7 +300,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 			return SKIP_BODY;
 		}
 		throw new LocalizedJspTagException(
-			ApplicationResources.accessor,
+			RESOURCES,
 			"EncodingFilteredBodyTag.checkStartTagReturn.invalid",
 			startTagReturn
 		);
