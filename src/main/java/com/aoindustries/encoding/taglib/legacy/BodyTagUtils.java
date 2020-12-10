@@ -46,17 +46,15 @@ final class BodyTagUtils  {
 
 	private static final Logger logger = Logger.getLogger(BodyTagUtils.class.getName());
 
-	private static final Resources RESOURCES = Resources.getResources(BodyTagUtils.class.getPackage());
+	private static final Resources RESOURCES = Resources.getResources(BodyTagUtils.class);
 
 	static int checkAfterBodyReturn(int afterBodyReturn) throws JspTagException {
 		if(
 			afterBodyReturn != SKIP_BODY
 			&& afterBodyReturn != EVAL_BODY_AGAIN
-		) throw new LocalizedJspTagException(
-			RESOURCES,
-			"BodyTagUtils.checkAfterBodyReturn.invalid",
-			afterBodyReturn
-		);
+		) {
+			throw new LocalizedJspTagException(RESOURCES, "checkAfterBodyReturn.invalid", afterBodyReturn);
+		}
 		return afterBodyReturn;
 	}
 
@@ -64,11 +62,9 @@ final class BodyTagUtils  {
 		if(
 			endTagReturn != EVAL_PAGE
 			&& endTagReturn != SKIP_PAGE
-		) throw new LocalizedJspTagException(
-			RESOURCES,
-			"BodyTagUtils.checkEndTagReturn.invalid",
-			endTagReturn
-		);
+		) {
+			throw new LocalizedJspTagException(RESOURCES, "checkEndTagReturn.invalid", endTagReturn);
+		}
 		return endTagReturn;
 	}
 

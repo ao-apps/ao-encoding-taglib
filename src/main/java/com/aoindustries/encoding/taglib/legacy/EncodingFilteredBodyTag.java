@@ -80,7 +80,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 
 	private static final Logger logger = Logger.getLogger(EncodingFilteredBodyTag.class.getName());
 
-	private static final Resources RESOURCES = Resources.getResources(EncodingFilteredBodyTag.class.getPackage());
+	private static final Resources RESOURCES = Resources.getResources(EncodingFilteredBodyTag.class);
 
 	/**
 	 * Return value for {@link #doStartTag(java.io.Writer)}.  It will be converted
@@ -264,7 +264,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 				if(mode.buffered != newMode.buffered) {
 					throw new LocalizedJspTagException(
 						RESOURCES,
-						"EncodingFilteredBodyTag.updateValidatingOut.incompatibleBufferingMode",
+						"updateValidatingOut.incompatibleBufferingMode",
 						validatingOutputType,
 						mode,
 						newOutputType,
@@ -299,11 +299,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 		if(startTagReturn == SKIP_BODY) {
 			return SKIP_BODY;
 		}
-		throw new LocalizedJspTagException(
-			RESOURCES,
-			"EncodingFilteredBodyTag.checkStartTagReturn.invalid",
-			startTagReturn
-		);
+		throw new LocalizedJspTagException(RESOURCES, "checkStartTagReturn.invalid", startTagReturn);
 	}
 
 	/**

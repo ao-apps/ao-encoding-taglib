@@ -31,7 +31,7 @@ import java.io.Writer;
 // Java 9: Make module-private
 final public class FailOnWriteWriter extends Writer {
 
-	private static final Resources RESOURCES = Resources.getResources(FailOnWriteWriter.class.getPackage());
+	private static final Resources RESOURCES = Resources.getResources(FailOnWriteWriter.class);
 
 	private static final FailOnWriteWriter instance = new FailOnWriteWriter();
 
@@ -45,42 +45,42 @@ final public class FailOnWriteWriter extends Writer {
 
 	@Override
 	public void write(int c) throws IOException {
-		throw new LocalizedIOException(RESOURCES, "FailOnWriteWriter.noOutputAllowed");
+		throw new LocalizedIOException(RESOURCES, "noOutputAllowed");
 	}
 
 	@Override
 	public void write(char cbuf[]) throws IOException {
-		throw new LocalizedIOException(RESOURCES, "FailOnWriteWriter.noOutputAllowed");
+		throw new LocalizedIOException(RESOURCES, "noOutputAllowed");
 	}
 
 	@Override
 	public void write(char[] cbuf, int off, int len) throws IOException {
-		throw new LocalizedIOException(RESOURCES, "FailOnWriteWriter.noOutputAllowed");
+		throw new LocalizedIOException(RESOURCES, "noOutputAllowed");
 	}
 
 	@Override
 	public void write(String str) throws IOException {
-		throw new LocalizedIOException(RESOURCES, "FailOnWriteWriter.noOutputAllowed");
+		throw new LocalizedIOException(RESOURCES, "noOutputAllowed");
 	}
 
 	@Override
 	public void write(String str, int off, int len) throws IOException {
-		throw new LocalizedIOException(RESOURCES, "FailOnWriteWriter.noOutputAllowed");
+		throw new LocalizedIOException(RESOURCES, "noOutputAllowed");
 	}
 
 	@Override
 	public FailOnWriteWriter append(CharSequence csq) throws IOException {
-		throw new LocalizedIOException(RESOURCES, "FailOnWriteWriter.noOutputAllowed");
+		throw new LocalizedIOException(RESOURCES, "noOutputAllowed");
 	}
 
 	@Override
 	public FailOnWriteWriter append(CharSequence csq, int start, int end) throws IOException {
-		throw new LocalizedIOException(RESOURCES, "FailOnWriteWriter.noOutputAllowed");
+		throw new LocalizedIOException(RESOURCES, "noOutputAllowed");
 	}
 
 	@Override
 	public FailOnWriteWriter append(char c) throws IOException {
-		throw new LocalizedIOException(RESOURCES, "FailOnWriteWriter.noOutputAllowed");
+		throw new LocalizedIOException(RESOURCES, "noOutputAllowed");
 	}
 
 	@Override

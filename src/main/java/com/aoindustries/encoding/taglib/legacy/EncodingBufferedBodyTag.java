@@ -78,7 +78,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 
 	private static final Logger logger = Logger.getLogger(EncodingBufferedBodyTag.class.getName());
 
-	private static final Resources RESOURCES = Resources.getResources(EncodingBufferedBodyTag.class.getPackage());
+	private static final Resources RESOURCES = Resources.getResources(EncodingBufferedBodyTag.class);
 
 	public EncodingBufferedBodyTag() {
 		init();
@@ -291,11 +291,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 		if(startTagReturn == SKIP_BODY) {
 			return SKIP_BODY;
 		}
-		throw new LocalizedJspTagException(
-			RESOURCES,
-			"EncodingBufferedBodyTag.checkStartTagReturn.invalid",
-			startTagReturn
-		);
+		throw new LocalizedJspTagException(RESOURCES, "checkStartTagReturn.invalid", startTagReturn);
 	}
 
 	/**

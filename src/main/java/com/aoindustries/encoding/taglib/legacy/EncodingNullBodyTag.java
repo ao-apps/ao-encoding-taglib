@@ -61,7 +61,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 
 	private static final Logger logger = Logger.getLogger(EncodingNullBodyTag.class.getName());
 
-	private static final Resources RESOURCES = Resources.getResources(EncodingNullBodyTag.class.getPackage());
+	private static final Resources RESOURCES = Resources.getResources(EncodingNullBodyTag.class);
 
 	public EncodingNullBodyTag() {
 		init();
@@ -250,11 +250,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 		if(startTagReturn == SKIP_BODY) {
 			return SKIP_BODY;
 		}
-		throw new LocalizedJspTagException(
-			RESOURCES,
-			"EncodingNullBodyTag.checkStartTagReturn.invalid",
-			startTagReturn
-		);
+		throw new LocalizedJspTagException(RESOURCES, "checkStartTagReturn.invalid", startTagReturn);
 	}
 
 	/**
