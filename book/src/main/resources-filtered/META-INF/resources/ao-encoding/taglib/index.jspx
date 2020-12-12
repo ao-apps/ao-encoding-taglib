@@ -35,7 +35,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 		shortTitle="@{documented.shortTitle}"
 		description="@{documented.description}"
 		datePublished="2020-11-18T11:39:31-06:00"
-		dateModified="2020-11-20T22:09:34-06:00"
+		dateModified="2020-12-11T21:10:10-06:00"
 	>
 		<core:child page="changelog.jspx" />
 		<core:child page="ao-encoding.tld/" />
@@ -70,6 +70,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 		<section:aside label="Related Projects">
 			<ul>
 				<li><core:link book="/ao-taglib" page="/index.jspx" /></li>
+				<li><ao:a href="https://oss.newmediaworks.com/email-taglib/">NMW Email Taglib</ao:a></li>
 			</ul>
 		</section:aside>
 	</core:page>

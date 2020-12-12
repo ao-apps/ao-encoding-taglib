@@ -44,6 +44,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 			<h2 style="margin-top: 0em">Related Projects</h2>
 			<ul>
 				<li><a target="${javadoc.target}" href="https://aoindustries.com/ao-taglib/">AO Taglib</a></li>
+				<li><a target="${javadoc.target}" href="https://oss.newmediaworks.com/email-taglib/">NMW Email Taglib</a></li>
 			</ul>
 		</div>]]></javadoc.relatedProjects>
 	</properties>

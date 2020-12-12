@@ -37,6 +37,7 @@ High performance streaming character encoding in a JSP environment.
 
 ## Related Projects
 * [AO Taglib](https://github.com/aoindustries/ao-taglib)
+* [NMW Email Taglib](https://github.com/newmediaworks/nmw-email-taglib)
 
 ## Contact Us
 For questions or support, please [contact us](https://aoindustries.com/contact):
