@@ -120,14 +120,14 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 	/**
 	 * Gets the type of data that is contained by this tag.
 	 */
-	public abstract MediaType getContentType();
+	public abstract MediaType getContentType(); // TODO: Throws UnsupportedEncodingException? (See nmw-email-taglib/ContentTag.java)
 
 	/**
 	 * Gets the output type of this tag.  This is used to determine the correct
 	 * encoder.  If the tag never has any output this should return {@code null}.
 	 * When {@code null} is returned, any output will result in an error.
 	 */
-	public abstract MediaType getOutputType();
+	public abstract MediaType getOutputType(); // TODO: Throws UnsupportedEncodingException?
 
 	/**
 	 * Gets the number of characters that may be buffered before switching to the
