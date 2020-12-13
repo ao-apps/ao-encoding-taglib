@@ -135,7 +135,7 @@ public class OutTag extends EncodingNullBodyTag {
 			if(
 				markupType != null
 				&& markupType != MarkupType.NONE
-				&& (threadContext = BundleLookupThreadContext.getThreadContext(false)) != null
+				&& (threadContext = BundleLookupThreadContext.getThreadContext()) != null
 				// Avoid intermediate String from Writable
 				&& (
 					!(effectiveValue instanceof Writable)

@@ -29,7 +29,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 		<relativePath>../../ao-oss-parent/pom.xml</relativePath>
 	</parent>
 
-	<groupId>com.aoindustries</groupId><artifactId>ao-encoding-taglib-devel</artifactId><version>1.0.1-POST-SNAPSHOT</version>
+	<groupId>com.aoindustries</groupId><artifactId>ao-encoding-taglib-devel</artifactId><version>1.0.2-SNAPSHOT</version>
 	<packaging>bundle</packaging>
 
 	<name>AO Encoding Taglib Devel</name>
@@ -108,7 +108,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 		<dependencies>
 			<!-- Direct -->
 			<dependency>
-				<groupId>com.aoindustries</groupId><artifactId>aocode-public</artifactId><version>4.4.0${POST-SNAPSHOT}</version>
+				<groupId>com.aoindustries</groupId><artifactId>aocode-public</artifactId><version>4.5.0-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
 			</dependency>
 			<!-- Transitive -->
 			<dependency>
