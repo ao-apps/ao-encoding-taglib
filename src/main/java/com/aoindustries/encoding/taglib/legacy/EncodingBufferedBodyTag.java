@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020  AO Industries, Inc.
+ * Copyright (C) 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -22,7 +22,6 @@
  */
 package com.aoindustries.encoding.taglib.legacy;
 
-import com.aoindustries.encoding.Coercion;
 import com.aoindustries.encoding.EncodingContext;
 import com.aoindustries.encoding.MediaEncoder;
 import com.aoindustries.encoding.MediaType;
@@ -37,6 +36,8 @@ import com.aoindustries.io.buffer.AutoTempFileWriter;
 import com.aoindustries.io.buffer.BufferResult;
 import com.aoindustries.io.buffer.BufferWriter;
 import com.aoindustries.io.buffer.EmptyResult;
+import com.aoindustries.lang.Coercion;
+import com.aoindustries.servlet.BodyContentImplCoercionOptimizerInitializer;
 import com.aoindustries.servlet.jsp.LocalizedJspTagException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -330,7 +331,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	 * the standard buffering (much less desirable).
 	 * </p>
 	 * <p>
-	 * This is similar to the direct field access performed by {@link Coercion}.
+	 * This is similar to the direct field access performed by {@link BodyContentImplCoercionOptimizerInitializer}.
 	 * </p>
 	 */
 	@Override
