@@ -307,11 +307,11 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
+		<!-- dateModified="2021-02-20T15:49:09-06:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a plaintext context when automatic detection is not possible.
-				The body of this tag contains any arbitary plain text.
+				The body of this tag contains any arbitrary plain text.
 			</p>
 			<p>
 				In some contexts, such as contained in a JavaScript string, this may be binary transparent.
