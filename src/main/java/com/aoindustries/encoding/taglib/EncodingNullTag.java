@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2012, 2013, 2016, 2017, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2013, 2016, 2017, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -123,6 +123,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 					logger.finer("containerType from responseContentType: " + containerType + " from " + responseContentType);
 				}
 				// Need to add validator
+				// TODO: Only validate when in development mode for performance?
 				containerValidator = MediaValidator.getMediaValidator(containerType, out);
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("containerValidator from containerType: " + containerValidator + " from " + containerType);
