@@ -36,7 +36,6 @@ import com.aoindustries.io.buffer.AutoTempFileWriter;
 import com.aoindustries.io.buffer.BufferResult;
 import com.aoindustries.io.buffer.BufferWriter;
 import com.aoindustries.io.buffer.EmptyResult;
-import com.aoindustries.lang.Coercion;
 import com.aoindustries.servlet.BodyContentImplCoercionOptimizerInitializer;
 import com.aoindustries.servlet.jsp.LocalizedJspTagException;
 import java.io.IOException;

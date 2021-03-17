@@ -32,7 +32,6 @@ import com.aoindustries.encoding.taglib.FailOnWriteWriter;
 import com.aoindustries.encoding.taglib.RequestEncodingContext;
 import com.aoindustries.i18n.Resources;
 import com.aoindustries.io.NullWriter;
-import com.aoindustries.lang.Coercion;
 import com.aoindustries.servlet.BodyContentImplCoercionOptimizerInitializer;
 import com.aoindustries.servlet.jsp.LocalizedJspTagException;
 import java.io.IOException;
