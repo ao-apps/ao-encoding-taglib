@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
-Copyright (C) 2020  AO Industries, Inc.
+Copyright (C) 2020, 2021  AO Industries, Inc.
     support@aoindustries.com
     7262 Bull Pen Cir
     Mobile, AL 36695
@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 -->
 <jsp:root
-	xmlns:ao="https://aoindustries.com/ao-taglib/"
+	xmlns:ao="https://oss.aoapps.com/taglib/"
 	xmlns:core="https://semanticcms.com/core/taglib/"
 	xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:section="https://semanticcms.com/section/taglib/"
@@ -32,10 +32,9 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 	<jsp:directive.page session="false" />
 	<core:page
 		title="@{documented.name}"
-		shortTitle="@{documented.shortTitle}"
 		description="@{documented.description}"
 		datePublished="2020-11-18T11:39:31-06:00"
-		dateModified="2020-12-11T21:10:10-06:00"
+		dateModified="2021-05-31T01:25:50-05:00"
 	>
 		<core:child page="changelog.jspx" />
 		<core:child page="ao-encoding.tld/" />
@@ -69,7 +68,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 		</section:nav>
 		<section:aside label="Related Projects">
 			<ul>
-				<li><core:link book="/ao-taglib" page="/index.jspx" /></li>
+				<li><core:link book="/taglib" page="/index.jspx" /></li>
 				<li><ao:a href="https://oss.newmediaworks.com/email-taglib/">NMW Email Taglib</ao:a></li>
 			</ul>
 		</section:aside>

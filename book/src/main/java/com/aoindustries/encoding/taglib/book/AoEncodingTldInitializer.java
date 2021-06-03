@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020  AO Industries, Inc.
+ * Copyright (C) 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -30,7 +30,7 @@ public class AoEncodingTldInitializer extends TagReferenceInitializer {
 		super(
 			Maven.properties.getProperty("documented.name") + " Reference",
 			"Taglib Reference",
-			"/ao-encoding/taglib",
+			"/encoding/taglib",
 			"/ao-encoding.tld",
 			true,
 			Maven.properties.getProperty("documented.javadoc.link.javase"),
@@ -38,7 +38,7 @@ public class AoEncodingTldInitializer extends TagReferenceInitializer {
 			// Self
 			"com.aoindustries.encoding.taglib", Maven.properties.getProperty("project.url") + "apidocs/",
 			// Dependencies
-			"com.aoindustries.encoding", "https://aoindustries.com/ao-encoding/apidocs/"
+			"com.aoindustries.encoding", "https://oss.aoapps.com/encoding/apidocs/"
 		);
 	}
 }
