@@ -29,7 +29,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
 <!ENTITY tld_uri "@{project.url}legacy">
 <!ENTITY tld_description "&lt;em&gt;This is the legacy implementation for compatibility with applications that use JSP scriptlets.&lt;/em&gt;
 When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}ao-encoding.tld/&quot;&gt;@{project.name} Reference&lt;/a&gt;.">
-<!ENTITY package "com.aoindustries.encoding.taglib.legacy">
+<!ENTITY package "com.aoapps.encoding.taglib.legacy">
 <!ENTITY JSP "JSP">
 <!ENTITY aoTld "ao-legacy.tld">
 <!ENTITY nmwEmailTld "nmw-email-legacy.tld">
@@ -58,7 +58,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 			tags, and validate the output of nested tags.  For example,
 			<a href="https://oss.aoapps.com/taglib/]]>&aoTld;<![CDATA[/tag-message">&lt;ao:message&gt;</a> within
 			<a href="@{project.url}]]>&tld;<![CDATA[/tag-psql">&lt;encoding:psql&gt;</a> will write its output
-			encoded as <a href="https://oss.aoapps.com/encoding/apidocs/com/aoindustries/encoding/MediaType.html#PSQL">PSQL</a>.
+			encoded as <a href="https://oss.aoapps.com/encoding/apidocs/com/aoapps/encoding/MediaType.html#PSQL">PSQL</a>.
 		</p>
 		<p>
 			This suite includes, but is not limited to:
@@ -81,6 +81,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	<uri>&tld_uri;</uri>
 	<tag>
 		<!-- datePublished="2020-11-21T17:26:24-06:00" -->
+		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes an encoding context when automatic detection is not possible.
@@ -104,7 +105,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 		]]></description>
 		<name>encoding</name>
 		<tag-class>&package;.EncodingTag</tag-class>
-		<tei-class>com.aoindustries.encoding.taglib.EncodingTagTEI</tei-class>
+		<tei-class>com.aoapps.encoding.taglib.EncodingTagTEI</tei-class>
 		<body-content>&JSP;</body-content>
 		<attribute>
 			<description><![CDATA[
@@ -177,7 +178,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
+		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a MySQL context when automatic detection is not possible.
@@ -193,7 +194,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
+		<!-- dateModified="2021-06-03T22:53:21-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Writes the value with proper escaping based on the context of the tag.
@@ -230,7 +231,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 		]]></description>
 		<name>out</name>
 		<tag-class>&package;.OutTag</tag-class>
-		<tei-class>com.aoindustries.encoding.taglib.OutTagTEI</tei-class>
+		<tei-class>com.aoapps.encoding.taglib.OutTagTEI</tei-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<description><![CDATA[
@@ -275,7 +276,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
+		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a PostgreSQL context when automatic detection is not possible.
@@ -291,7 +292,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
+		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a shell script context when automatic detection is not possible.
@@ -307,7 +308,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2021-02-20T15:49:09-06:00" -->
+		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a plaintext context when automatic detection is not possible.
@@ -341,7 +342,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
+		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a URL context when automatic detection is not possible.
@@ -357,7 +358,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
+		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes an XHTML attribute context when automatic detection is not possible.
@@ -373,7 +374,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2020-11-21T02:21:23-06:00" -->
+		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes an XHTML context when automatic detection is not possible.
@@ -394,28 +395,28 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	</tag>
 	<function>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
+		<!-- dateModified="2021-06-03T22:53:21-05:00" -->
 		<description><![CDATA[
 			<p>
-				Gets the current <a href="https://oss.aoapps.com/encoding/apidocs/com/aoindustries/encoding/Doctype.html">Doctype</a>.
+				Gets the current <a href="https://oss.aoapps.com/encoding/apidocs/com/aoapps/encoding/Doctype.html">Doctype</a>.
 			</p>
 		]]></description>
 		<name>getDoctype</name>
-		<function-class>com.aoindustries.encoding.taglib.Functions</function-class>
-		<function-signature>com.aoindustries.encoding.Doctype getDoctype()</function-signature>
+		<function-class>com.aoapps.encoding.taglib.Functions</function-class>
+		<function-signature>com.aoapps.encoding.Doctype getDoctype()</function-signature>
 		<example><![CDATA[<code>${encoding:getDoctype()}</code>]]></example>
 	</function>
 	<function>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
+		<!-- dateModified="2021-06-03T22:53:21-05:00" -->
 		<description><![CDATA[
 			<p>
-				Gets the current <a href="https://oss.aoapps.com/encoding/apidocs/com/aoindustries/encoding/Serialization.html">Serialization</a>.
+				Gets the current <a href="https://oss.aoapps.com/encoding/apidocs/com/aoapps/encoding/Serialization.html">Serialization</a>.
 			</p>
 		]]></description>
 		<name>getSerialization</name>
-		<function-class>com.aoindustries.encoding.taglib.Functions</function-class>
-		<function-signature>com.aoindustries.encoding.Serialization getSerialization()</function-signature>
+		<function-class>com.aoapps.encoding.taglib.Functions</function-class>
+		<function-signature>com.aoapps.encoding.Serialization getSerialization()</function-signature>
 		<example><![CDATA[<code>${encoding:getSerialization()}</code>]]></example>
 	</function>
 </taglib>

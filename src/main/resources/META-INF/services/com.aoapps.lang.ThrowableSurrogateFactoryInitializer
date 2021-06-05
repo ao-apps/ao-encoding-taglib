@@ -21,5 +21,4 @@
 # along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-com.aoapps.encoding.taglib.book.AoEncodingTldInitializer
-com.aoapps.encoding.taglib.book.AoEncodingLegacyTldInitializer
+com.aoapps.encoding.taglib.JavaeeWebSurrogateFactoryInitializer
