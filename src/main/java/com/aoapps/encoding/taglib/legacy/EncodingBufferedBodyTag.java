@@ -41,6 +41,7 @@ import com.aoapps.servlet.jsp.LocalizedJspTagException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletRequest;
@@ -78,7 +79,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 
 	private static final Logger logger = Logger.getLogger(EncodingBufferedBodyTag.class.getName());
 
-	private static final Resources RESOURCES = Resources.getResources(EncodingBufferedBodyTag.class);
+	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, EncodingBufferedBodyTag.class);
 
 	public EncodingBufferedBodyTag() {
 		init();

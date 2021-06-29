@@ -34,6 +34,7 @@ import com.aoapps.servlet.BodyContentImplCoercionOptimizerInitializer;
 import com.aoapps.servlet.jsp.LocalizedJspTagException;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletRequest;
@@ -80,7 +81,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 
 	private static final Logger logger = Logger.getLogger(EncodingFilteredBodyTag.class.getName());
 
-	private static final Resources RESOURCES = Resources.getResources(EncodingFilteredBodyTag.class);
+	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, EncodingFilteredBodyTag.class);
 
 	/**
 	 * Return value for {@link #doStartTag(java.io.Writer)}.  It will be converted

@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoapps.encoding.taglib.legacy;
+package com.aoapps.encoding.taglib.legacy.i18n;
 
 import com.aoapps.hodgepodge.i18n.EditableResourceBundle;
 import com.aoapps.hodgepodge.i18n.EditableResourceBundleSet;
@@ -39,7 +39,7 @@ public final class ApplicationResources extends EditableResourceBundle {
 	);
 
 	static File getSourceFile(String filename) {
-		return new File(System.getProperty("user.home") + "/maven2/ao/oss/encoding-taglib/src/main/resources/com/aoapps/encoding/taglib/legacy", filename);
+		return new File(System.getProperty("user.home") + "/maven2/ao/oss/encoding-taglib/src/main/resources/com/aoapps/encoding/taglib/legacy/i18n", filename);
 	}
 
 	public ApplicationResources() {

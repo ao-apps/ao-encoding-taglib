@@ -26,6 +26,7 @@ import com.aoapps.lang.i18n.Resources;
 import com.aoapps.servlet.jsp.LocalizedJspTagException;
 import java.io.Writer;
 import java.lang.reflect.Field;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.jsp.JspTagException;
@@ -46,7 +47,7 @@ final class BodyTagUtils  {
 
 	private static final Logger logger = Logger.getLogger(BodyTagUtils.class.getName());
 
-	private static final Resources RESOURCES = Resources.getResources(BodyTagUtils.class);
+	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, BodyTagUtils.class);
 
 	static int checkAfterBodyReturn(int afterBodyReturn) throws JspTagException {
 		if(

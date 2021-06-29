@@ -26,12 +26,13 @@ import com.aoapps.lang.i18n.Resources;
 import com.aoapps.lang.io.LocalizedIOException;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ResourceBundle;
 
 // TODO: Move to ao-hodgepodge (and eventually a separate ao-io/ao-io-utils)?
 // Java 9: Make module-private
 final public class FailOnWriteWriter extends Writer {
 
-	private static final Resources RESOURCES = Resources.getResources(FailOnWriteWriter.class);
+	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, FailOnWriteWriter.class);
 
 	private static final FailOnWriteWriter instance = new FailOnWriteWriter();
 

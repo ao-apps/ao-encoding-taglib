@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020, 2021  AO Industries, Inc.
+ * Copyright (C) 2009, 2010, 2011, 2013, 2015, 2016, 2017, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -20,25 +20,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoapps.encoding.taglib.book;
+package com.aoapps.encoding.taglib.i18n;
 
-import com.semanticcms.tagreference.TagReferenceInitializer;
+import com.aoapps.hodgepodge.i18n.EditableResourceBundle;
+import com.aoapps.hodgepodge.i18n.EditableResourceBundleSet;
+import java.io.File;
+import java.util.Locale;
 
-public class AoEncodingTldInitializer extends TagReferenceInitializer {
+/**
+ * @author  AO Industries, Inc.
+ */
+public final class ApplicationResources extends EditableResourceBundle {
 
-	public AoEncodingTldInitializer() {
-		super(
-			Maven.properties.getProperty("documented.name") + " Reference",
-			"Taglib Reference",
-			"/encoding/taglib",
-			"/ao-encoding.tld",
-			true,
-			Maven.properties.getProperty("documented.javadoc.link.javase"),
-			Maven.properties.getProperty("documented.javadoc.link.javaee"),
-			// Self
-			"com.aoapps.encoding.taglib", Maven.properties.getProperty("project.url") + "apidocs/com.aoapps.encoding.taglib/",
-			// Dependencies
-			"com.aoapps.encoding", "https://oss.aoapps.com/encoding/apidocs/com.aoapps.encoding/"
-		);
+	static final EditableResourceBundleSet bundleSet = new EditableResourceBundleSet(
+		ApplicationResources.class,
+		Locale.ROOT,
+		Locale.JAPANESE
+	);
+
+	static File getSourceFile(String filename) {
+		return new File(System.getProperty("user.home") + "/maven2/ao/oss/encoding-taglib/src/main/resources/com/aoapps/encoding/taglib/i18n", filename);
+	}
+
+	public ApplicationResources() {
+		super(Locale.ROOT, bundleSet, getSourceFile("ApplicationResources.properties"));
 	}
 }

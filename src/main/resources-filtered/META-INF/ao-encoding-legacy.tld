@@ -42,7 +42,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
 	version="2.1">
 	<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-	<!-- dateModified="2021-06-01T03:18:06-05:00" -->
+	<!-- dateModified="2021-06-16T12:51:47-05:00" -->
 <!-- </common> -->
 	<!-- allowRobots="false" -->
 <!-- <common> -->
@@ -58,7 +58,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 			tags, and validate the output of nested tags.  For example,
 			<a href="https://oss.aoapps.com/taglib/]]>&aoTld;<![CDATA[/tag-message">&lt;ao:message&gt;</a> within
 			<a href="@{project.url}]]>&tld;<![CDATA[/tag-psql">&lt;encoding:psql&gt;</a> will write its output
-			encoded as <a href="https://oss.aoapps.com/encoding/apidocs/com/aoapps/encoding/MediaType.html#PSQL">PSQL</a>.
+			encoded as <a href="https://oss.aoapps.com/encoding/apidocs/com.aoapps.encoding/com/aoapps/encoding/MediaType.html#PSQL">PSQL</a>.
 		</p>
 		<p>
 			This suite includes, but is not limited to:
@@ -395,10 +395,10 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	</tag>
 	<function>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2021-06-03T22:53:21-05:00" -->
+		<!-- dateModified="2021-06-16T12:51:47-05:00" -->
 		<description><![CDATA[
 			<p>
-				Gets the current <a href="https://oss.aoapps.com/encoding/apidocs/com/aoapps/encoding/Doctype.html">Doctype</a>.
+				Gets the current <a href="https://oss.aoapps.com/encoding/apidocs/com.aoapps.encoding/com/aoapps/encoding/Doctype.html">Doctype</a>.
 			</p>
 		]]></description>
 		<name>getDoctype</name>
@@ -408,10 +408,10 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
 	</function>
 	<function>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2021-06-03T22:53:21-05:00" -->
+		<!-- dateModified="2021-06-16T12:51:47-05:00" -->
 		<description><![CDATA[
 			<p>
-				Gets the current <a href="https://oss.aoapps.com/encoding/apidocs/com/aoapps/encoding/Serialization.html">Serialization</a>.
+				Gets the current <a href="https://oss.aoapps.com/encoding/apidocs/com.aoapps.encoding/com/aoapps/encoding/Serialization.html">Serialization</a>.
 			</p>
 		]]></description>
 		<name>getSerialization</name>
