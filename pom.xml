@@ -55,7 +55,7 @@ along with ao-encoding-taglib.  If not, see <http://www.gnu.org/licenses />.
 				<li><a target="${javadoc.target}" href="https://oss.newmediaworks.com/email-taglib/">NMW Email Taglib</a></li>
 			</ul>
 		</div>]]></javadoc.relatedProjects>
-		<!-- SonarCloud.io -->
+		<!-- SonarQube -->
 		<sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
 		<sonar.organization>aoindustries</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
