@@ -79,7 +79,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 
 	private static final Logger logger = Logger.getLogger(EncodingBufferedBodyTag.class.getName());
 
-	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, EncodingBufferedBodyTag.class);
+	private static final Resources RESOURCES = Resources.getResources(EncodingBufferedBodyTag.class, ResourceBundle::getBundle);
 
 	public EncodingBufferedBodyTag() {
 		init();

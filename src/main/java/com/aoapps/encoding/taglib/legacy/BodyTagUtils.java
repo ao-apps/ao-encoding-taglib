@@ -47,7 +47,7 @@ final class BodyTagUtils  {
 
 	private static final Logger logger = Logger.getLogger(BodyTagUtils.class.getName());
 
-	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, BodyTagUtils.class);
+	private static final Resources RESOURCES = Resources.getResources(BodyTagUtils.class, ResourceBundle::getBundle);
 
 	static int checkAfterBodyReturn(int afterBodyReturn) throws JspTagException {
 		if(

@@ -62,7 +62,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 
 	private static final Logger logger = Logger.getLogger(EncodingNullBodyTag.class.getName());
 
-	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, EncodingNullBodyTag.class);
+	private static final Resources RESOURCES = Resources.getResources(EncodingNullBodyTag.class, ResourceBundle::getBundle);
 
 	public EncodingNullBodyTag() {
 		init();
