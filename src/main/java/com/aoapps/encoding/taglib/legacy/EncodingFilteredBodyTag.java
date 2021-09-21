@@ -81,7 +81,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 
 	private static final Logger logger = Logger.getLogger(EncodingFilteredBodyTag.class.getName());
 
-	private static final Resources RESOURCES = Resources.getResources(EncodingFilteredBodyTag.class, ResourceBundle::getBundle);
+	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, EncodingFilteredBodyTag.class);
 
 	/**
 	 * Return value for {@link #doStartTag(java.io.Writer)}.  It will be converted

@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
 // Java 9: Make module-private
 final public class FailOnWriteWriter extends Writer {
 
-	private static final Resources RESOURCES = Resources.getResources(FailOnWriteWriter.class, ResourceBundle::getBundle);
+	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, FailOnWriteWriter.class);
 
 	private static final FailOnWriteWriter instance = new FailOnWriteWriter();
 
