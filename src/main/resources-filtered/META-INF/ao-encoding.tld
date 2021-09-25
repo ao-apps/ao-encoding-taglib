@@ -342,14 +342,24 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
+		<!-- dateModified="2021-09-24T19:19:37-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a URL context when automatic detection is not possible.
 				The body of this tag is valid <a href="https://tools.ietf.org/html/rfc3986">RFC 3986 URL</a>.
 			</p>
 			<p>
+				Depending on context, the URL will be passed through
+				<a rel="nofollow" href="@{javadoc.link.javaee}javax/servlet/http/HttpServletResponse.html#encodeURL(java.lang.String)">HttpServletResponse.encodeURL</a>
+				to add any URL-based session state.  Session state will never be added to external links.
+			</p>
+			<p>
 				The content type of this tag is <code>text/url</code>.
+				Must be valid URL-encoded characters only.
+			</p>
+			<p>
+				To establish a URL context with more full-featured URL manipulation, see also
+				<a href="https://oss.aoapps.com/taglib/]]>&aoTld;<![CDATA[/tag-url">&lt;ao:url&gt;</a>.
 			</p>
 		]]></description>
 		<name>url</name>
