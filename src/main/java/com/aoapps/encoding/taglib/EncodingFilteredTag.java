@@ -98,6 +98,7 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 		// Determine the container's content type and validator
 		final MediaType containerType;
 		final Writer containerValidator;
+		final boolean isNewContainerValidator;
 		if(parentEncodingContext != null) {
 			// Use the output type of the parent
 			containerType = parentEncodingContext.contentType;
@@ -108,6 +109,7 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 				: "It is a bug in the parent to not validate its input consistent with its content type";
 			// Already validated
 			containerValidator = out;
+			isNewContainerValidator = false;
 			if(logger.isLoggable(Level.FINER)) {
 				logger.finer("containerValidator from parentEncodingContext: " + containerValidator);
 			}
@@ -123,6 +125,7 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 			// Need to add validator
 			// TODO: Only validate when in development mode for performance?
 			containerValidator = MediaValidator.getMediaValidator(containerType, out);
+			isNewContainerValidator = true;
 			if(logger.isLoggable(Level.FINER)) {
 				logger.finer("containerValidator from containerType: " + containerValidator + " from " + containerType);
 			}
@@ -189,6 +192,7 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 				);
 				try {
 					doTag(validator);
+					validator.validate();
 				} finally {
 					RequestEncodingContext.setCurrentContext(request, parentEncodingContext);
 				}
@@ -197,6 +201,9 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 
 		// Write any suffix
 		writeSuffix(containerType, containerValidator);
+		if(isNewContainerValidator) {
+			((MediaValidator)containerValidator).validate();
+		}
 	}
 
 	/**

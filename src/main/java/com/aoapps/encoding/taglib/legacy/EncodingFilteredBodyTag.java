@@ -124,11 +124,13 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	private transient RequestEncodingContext parentEncodingContext;
 	private transient MediaType containerType;
 	private transient Writer containerValidator;
+	private transient boolean isNewContainerValidator;
 	// Set in updateValidatingOut
 	private transient MediaType validatingOutputType;
 	private transient MediaEncoder mediaEncoder;
 	private transient RequestEncodingContext validatingOutEncodingContext;
 	private transient Writer validatingOut;
+	private transient boolean isNewValidator;
 	private transient Mode mode;
 	// Set in doStartTag, possibly updated in initValidation
 	private transient boolean bodyUnbuffered;
@@ -137,10 +139,12 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 		parentEncodingContext = null;
 		containerType = null;
 		containerValidator = null;
+		isNewContainerValidator = false;
 		validatingOutputType = null;
 		mediaEncoder = null;
 		validatingOutEncodingContext = null;
 		validatingOut = null;
+		isNewValidator = false;
 		mode = null;
 		bodyUnbuffered = false;
 	}
@@ -170,6 +174,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 					: "It is a bug in the parent to not validate its input consistent with its content type";
 				// Already validated
 				containerValidator = out;
+				isNewContainerValidator = false;
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("containerValidator from parentEncodingContext: " + containerValidator);
 				}
@@ -186,6 +191,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 				// Need to add validator
 				// TODO: Only validate when in development mode for performance?
 				containerValidator = MediaValidator.getMediaValidator(containerType, out);
+				isNewContainerValidator = true;
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("containerValidator from containerType: " + containerValidator + " from " + containerType);
 				}
@@ -213,6 +219,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 			final MediaEncoder newMediaEncoder;
 			final RequestEncodingContext newValidatingOutEncodingContext;
 			final Writer newValidatingOut;
+			final boolean newIsNewValidator;
 			final Mode newMode;
 			final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
 			final HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
@@ -231,6 +238,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 				MediaWriter mediaWriter = new MediaWriter(encodingContext, newMediaEncoder, out);
 				newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, mediaWriter);
 				newValidatingOut = mediaWriter;
+				newIsNewValidator = false;
 				newMode = Mode.ENCODING;
 			} else {
 				// If parentValidMediaInput exists and is validating our output type, no additional validation is required
@@ -243,6 +251,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 					}
 					newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, parentEncodingContext.validMediaInput);
 					newValidatingOut = out;
+					newIsNewValidator = false;
 					newMode = Mode.PASSTHROUGH;
 				} else {
 					// Not using an encoder and parent doesn't validate our output, validate our own output.
@@ -252,6 +261,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 					}
 					newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, validator);
 					newValidatingOut = validator;
+					newIsNewValidator = true;
 					newMode = Mode.VALIDATING;
 				}
 			}
@@ -262,6 +272,9 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 						+ validatingOutputType + " (mode " + mode + ") to "
 						+ newOutputType + " (mode " + newMode + ")"
 					);
+				}
+				if(isNewValidator) {
+					((MediaValidator)validatingOut).validate();
 				}
 				if(mode.buffered != newMode.buffered) {
 					throw new LocalizedJspTagException(
@@ -278,6 +291,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 			mediaEncoder = newMediaEncoder;
 			validatingOutEncodingContext = newValidatingOutEncodingContext;
 			validatingOut = newValidatingOut;
+			isNewValidator = newIsNewValidator;
 			mode = newMode;
 		}
 	}
@@ -401,9 +415,14 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	@Override
 	public int doEndTag() throws JspException {
 		try {
-			updateValidatingOut(pageContext.getOut());
+			final JspWriter out = pageContext.getOut();
+			updateValidatingOut(out);
 			RequestEncodingContext.setCurrentContext(pageContext.getRequest(), validatingOutEncodingContext);
-			int endTagReturn = BodyTagUtils.checkEndTagReturn(doEndTag(validatingOut));
+			int endTagReturn = doEndTag(validatingOut);
+			if(isNewValidator) {
+				((MediaValidator)validatingOut).validate();
+			}
+			BodyTagUtils.checkEndTagReturn(endTagReturn);
 			if(mediaEncoder != null) {
 				logger.finest("Writing encoder suffix");
 				writeEncoderSuffix(mediaEncoder, pageContext.getOut());
@@ -411,6 +430,9 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 
 			// Write any suffix
 			writeSuffix(containerType, containerValidator);
+			if(isNewContainerValidator) {
+				((MediaValidator)containerValidator).validate();
+			}
 
 			return endTagReturn;
 		} catch(IOException e) {

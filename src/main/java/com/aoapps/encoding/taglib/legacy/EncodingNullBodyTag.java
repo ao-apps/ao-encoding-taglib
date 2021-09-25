@@ -81,12 +81,14 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	private transient RequestEncodingContext parentEncodingContext;
 	private transient MediaType containerType;
 	private transient Writer containerValidator;
+	private transient boolean isNewContainerValidator;
 	private transient boolean writePrefixSuffix;
 	// Set in updateValidatingOut
 	private transient MediaType validatingOutputType;
 	private transient MediaEncoder mediaEncoder;
 	private transient RequestEncodingContext validatingOutEncodingContext;
 	private transient Writer validatingOut;
+	private transient boolean isNewValidator;
 	// Set in initDiscard
 	private transient boolean bodyUnbuffered;
 
@@ -94,11 +96,13 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 		parentEncodingContext = null;
 		containerType = null;
 		containerValidator = null;
+		isNewContainerValidator = false;
 		writePrefixSuffix = false;
 		validatingOutputType = null;
 		mediaEncoder = null;
 		validatingOutEncodingContext = null;
 		validatingOut = null;
+		isNewValidator = false;
 		bodyUnbuffered = false;
 	}
 
@@ -127,6 +131,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 					: "It is a bug in the parent to not validate its input consistent with its content type";
 				// Already validated
 				containerValidator = out;
+				isNewContainerValidator = false;
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("containerValidator from parentEncodingContext: " + containerValidator);
 				}
@@ -143,6 +148,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 				// Need to add validator
 				// TODO: Only validate when in development mode for performance?
 				containerValidator = MediaValidator.getMediaValidator(containerType, out);
+				isNewContainerValidator = true;
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("containerValidator from containerType: " + containerValidator + " from " + containerType);
 				}
@@ -170,12 +176,14 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 			final MediaEncoder newMediaEncoder;
 			final RequestEncodingContext newValidatingOutEncodingContext;
 			final Writer newValidatingOut;
+			final boolean newIsNewValidator;
 			if(newOutputType == null) {
 				// No output, error if anything written.
 				newMediaEncoder = null;
 				// prefix skipped
 				newValidatingOutEncodingContext = parentEncodingContext;
 				newValidatingOut = FailOnWriteWriter.getInstance();
+				newIsNewValidator = false;
 				// suffix skipped
 			} else {
 				final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
@@ -195,6 +203,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 					MediaWriter mediaWriter = new MediaWriter(encodingContext, newMediaEncoder, out);
 					newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, mediaWriter);
 					newValidatingOut = mediaWriter;
+					newIsNewValidator = false;
 				} else {
 					// If parentValidMediaInput exists and is validating our output type, no additional validation is required
 					if(
@@ -206,6 +215,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 						}
 						newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, parentEncodingContext.validMediaInput);
 						newValidatingOut = out;
+						newIsNewValidator = false;
 					} else {
 						// Not using an encoder and parent doesn't validate our output, validate our own output.
 						MediaValidator validator = MediaValidator.getMediaValidator(newOutputType, out);
@@ -214,6 +224,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 						}
 						newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, validator);
 						newValidatingOut = validator;
+						newIsNewValidator = true;
 					}
 				}
 			}
@@ -225,11 +236,15 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 						+ newOutputType
 					);
 				}
+				if(isNewValidator) {
+					((MediaValidator)validatingOut).validate();
+				}
 			}
 			validatingOutputType = newOutputType;
 			mediaEncoder = newMediaEncoder;
 			validatingOutEncodingContext = newValidatingOutEncodingContext;
 			validatingOut = newValidatingOut;
+			isNewValidator = newIsNewValidator;
 		}
 	}
 
@@ -344,9 +359,14 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	@Override
 	public int doEndTag() throws JspException {
 		try {
-			updateValidatingOut(pageContext.getOut(), getOutputType());
+			final JspWriter out = pageContext.getOut();
+			updateValidatingOut(out, getOutputType());
 			RequestEncodingContext.setCurrentContext(pageContext.getRequest(), validatingOutEncodingContext);
-			int endTagReturn = BodyTagUtils.checkEndTagReturn(doEndTag(validatingOut));
+			int endTagReturn = doEndTag(validatingOut);
+			if(isNewValidator) {
+				((MediaValidator)validatingOut).validate();
+			}
+			BodyTagUtils.checkEndTagReturn(endTagReturn);
 			if(mediaEncoder != null) {
 				logger.finest("Writing encoder suffix");
 				writeEncoderSuffix(mediaEncoder, pageContext.getOut());
@@ -354,6 +374,9 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 
 			// Write any suffix
 			if(writePrefixSuffix) writeSuffix(containerType, containerValidator);
+			if(isNewContainerValidator) {
+				((MediaValidator)containerValidator).validate();
+			}
 
 			return endTagReturn;
 		} catch(IOException e) {
