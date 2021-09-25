@@ -342,11 +342,12 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2021-09-25T02:39:59-05:00" -->
+		<!-- dateModified="2021-09-25T03:26:20-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a URL context when automatic detection is not possible.
-				The body of this tag, after trimming, is valid <a href="https://tools.ietf.org/html/rfc3986">RFC 3986 URL</a>.
+				The body of this tag, after trimming, is valid <a href="https://tools.ietf.org/html/rfc3986">RFC 3986 URI</a>
+				or <a href="https://tools.ietf.org/html/rfc3987">RFC 3987 IRI</a>.
 			</p>
 			<p>
 				Depending on context, the URL will be passed through
@@ -355,7 +356,6 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 			</p>
 			<p>
 				The content type of this tag is <code>text/url</code>.
-				Must be valid URL-encoded characters only.
 			</p>
 			<p>
 				To establish a URL context with more full-featured URL manipulation, see also
