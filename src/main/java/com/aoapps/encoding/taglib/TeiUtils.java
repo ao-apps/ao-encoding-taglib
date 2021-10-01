@@ -42,11 +42,11 @@ final public class TeiUtils {
 
 	/**
 	 * Checks that a type is a valid MediaType.
-	 * 
+	 *
 	 * @param  messages  the list of messages to add to, maybe <code>null</code>
-	 * 
+	 *
 	 * @return  the list of messages.  A new list will have been created if the <code>message</code> parameter was <code>null</code>
-	 * 
+	 *
 	 * @see  MediaType#getMediaTypeByName(java.lang.String)
 	 * @see  MediaType#getMediaTypeForContentType(java.lang.String)
 	 */
@@ -73,7 +73,7 @@ final public class TeiUtils {
 						messages,
 						new ValidationMessage(
 							data.getId(),
-							err.getMessage()
+							err.getLocalizedMessage()
 						)
 					);
 				}

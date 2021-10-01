@@ -25,6 +25,7 @@ package com.aoapps.encoding.taglib;
 import com.aoapps.encoding.MediaType;
 import com.aoapps.encoding.ValidMediaInput;
 import com.aoapps.lang.NullArgumentException;
+import com.aoapps.servlet.attribute.ScopeEE;
 import javax.servlet.ServletRequest;
 
 /**
@@ -41,16 +42,17 @@ import javax.servlet.ServletRequest;
 // Java 9: Make module-private
 public class RequestEncodingContext {
 
-	private static final String CURRENT_CONTEXT_REQUEST_ATTRIBUTE = RequestEncodingContext.class.getName() + ".currentContext";
+	private static final ScopeEE.Request.Attribute<RequestEncodingContext> CURRENT_CONTEXT_REQUEST_ATTRIBUTE =
+		ScopeEE.REQUEST.attribute(RequestEncodingContext.class.getName() + ".currentContext");
 
 	// Java 9: Make module-private
 	public static RequestEncodingContext getCurrentContext(ServletRequest request) {
-		return (RequestEncodingContext)request.getAttribute(CURRENT_CONTEXT_REQUEST_ATTRIBUTE);
+		return CURRENT_CONTEXT_REQUEST_ATTRIBUTE.context(request).get();
 	}
 
 	// Java 9: Make module-private
 	public static void setCurrentContext(ServletRequest request, RequestEncodingContext context) {
-		request.setAttribute(CURRENT_CONTEXT_REQUEST_ATTRIBUTE, context);
+		CURRENT_CONTEXT_REQUEST_ATTRIBUTE.context(request).set(context);
 	}
 
 	/**
