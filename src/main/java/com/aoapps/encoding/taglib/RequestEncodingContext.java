@@ -83,14 +83,14 @@ public class RequestEncodingContext {
 	 * The content type that is currently be written.
 	 */
 	// Java 9: Make module-private
-	final public MediaType contentType;
+	public final MediaType contentType;
 
 	/**
 	 * The validator that is ensuring the data being written is valid for the current
 	 * outputType.
 	 */
 	// Java 9: Make module-private
-	final public ValidMediaInput validMediaInput;
+	public final ValidMediaInput validMediaInput;
 
 	// Java 9: Make module-private
 	public RequestEncodingContext(MediaType contentType, ValidMediaInput validMediaInput) {

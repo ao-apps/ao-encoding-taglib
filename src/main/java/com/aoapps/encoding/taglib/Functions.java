@@ -28,7 +28,7 @@ import com.aoapps.encoding.servlet.DoctypeEE;
 import com.aoapps.encoding.servlet.SerializationEE;
 import com.aoapps.servlet.filter.FunctionContext;
 
-final public class Functions {
+public final class Functions {
 
 	private Functions() {
 	}

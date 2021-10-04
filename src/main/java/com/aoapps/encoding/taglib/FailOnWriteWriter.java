@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 
 // TODO: Move to ao-hodgepodge (and eventually a separate ao-io/ao-io-utils)?
 // Java 9: Make module-private
-final public class FailOnWriteWriter extends Writer {
+public final class FailOnWriteWriter extends Writer {
 
 	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, FailOnWriteWriter.class);
 

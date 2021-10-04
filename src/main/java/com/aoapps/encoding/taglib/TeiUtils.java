@@ -36,7 +36,7 @@ import javax.servlet.jsp.tagext.ValidationMessage;
  *
  * @author  AO Industries, Inc.
  */
-final public class TeiUtils {
+public final class TeiUtils {
 
 	private TeiUtils() {}
 
