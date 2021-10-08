@@ -50,7 +50,7 @@ public final class FailOnWriteWriter extends Writer {
 	}
 
 	@Override
-	public void write(char cbuf[]) throws IOException {
+	public void write(char[] cbuf) throws IOException {
 		throw new LocalizedIOException(RESOURCES, "noOutputAllowed");
 	}
 
