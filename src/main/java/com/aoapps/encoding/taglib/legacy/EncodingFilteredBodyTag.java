@@ -96,7 +96,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 		assert EVAL_BODY_FILTERED != EVAL_BODY_BUFFERED;
 	}
 
-	public EncodingFilteredBodyTag() {
+	protected EncodingFilteredBodyTag() {
 		init();
 	}
 

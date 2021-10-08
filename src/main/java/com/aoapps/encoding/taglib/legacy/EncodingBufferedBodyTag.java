@@ -81,7 +81,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 
 	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, EncodingBufferedBodyTag.class);
 
-	public EncodingBufferedBodyTag() {
+	protected EncodingBufferedBodyTag() {
 		init();
 	}
 

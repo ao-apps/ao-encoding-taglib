@@ -64,7 +64,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 
 	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, EncodingNullBodyTag.class);
 
-	public EncodingNullBodyTag() {
+	protected EncodingNullBodyTag() {
 		init();
 	}
 
