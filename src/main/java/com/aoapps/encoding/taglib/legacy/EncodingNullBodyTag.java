@@ -434,6 +434,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
 	protected void setMediaEncoderOptions(MediaEncoder mediaEncoder) {
+		// Do nothing
 	}
 
 	protected void writeEncoderPrefix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {

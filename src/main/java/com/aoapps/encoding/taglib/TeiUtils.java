@@ -36,9 +36,10 @@ import javax.servlet.jsp.tagext.ValidationMessage;
  *
  * @author  AO Industries, Inc.
  */
-public final class TeiUtils {
+public abstract class TeiUtils {
 
-	private TeiUtils() {}
+	/** Make no instances. */
+	private TeiUtils() {throw new AssertionError();}
 
 	/**
 	 * Checks that a type is a valid MediaType.

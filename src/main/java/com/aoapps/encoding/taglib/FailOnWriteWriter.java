@@ -42,6 +42,7 @@ public final class FailOnWriteWriter extends Writer {
 	}
 
 	private FailOnWriteWriter() {
+		// Do nothing
 	}
 
 	@Override

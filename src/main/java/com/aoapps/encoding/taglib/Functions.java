@@ -28,10 +28,10 @@ import com.aoapps.encoding.servlet.DoctypeEE;
 import com.aoapps.encoding.servlet.SerializationEE;
 import com.aoapps.servlet.filter.FunctionContext;
 
-public final class Functions {
+public abstract class Functions {
 
-	private Functions() {
-	}
+	/** Make no instances. */
+	private Functions() {throw new AssertionError();}
 
 	public static Serialization getSerialization() {
 		return SerializationEE.get(

@@ -43,7 +43,10 @@ import static javax.servlet.jsp.tagext.Tag.SKIP_PAGE;
  * @author  AO Industries, Inc.
  */
 @SuppressWarnings({"UseSpecificCatch", "TooBroadCatch"})
-final class BodyTagUtils  {
+abstract class BodyTagUtils  {
+
+	/** Make no instances. */
+	private BodyTagUtils() {throw new AssertionError();}
 
 	private static final Logger logger = Logger.getLogger(BodyTagUtils.class.getName());
 
@@ -135,11 +138,5 @@ final class BodyTagUtils  {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Make no instances.
-	 */
-	private BodyTagUtils() {
 	}
 }

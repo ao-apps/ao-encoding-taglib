@@ -487,6 +487,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
 	protected void setMediaEncoderOptions(MediaEncoder mediaEncoder) {
+		// Do nothing
 	}
 
 	protected void writeEncoderPrefix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {
