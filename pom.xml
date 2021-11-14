@@ -104,9 +104,15 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
 	</issueManagement>
 
 	<ciManagement>
+		<system>Jenkins</system>
+		<url>https://jenkins.aoindustries.com/job/ao/job/oss/job/encoding-taglib/</url>
+	</ciManagement>
+	<!-- Only one allowed in POM:
+	<ciManagement>
 		<system>GitHub Actions</system>
 		<url>https://github.com/ao-apps/ao-encoding-taglib/actions</url>
 	</ciManagement>
+	-->
 
 	<repositories>
 		<!-- Repository required here, too, so can find parent -->
@@ -221,9 +227,9 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
 											<includes>element-list, package-list</includes>
 											<outputDirectory>${project.build.directory}/offlineLinks/com.aoapps/ao-tempfiles-servlet</outputDirectory>
 										</artifactItem>
-										<!-- ao-javadoc-offline: <groupId>javax.el</groupId><artifactId>javax.el-api</artifactId> -->
-										<!-- ao-javadoc-offline: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId> -->
-										<!-- ao-javadoc-offline: <groupId>javax.servlet.jsp</groupId><artifactId>javax.servlet.jsp-api</artifactId> -->
+										<!-- ao-javadoc-offline: <groupId>javax.el</groupId><artifactId>javax.el-api</artifactId><classifier>javadoc</classifier> -->
+										<!-- ao-javadoc-offline: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId><classifier>javadoc</classifier> -->
+										<!-- ao-javadoc-offline: <groupId>javax.servlet.jsp</groupId><artifactId>javax.servlet.jsp-api</artifactId><classifier>javadoc</classifier> -->
 									</artifactItems>
 								</configuration>
 							</execution>
@@ -274,9 +280,9 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
 									<url>https://oss.aoapps.com/tempfiles/servlet/apidocs/</url>
 									<location>${project.build.directory}/offlineLinks/com.aoapps/ao-tempfiles-servlet</location>
 								</offlineLink>
-								<!-- ao-javadoc-offline: <groupId>javax.el</groupId><artifactId>javax.el-api</artifactId> -->
-								<!-- ao-javadoc-offline: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId> -->
-								<!-- ao-javadoc-offline: <groupId>javax.servlet.jsp</groupId><artifactId>javax.servlet.jsp-api</artifactId> -->
+								<!-- ao-javadoc-offline: <groupId>javax.el</groupId><artifactId>javax.el-api</artifactId><classifier>javadoc</classifier> -->
+								<!-- ao-javadoc-offline: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId><classifier>javadoc</classifier> -->
+								<!-- ao-javadoc-offline: <groupId>javax.servlet.jsp</groupId><artifactId>javax.servlet.jsp-api</artifactId><classifier>javadoc</classifier> -->
 							</offlineLinks>
 						</configuration>
 					</plugin>
