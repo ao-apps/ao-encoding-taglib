@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2013, 2015, 2016, 2017, 2019, 2020, 2021  AO Industries, Inc.
+ * Copyright (C) 2013, 2015, 2016, 2017, 2019, 2020, 2021, 2022  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -36,7 +36,7 @@ import javax.servlet.jsp.tagext.ValidationMessage;
  *
  * @author  AO Industries, Inc.
  */
-public abstract class TeiUtils {
+public final class TeiUtils {
 
 	/** Make no instances. */
 	private TeiUtils() {throw new AssertionError();}

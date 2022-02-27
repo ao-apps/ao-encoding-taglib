@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020, 2021  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -43,7 +43,7 @@ import static javax.servlet.jsp.tagext.Tag.SKIP_PAGE;
  * @author  AO Industries, Inc.
  */
 @SuppressWarnings({"UseSpecificCatch", "TooBroadCatch"})
-abstract class BodyTagUtils  {
+final class BodyTagUtils  {
 
 	/** Make no instances. */
 	private BodyTagUtils() {throw new AssertionError();}
