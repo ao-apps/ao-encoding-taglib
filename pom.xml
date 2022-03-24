@@ -48,8 +48,8 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
 			<li><a target="${javadoc.target}" href="${project.url}ao-encoding.tld/">Taglib Reference</a></li>
 			<li><a target="${javadoc.target}" href="${project.url}ao-encoding-legacy.tld/">Taglib Reference (Legacy)</a></li>
 		]]></javadoc.taglibReference>
-		<javadoc.relatedProjects><![CDATA[<div style="float:left; margin: 0 1em">
-			<h2 style="margin-top: 0em">Related Projects</h2>
+		<javadoc.relatedProjects><![CDATA[<div>
+			<h2>Related Projects</h2>
 			<ul>
 				<li><a target="${javadoc.target}" href="https://oss.aoapps.com/taglib/">AO Taglib</a></li>
 				<li><a target="${javadoc.target}" href="https://oss.newmediaworks.com/email-taglib/">NMW Email Taglib</a></li>
