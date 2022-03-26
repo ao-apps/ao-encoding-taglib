@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
-Copyright (C) 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021  AO Industries, Inc.
+Copyright (C) 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021, 2022  AO Industries, Inc.
 	support@aoindustries.com
 	7262 Bull Pen Cir
 	Mobile, AL 36695
@@ -80,8 +80,26 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	<short-name>encoding</short-name>
 	<uri>&tld_uri;</uri>
 	<tag>
+		<!-- datePublished="2022-03-25T17:25:18-05:00" -->
+		<description><![CDATA[
+			<p class="semanticcms-tag-reference-summary">
+				Manually establishes a CSS context when automatic detection is not possible.
+				The body of this tag is valid CSS.
+			</p>
+			<p>
+				The content type of this tag is <code>text/css</code>.
+			</p>
+			<p>
+				For more advanced scenarios, please use <a href="https://oss.aoapps.com/taglib/]]>&aoTld;<![CDATA[/tag-style">&lt;ao:style&gt;</a>.
+			</p>
+		]]></description>
+		<name>css</name>
+		<tag-class>&package;.CssTag</tag-class>
+		<body-content>&JSP;</body-content>
+	</tag>
+	<tag>
 		<!-- datePublished="2020-11-21T17:26:24-06:00" -->
-		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
+		<!-- dateModified="2022-03-25T17:25:18-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes an encoding context when automatic detection is not possible.
@@ -91,6 +109,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 				The content is checked for well-formedness based on its type:
 			</p>
 			<ul>
+				<li><code>css</code> or <code>text/css</code> - must be well-formed CSS content. (Note: Currently only checks character values.)</li>
 				<li><code>javascript</code>, <code>application/javascript</code>, or <code>text/javascript</code> - no validation</li>
 				<li><code>json</code> or <code>application/json</code> - no validation</li>
 				<li><code>ld_json</code> or <code>application/ld+json</code> - no validation</li>
@@ -194,7 +213,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2021-06-03T22:53:21-05:00" -->
+		<!-- dateModified="2022-03-25T17:25:18-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Writes the value with proper escaping based on the context of the tag.
@@ -212,6 +231,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 				The content is checked for well-formedness based on its type:
 			</p>
 			<ul>
+				<li><code>css</code> or <code>text/css</code> - must be well-formed CSS content. (Note: Currently only checks character values.)</li>
 				<li><code>javascript</code>, <code>application/javascript</code>, or <code>text/javascript</code> - no validation</li>
 				<li><code>json</code> or <code>application/json</code> - no validation</li>
 				<li><code>ld_json</code> or <code>application/ld+json</code> - no validation</li>
@@ -308,7 +328,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
+		<!-- dateModified="2022-03-25T17:25:18-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a plaintext context when automatic detection is not possible.
@@ -326,11 +346,16 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 				End of line conversions may also occur in some contexts.
 			</p>
 			<p>
-				When contained in JavaScript, this will automatically be surrounded by
-				double quotes and will be binary transparent through \uxxxx escape codes.
+				When contained in CSS, this will automatically be surrounded by double quotes.
 				The double quotes are automatically added to clearly separate data from
 				code.  Please note that this auto-quoting applies to all forms of data in
 				all tags, not just this text tag.
+			</p>
+			<p>
+				When contained in JavaScript, this will automatically be surrounded by
+				double quotes and will be binary transparent through \uxxxx escape codes.
+				The double quotes are automatically added to clearly separate data from
+				code.
 			</p>
 			<p>
 				The content type of this tag <code>text/plain</code>.
@@ -342,7 +367,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2021-09-25T23:27:50-05:00" -->
+		<!-- dateModified="2022-03-25T17:25:18-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a URL context when automatic detection is not possible.
@@ -353,6 +378,10 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 				Depending on context, the URL will be passed through
 				<a rel="nofollow" href="@{javadoc.link.javaee}javax/servlet/http/HttpServletResponse.html#encodeURL(java.lang.String)">HttpServletResponse.encodeURL</a>
 				to add any URL-based session state.  Session state will never be added to external links.
+			</p>
+			<p>
+				When contained in CSS, this will automatically be surrounded by <code>url("…")</code>.
+				Please note that this auto-quoting applies to all forms of data in all tags, not just this css tag.
 			</p>
 			<p>
 				The content type of this tag is <code>text/url</code>.
