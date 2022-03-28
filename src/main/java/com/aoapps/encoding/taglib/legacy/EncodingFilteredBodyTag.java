@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020, 2021  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -274,7 +274,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 					);
 				}
 				if(isNewValidator) {
-					((MediaValidator)validatingOut).validate();
+					((MediaValidator)validatingOut).validate(validatingOutputType.getTrimBuffer());
 				}
 				if(mode.buffered != newMode.buffered) {
 					throw new LocalizedJspTagException(
@@ -420,12 +420,12 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 			RequestEncodingContext.setCurrentContext(pageContext.getRequest(), validatingOutEncodingContext);
 			int endTagReturn = doEndTag(validatingOut);
 			if(isNewValidator) {
-				((MediaValidator)validatingOut).validate();
+				((MediaValidator)validatingOut).validate(validatingOutputType.getTrimBuffer());
 			}
 			BodyTagUtils.checkEndTagReturn(endTagReturn);
 			if(mediaEncoder != null) {
 				logger.finest("Writing encoder suffix");
-				writeEncoderSuffix(mediaEncoder, pageContext.getOut());
+				writeEncoderSuffix(mediaEncoder, pageContext.getOut(), validatingOutputType.getTrimBuffer());
 			}
 
 			// Write any suffix
@@ -494,8 +494,8 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 		mediaEncoder.writePrefixTo(out);
 	}
 
-	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {
-		mediaEncoder.writeSuffixTo(out);
+	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out, boolean trim) throws JspException, IOException {
+		mediaEncoder.writeSuffixTo(out, trim);
 	}
 
 	/**

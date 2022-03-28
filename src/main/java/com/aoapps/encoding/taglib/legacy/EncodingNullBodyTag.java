@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020, 2021  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -237,7 +237,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 					);
 				}
 				if(isNewValidator) {
-					((MediaValidator)validatingOut).validate();
+					((MediaValidator)validatingOut).validate(validatingOutputType.getTrimBuffer());
 				}
 			}
 			validatingOutputType = newOutputType;
@@ -369,7 +369,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 			BodyTagUtils.checkEndTagReturn(endTagReturn);
 			if(mediaEncoder != null) {
 				logger.finest("Writing encoder suffix");
-				writeEncoderSuffix(mediaEncoder, pageContext.getOut());
+				writeEncoderSuffix(mediaEncoder, pageContext.getOut(), validatingOutputType.getTrimBuffer());
 			}
 
 			// Write any suffix
@@ -441,8 +441,8 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 		mediaEncoder.writePrefixTo(out);
 	}
 
-	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {
-		mediaEncoder.writeSuffixTo(out);
+	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out, boolean trim) throws JspException, IOException {
+		mediaEncoder.writeSuffixTo(out, trim);
 	}
 
 	/**

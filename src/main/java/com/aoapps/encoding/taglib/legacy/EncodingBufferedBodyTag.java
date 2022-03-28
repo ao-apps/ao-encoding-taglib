@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020, 2021  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -125,6 +125,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	private transient boolean isNewValidator;
 	// Set in initCapture
 	private transient BufferWriter captureBuffer;
+	private transient MediaType captureType;
 	private transient MediaValidator captureValidator;
 	private transient boolean bodyUnbuffered;
 	// Set in doAfterBody, provided to doEndTag
@@ -142,6 +143,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 		validatingOut = null;
 		isNewValidator = false;
 		captureBuffer = null;
+		captureType = null;
 		captureValidator = null;
 		bodyUnbuffered = false;
 		capturedBody = EmptyResult.getInstance();
@@ -278,7 +280,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 					);
 				}
 				if(isNewValidator) {
-					((MediaValidator)validatingOut).validate();
+					((MediaValidator)validatingOut).validate(validatingOutputType.getTrimBuffer());
 				}
 			}
 			validatingOutputType = newOutputType;
@@ -322,14 +324,15 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	 */
 	private void initCapture() throws JspTagException, UnsupportedEncodingException {
 		assert captureBuffer == null;
+		assert captureType == null;
 		assert captureValidator == null;
 		ServletRequest request = pageContext.getRequest();
 		captureBuffer = EncodingBufferedTag.newBufferWriter(request, getTempFileThreshold());
-		final MediaType myContentType = getContentType();
-		captureValidator = MediaValidator.getMediaValidator(myContentType, captureBuffer);
+		captureType = getContentType();
+		captureValidator = MediaValidator.getMediaValidator(captureType, captureBuffer);
 		RequestEncodingContext.setCurrentContext(
 			request,
-			new RequestEncodingContext(myContentType, captureValidator)
+			new RequestEncodingContext(captureType, captureValidator)
 		);
 		bodyUnbuffered = BodyTagUtils.unbuffer(bodyContent, captureValidator);
 	}
@@ -376,11 +379,12 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 				bodyContent.writeOut(captureValidator);
 				bodyContent.clear();
 			}
-			captureValidator.validate();
+			captureValidator.validate(captureType.getTrimBuffer());
 			captureValidator.flush();
 			captureBuffer.close();
 			capturedBody = captureBuffer.getResult();
 			captureBuffer = null;
+			captureType = null;
 			captureValidator = null;
 			updateValidatingOut(bodyContent.getEnclosingWriter(), getOutputType());
 			RequestEncodingContext.setCurrentContext(pageContext.getRequest(), validatingOutEncodingContext);
@@ -427,7 +431,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 			BodyTagUtils.checkEndTagReturn(endTagReturn);
 			if(mediaEncoder != null) {
 				logger.finest("Writing encoder suffix");
-				writeEncoderSuffix(mediaEncoder, pageContext.getOut());
+				writeEncoderSuffix(mediaEncoder, pageContext.getOut(), validatingOutputType.getTrimBuffer());
 			}
 
 			// Write any suffix
@@ -502,8 +506,8 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 		mediaEncoder.writePrefixTo(out);
 	}
 
-	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {
-		mediaEncoder.writeSuffixTo(out);
+	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out, boolean trim) throws JspException, IOException {
+		mediaEncoder.writeSuffixTo(out, trim);
 	}
 
 	/**

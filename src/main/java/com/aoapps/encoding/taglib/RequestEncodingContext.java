@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2012, 2016, 2017, 2020, 2021  AO Industries, Inc.
+ * Copyright (C) 2012, 2016, 2017, 2020, 2021, 2022  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -23,9 +23,12 @@
 package com.aoapps.encoding.taglib;
 
 import com.aoapps.encoding.MediaType;
+import com.aoapps.encoding.MediaValidator;
 import com.aoapps.encoding.ValidMediaInput;
 import com.aoapps.lang.NullArgumentException;
+import com.aoapps.lang.io.NullWriter;
 import com.aoapps.servlet.attribute.ScopeEE;
+import java.io.UnsupportedEncodingException;
 import javax.servlet.ServletRequest;
 
 /**
@@ -62,19 +65,28 @@ public class RequestEncodingContext {
 	public static final RequestEncodingContext DISCARD = new RequestEncodingContext(
 		MediaType.TEXT,
 		new ValidMediaInput() {
+			private final MediaValidator textValidator;
+			{
+				try {
+					textValidator = MediaValidator.getMediaValidator(MediaType.TEXT, NullWriter.getInstance());
+				} catch(UnsupportedEncodingException e) {
+					throw new AssertionError("Validator must exist for " + MediaType.TEXT.name(), e);
+				}
+			}
 			@Override
 			public MediaType getValidMediaInputType() {
+				assert textValidator.getValidMediaInputType() == MediaType.TEXT;
 				return MediaType.TEXT;
 			}
 
 			@Override
 			public boolean isValidatingMediaInputType(MediaType inputType) {
-				return inputType == MediaType.TEXT;
+				return textValidator.isValidatingMediaInputType(inputType);
 			}
 
 			@Override
-			public boolean canSkipValidation(MediaType inputType) {
-				return true;
+			public boolean canSkipValidation(MediaType outputType) {
+				return textValidator.isValidatingMediaInputType(outputType);
 			}
 		}
 	);

@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2012, 2013, 2016, 2017, 2020, 2021  AO Industries, Inc.
+ * Copyright (C) 2012, 2013, 2016, 2017, 2020, 2021, 2022  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -162,7 +162,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 					}
 				} finally {
 					logger.finest("Writing encoder suffix");
-					writeEncoderSuffix(mediaEncoder, out);
+					writeEncoderSuffix(mediaEncoder, out, newOutputType.getTrimBuffer());
 				}
 			} else {
 				// If parentValidMediaInput exists and is validating our output type, no additional validation is required
@@ -194,7 +194,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 					);
 					try {
 						doTag(validator);
-						validator.validate();
+						validator.validate(newOutputType.getTrimBuffer());
 					} finally {
 						RequestEncodingContext.setCurrentContext(request, parentEncodingContext);
 					}
@@ -204,7 +204,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 			// Write any suffix
 			writeSuffix(containerType, containerValidator);
 			if(isNewContainerValidator) {
-				((MediaValidator)containerValidator).validate();
+				((MediaValidator)containerValidator).validate(containerType.getTrimBuffer());
 			}
 		}
 	}
@@ -272,8 +272,8 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 		// Do nothing by default
 	}
 
-	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {
-		mediaEncoder.writeSuffixTo(out);
+	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out, boolean trim) throws JspException, IOException {
+		mediaEncoder.writeSuffixTo(out, trim);
 	}
 
 	/**
