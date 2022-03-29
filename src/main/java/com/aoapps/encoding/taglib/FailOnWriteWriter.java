@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2012, 2016, 2017, 2019, 2020, 2021  AO Industries, Inc.
+ * Copyright (C) 2012, 2016, 2017, 2019, 2020, 2021, 2022  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -24,13 +24,14 @@ package com.aoapps.encoding.taglib;
 
 import com.aoapps.lang.i18n.Resources;
 import com.aoapps.lang.io.LocalizedIOException;
+import com.aoapps.lang.io.NoClose;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ResourceBundle;
 
 // TODO: Move to ao-hodgepodge (and eventually a separate ao-io/ao-io-utils)?
 // Java 9: Make module-private
-public final class FailOnWriteWriter extends Writer {
+public final class FailOnWriteWriter extends Writer implements NoClose {
 
 	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, FailOnWriteWriter.class);
 

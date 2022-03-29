@@ -37,7 +37,7 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
 		shortTitle="Changelog"
 		tocLevels="1"
 		datePublished="2020-11-18T11:39:31-06:00"
-		dateModified="2022-03-25T17:25:18-05:00"
+		dateModified="2022-03-28T18:05:16-05:00"
 	>
 		<c:if test="${fn:endsWith('@{project.version}', '-SNAPSHOT') and !fn:endsWith('@{project.version}', '-POST-SNAPSHOT')}">
 			<changelog:release
@@ -54,6 +54,7 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
 							<li><core:link page="ao-encoding.tld/tag-css" /></li>
 						</ol>
 					</li>
+					<li>New interface <code>NoClose</code> along with static <code>wrap(…)</code> methods to avoid duplicate wrapping.</li>
 				</ul>
 			</changelog:release>
 		</c:if>
