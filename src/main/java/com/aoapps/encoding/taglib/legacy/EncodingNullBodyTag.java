@@ -84,6 +84,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	private transient boolean isNewContainerValidator;
 	private transient boolean writePrefixSuffix;
 	// Set in updateValidatingOut
+	private transient JspWriter directOut;
 	private transient MediaType validatingOutputType;
 	private transient MediaEncoder mediaEncoder;
 	private transient RequestEncodingContext validatingOutEncodingContext;
@@ -98,6 +99,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 		containerValidator = null;
 		isNewContainerValidator = false;
 		writePrefixSuffix = false;
+		directOut = null;
 		validatingOutputType = null;
 		mediaEncoder = null;
 		validatingOutEncodingContext = null;
@@ -172,7 +174,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	 * When the output type changes, which can happen during body invocation, the validating variables will be updated.
 	 */
 	private void updateValidatingOut(JspWriter out, MediaType newOutputType) throws JspException, IOException {
-		if(validatingOut == null || newOutputType != validatingOutputType) {
+		if(validatingOut == null || out != directOut || newOutputType != validatingOutputType) {
 			final MediaEncoder newMediaEncoder;
 			final RequestEncodingContext newValidatingOutEncodingContext;
 			final Writer newValidatingOut;
@@ -240,6 +242,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 					((MediaValidator)validatingOut).validate(validatingOutputType.getTrimBuffer());
 				}
 			}
+			directOut = out;
 			validatingOutputType = newOutputType;
 			mediaEncoder = newMediaEncoder;
 			validatingOutEncodingContext = newValidatingOutEncodingContext;

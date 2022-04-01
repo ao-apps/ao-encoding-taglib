@@ -126,6 +126,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	private transient Writer containerValidator;
 	private transient boolean isNewContainerValidator;
 	// Set in updateValidatingOut
+	private transient JspWriter directOut;
 	private transient MediaType validatingOutputType;
 	private transient MediaEncoder mediaEncoder;
 	private transient RequestEncodingContext validatingOutEncodingContext;
@@ -140,6 +141,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 		containerType = null;
 		containerValidator = null;
 		isNewContainerValidator = false;
+		directOut = null;
 		validatingOutputType = null;
 		mediaEncoder = null;
 		validatingOutEncodingContext = null;
@@ -215,7 +217,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 	 */
 	private void updateValidatingOut(JspWriter out) throws JspException, IOException {
 		final MediaType newOutputType = getContentType();
-		if(validatingOut == null || newOutputType != validatingOutputType) {
+		if(validatingOut == null || out != directOut || newOutputType != validatingOutputType) {
 			final MediaEncoder newMediaEncoder;
 			final RequestEncodingContext newValidatingOutEncodingContext;
 			final Writer newValidatingOut;
@@ -287,6 +289,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 					);
 				}
 			}
+			directOut = out;
 			validatingOutputType = newOutputType;
 			mediaEncoder = newMediaEncoder;
 			validatingOutEncodingContext = newValidatingOutEncodingContext;
