@@ -125,7 +125,6 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 					logger.finer("containerType from responseContentType: " + containerType + " from " + responseContentType);
 				}
 				// Need to add validator
-				// TODO: Only validate when in development mode for performance?
 				containerValidator = MediaValidator.getMediaValidator(containerType, out);
 				isNewContainerValidator = true;
 				if(logger.isLoggable(Level.FINER)) {
