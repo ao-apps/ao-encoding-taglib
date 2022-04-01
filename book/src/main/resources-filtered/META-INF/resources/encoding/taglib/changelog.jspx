@@ -37,7 +37,7 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
 		shortTitle="Changelog"
 		tocLevels="1"
 		datePublished="2020-11-18T11:39:31-06:00"
-		dateModified="2022-03-28T18:05:16-05:00"
+		dateModified="2022-04-01T16:42:13-05:00"
 	>
 		<c:if test="${fn:endsWith('@{project.version}', '-SNAPSHOT') and !fn:endsWith('@{project.version}', '-POST-SNAPSHOT')}">
 			<changelog:release
@@ -55,6 +55,7 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
 						</ol>
 					</li>
 					<li>New interface <code>NoClose</code> along with static <code>wrap(…)</code> methods to avoid duplicate wrapping.</li>
+					<li>More thorough internal character validation, with additional optimizations.</li>
 				</ul>
 			</changelog:release>
 		</c:if>

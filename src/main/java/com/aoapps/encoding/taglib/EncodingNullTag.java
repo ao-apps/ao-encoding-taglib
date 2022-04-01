@@ -28,6 +28,7 @@ import com.aoapps.encoding.MediaType;
 import com.aoapps.encoding.MediaValidator;
 import com.aoapps.encoding.MediaWriter;
 import com.aoapps.encoding.servlet.EncodingContextEE;
+import com.aoapps.lang.Coercion;
 import com.aoapps.lang.io.NullWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -95,7 +96,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 			// suffix skipped
 		} else {
 			final HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
-			final JspWriter out = pageContext.getOut();
+			final JspWriter directOut = pageContext.getOut();
 
 			// Determine the container's content type and validator
 			final MediaType containerType;
@@ -110,7 +111,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 				assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerType)
 					: "It is a bug in the parent to not validate its input consistent with its content type";
 				// Already validated
-				containerValidator = out;
+				containerValidator = directOut;
 				isNewContainerValidator = false;
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("containerValidator from parentEncodingContext: " + containerValidator);
@@ -125,7 +126,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 					logger.finer("containerType from responseContentType: " + containerType + " from " + responseContentType);
 				}
 				// Need to add validator
-				containerValidator = MediaValidator.getMediaValidator(containerType, out);
+				containerValidator = MediaValidator.getMediaValidator(containerType, directOut);
 				isNewContainerValidator = true;
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("containerValidator from containerType: " + containerValidator + " from " + containerType);
@@ -145,10 +146,11 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 				logger.finest("Setting encoder options");
 				setMediaEncoderOptions(mediaEncoder);
 				// Encode our output.  The encoder guarantees valid output for our parent.
+				Writer optimized = Coercion.optimize(containerValidator, mediaEncoder);
 				logger.finest("Writing encoder prefix");
-				writeEncoderPrefix(mediaEncoder, out);
+				writeEncoderPrefix(mediaEncoder, optimized);
 				try {
-					MediaWriter mediaWriter = new MediaWriter(encodingContext, mediaEncoder, out);
+					MediaWriter mediaWriter = new MediaWriter(encodingContext, mediaEncoder, optimized, true);
 					RequestEncodingContext.setCurrentContext(
 						request,
 						new RequestEncodingContext(newOutputType, mediaWriter)
@@ -161,7 +163,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 					}
 				} finally {
 					logger.finest("Writing encoder suffix");
-					writeEncoderSuffix(mediaEncoder, out, newOutputType.getTrimBuffer());
+					writeEncoderSuffix(mediaEncoder, optimized, newOutputType.getTrimBuffer());
 				}
 			} else {
 				// If parentValidMediaInput exists and is validating our output type, no additional validation is required
@@ -177,13 +179,13 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 						new RequestEncodingContext(newOutputType, parentEncodingContext.validMediaInput)
 					);
 					try {
-						doTag(out);
+						doTag(containerValidator);
 					} finally {
 						RequestEncodingContext.setCurrentContext(request, parentEncodingContext);
 					}
 				} else {
 					// Not using an encoder and parent doesn't validate our output, validate our own output.
-					MediaValidator validator = MediaValidator.getMediaValidator(newOutputType, out);
+					MediaValidator validator = MediaValidator.getMediaValidator(newOutputType, containerValidator);
 					if(logger.isLoggable(Level.FINER)) {
 						logger.finer("Using MediaValidator: " + validator);
 					}
@@ -236,6 +238,9 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 	 * This default implementation prints nothing.
 	 * </p>
 	 *
+	 * @param  out  Validates all characters against the container media type.
+	 *              If passed-through, this will be a {@link JspWriter}.
+	 *
 	 * @see  #getOutputType()
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
@@ -252,7 +257,12 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 		// Do nothing
 	}
 
-	protected void writeEncoderPrefix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {
+	/**
+	 * @param  out  Validates all characters against the container media type,
+	 *              already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}
+	 *              If passed-through, this will be a {@link JspWriter}.
+	 */
+	protected void writeEncoderPrefix(MediaEncoder mediaEncoder, Writer out) throws JspException, IOException {
 		mediaEncoder.writePrefixTo(out);
 	}
 
@@ -260,18 +270,28 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 	 * Once the out {@link JspWriter} has been replaced to output the proper content
 	 * type, this version of {@link #doTag()} is called.
 	 * <p>
-	 * The body, if present, has already been invoked and any output discarded.
+	 * {@linkplain JspFragment The body}, if present, has {@linkplain JspFragment#invoke(java.io.Writer) already been invoked}
+	 * with any output discarded.
 	 * </p>
 	 * <p>
 	 * This default implementation does nothing.
 	 * </p>
+	 *
+	 * @param  out  When the output type is {@code null}, will throw an exception if anything written,
+	 *              otherwise validates all characters against the output type.
+	 *              If passed-through, this will be a {@link JspWriter}.
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
 	protected void doTag(Writer out) throws JspException, IOException {
 		// Do nothing by default
 	}
 
-	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out, boolean trim) throws JspException, IOException {
+	/**
+	 * @param  out  Validates all characters against the container media type,
+	 *              already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}
+	 *              If passed-through, this will be a {@link JspWriter}.
+	 */
+	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, Writer out, boolean trim) throws JspException, IOException {
 		mediaEncoder.writeSuffixTo(out, trim);
 	}
 
@@ -284,6 +304,9 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 	 * <p>
 	 * This default implementation prints nothing.
 	 * </p>
+	 *
+	 * @param  out  Validates all characters against the container media type.
+	 *              If passed-through, this will be a {@link JspWriter}.
 	 *
 	 * @see  #getOutputType()
 	 */

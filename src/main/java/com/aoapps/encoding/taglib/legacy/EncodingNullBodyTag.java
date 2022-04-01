@@ -30,6 +30,7 @@ import com.aoapps.encoding.MediaWriter;
 import com.aoapps.encoding.servlet.EncodingContextEE;
 import com.aoapps.encoding.taglib.FailOnWriteWriter;
 import com.aoapps.encoding.taglib.RequestEncodingContext;
+import com.aoapps.lang.Coercion;
 import com.aoapps.lang.i18n.Resources;
 import com.aoapps.lang.io.NullWriter;
 import com.aoapps.servlet.BodyContentImplCoercionOptimizerInitializer;
@@ -84,9 +85,9 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	private transient boolean isNewContainerValidator;
 	private transient boolean writePrefixSuffix;
 	// Set in updateValidatingOut
-	private transient JspWriter directOut;
 	private transient MediaType validatingOutputType;
 	private transient MediaEncoder mediaEncoder;
+	private transient Writer optimized;
 	private transient RequestEncodingContext validatingOutEncodingContext;
 	private transient Writer validatingOut;
 	private transient boolean isNewValidator;
@@ -99,9 +100,9 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 		containerValidator = null;
 		isNewContainerValidator = false;
 		writePrefixSuffix = false;
-		directOut = null;
 		validatingOutputType = null;
 		mediaEncoder = null;
+		optimized = null;
 		validatingOutEncodingContext = null;
 		validatingOut = null;
 		isNewValidator = false;
@@ -118,7 +119,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	public int doStartTag() throws JspException {
 		try {
 			final ServletRequest request = pageContext.getRequest();
-			final JspWriter out = pageContext.getOut();
+			final JspWriter directOut = pageContext.getOut();
 
 			parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
 
@@ -132,7 +133,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 				assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerType)
 					: "It is a bug in the parent to not validate its input consistent with its content type";
 				// Already validated
-				containerValidator = out;
+				containerValidator = directOut;
 				isNewContainerValidator = false;
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("containerValidator from parentEncodingContext: " + containerValidator);
@@ -148,7 +149,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 					logger.finer("containerType from responseContentType: " + containerType + " from " + responseContentType);
 				}
 				// Need to add validator
-				containerValidator = MediaValidator.getMediaValidator(containerType, out);
+				containerValidator = MediaValidator.getMediaValidator(containerType, directOut);
 				isNewContainerValidator = true;
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("containerValidator from containerType: " + containerValidator + " from " + containerType);
@@ -160,7 +161,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 			writePrefixSuffix = (newOutputType != null);
 			if(writePrefixSuffix) writePrefix(containerType, containerValidator);
 
-			updateValidatingOut(out, newOutputType);
+			updateValidatingOut(newOutputType);
 			RequestEncodingContext.setCurrentContext(request, validatingOutEncodingContext);
 			return checkStartTagReturn(doStartTag(validatingOut));
 		} catch(IOException e) {
@@ -172,15 +173,17 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	 * Sets or replaces the validating out variables based on the current {@linkplain #getOutputType() output type}.
 	 * When the output type changes, which can happen during body invocation, the validating variables will be updated.
 	 */
-	private void updateValidatingOut(JspWriter out, MediaType newOutputType) throws JspException, IOException {
-		if(validatingOut == null || out != directOut || newOutputType != validatingOutputType) {
+	private void updateValidatingOut(MediaType newOutputType) throws JspException, IOException {
+		if(validatingOut == null || newOutputType != validatingOutputType) {
 			final MediaEncoder newMediaEncoder;
+			final Writer newOptimized;
 			final RequestEncodingContext newValidatingOutEncodingContext;
 			final Writer newValidatingOut;
 			final boolean newIsNewValidator;
 			if(newOutputType == null) {
 				// No output, error if anything written.
 				newMediaEncoder = null;
+				newOptimized = null;
 				// prefix skipped
 				newValidatingOutEncodingContext = parentEncodingContext;
 				newValidatingOut = FailOnWriteWriter.getInstance();
@@ -199,13 +202,15 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 					logger.finest("Setting encoder options");
 					setMediaEncoderOptions(newMediaEncoder);
 					// Encode our output.  The encoder guarantees valid output for our parent.
+					newOptimized = Coercion.optimize(containerValidator, newMediaEncoder);
 					logger.finest("Writing encoder prefix");
-					writeEncoderPrefix(newMediaEncoder, out); // TODO: Skip prefix and suffix when empty?
-					MediaWriter mediaWriter = new MediaWriter(encodingContext, newMediaEncoder, out);
+					writeEncoderPrefix(newMediaEncoder, newOptimized); // TODO: Skip prefix and suffix when empty?
+					MediaWriter mediaWriter = new MediaWriter(encodingContext, newMediaEncoder, newOptimized, true);
 					newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, mediaWriter);
 					newValidatingOut = mediaWriter;
 					newIsNewValidator = false;
 				} else {
+					newOptimized = null;
 					// If parentValidMediaInput exists and is validating our output type, no additional validation is required
 					if(
 						parentEncodingContext != null
@@ -215,11 +220,11 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 							logger.finer("Passing-through with validating parent: " + parentEncodingContext.validMediaInput);
 						}
 						newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, parentEncodingContext.validMediaInput);
-						newValidatingOut = out;
+						newValidatingOut = containerValidator;
 						newIsNewValidator = false;
 					} else {
 						// Not using an encoder and parent doesn't validate our output, validate our own output.
-						MediaValidator validator = MediaValidator.getMediaValidator(newOutputType, out);
+						MediaValidator validator = MediaValidator.getMediaValidator(newOutputType, containerValidator);
 						if(logger.isLoggable(Level.FINER)) {
 							logger.finer("Using MediaValidator: " + validator);
 						}
@@ -241,9 +246,9 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 					((MediaValidator)validatingOut).validate(validatingOutputType.getTrimBuffer());
 				}
 			}
-			directOut = out;
 			validatingOutputType = newOutputType;
 			mediaEncoder = newMediaEncoder;
+			optimized = newOptimized;
 			validatingOutEncodingContext = newValidatingOutEncodingContext;
 			validatingOut = newValidatingOut;
 			isNewValidator = newIsNewValidator;
@@ -254,7 +259,9 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	 * Once the out {@link JspWriter} has been replaced to output the proper content
 	 * type, this version of {@link #doStartTag()} is called.
 	 *
-	 * @param  out  the output.  If passed-through, this will be a {@link JspWriter}
+	 * @param  out  When the output type is {@code null}, will throw an exception if anything written,
+	 *              otherwise validates all characters against the output type.
+	 *              If passed-through, this will be a {@link JspWriter}.
 	 *
 	 * @return  Must return either {@link #EVAL_BODY_BUFFERED} (the default) or {@link #SKIP_BODY}
 	 */
@@ -328,7 +335,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 				}
 				bodyContent.clear();
 			}
-			updateValidatingOut(bodyContent.getEnclosingWriter(), getOutputType());
+			updateValidatingOut(getOutputType());
 			RequestEncodingContext.setCurrentContext(pageContext.getRequest(), validatingOutEncodingContext);
 			int afterBodyReturn = BodyTagUtils.checkAfterBodyReturn(doAfterBody(validatingOut));
 			if(afterBodyReturn == EVAL_BODY_AGAIN) {
@@ -344,7 +351,9 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	 * While the out {@link JspWriter} is still replaced to output the proper content
 	 * type, this version of {@link #doAfterBody()} is called.
 	 *
-	 * @param  out  the output.  If passed-through, this will be a {@link JspWriter}
+	 * @param  out  When the output type is {@code null}, will throw an exception if anything written,
+	 *              otherwise validates all characters against the output type.
+	 *              If passed-through, this will be a {@link JspWriter}.
 	 *
 	 * @return  Must return either {@link #SKIP_BODY} (the default) or {@link #EVAL_BODY_AGAIN}
 	 */
@@ -361,23 +370,22 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	@Override
 	public int doEndTag() throws JspException {
 		try {
-			final JspWriter out = pageContext.getOut();
-			updateValidatingOut(out, getOutputType());
+			updateValidatingOut(getOutputType());
 			RequestEncodingContext.setCurrentContext(pageContext.getRequest(), validatingOutEncodingContext);
 			int endTagReturn = doEndTag(validatingOut);
 			if(isNewValidator) {
-				((MediaValidator)validatingOut).validate();
+				((MediaValidator)validatingOut).validate(validatingOutputType.getTrimBuffer());
 			}
 			BodyTagUtils.checkEndTagReturn(endTagReturn);
 			if(mediaEncoder != null) {
 				logger.finest("Writing encoder suffix");
-				writeEncoderSuffix(mediaEncoder, out, validatingOutputType.getTrimBuffer());
+				writeEncoderSuffix(mediaEncoder, optimized, validatingOutputType.getTrimBuffer());
 			}
 
 			// Write any suffix
 			if(writePrefixSuffix) writeSuffix(containerType, containerValidator);
 			if(isNewContainerValidator) {
-				((MediaValidator)containerValidator).validate();
+				((MediaValidator)containerValidator).validate(containerType.getTrimBuffer());
 			}
 
 			return endTagReturn;
@@ -390,7 +398,9 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	 * While the out {@link JspWriter} is still replaced to output the proper content
 	 * type, this version of {@link #doEndTag()} is called.
 	 *
-	 * @param  out  the output.  If passed-through, this will be a {@link JspWriter}
+	 * @param  out  When the output type is {@code null}, will throw an exception if anything written,
+	 *              otherwise validates all characters against the output type.
+	 *              If passed-through, this will be a {@link JspWriter}.
 	 *
 	 * @return  Must return either {@link #EVAL_PAGE} (the default) or {@link #SKIP_PAGE}
 	 */
@@ -423,6 +433,9 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	 * This default implementation prints nothing.
 	 * </p>
 	 *
+	 * @param  out  Validates all characters against the container media type.
+	 *              If passed-through, this will be a {@link JspWriter}.
+	 *
 	 * @see  #getOutputType()
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
@@ -439,11 +452,21 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 		// Do nothing
 	}
 
-	protected void writeEncoderPrefix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {
+	/**
+	 * @param  out  Validates all characters against the container media type,
+	 *              already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}
+	 *              If passed-through, this will be a {@link JspWriter}.
+	 */
+	protected void writeEncoderPrefix(MediaEncoder mediaEncoder, Writer out) throws JspException, IOException {
 		mediaEncoder.writePrefixTo(out);
 	}
 
-	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out, boolean trim) throws JspException, IOException {
+	/**
+	 * @param  out  Validates all characters against the container media type,
+	 *              already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}
+	 *              If passed-through, this will be a {@link JspWriter}.
+	 */
+	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, Writer out, boolean trim) throws JspException, IOException {
 		mediaEncoder.writeSuffixTo(out, trim);
 	}
 
@@ -456,6 +479,9 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 	 * <p>
 	 * This default implementation prints nothing.
 	 * </p>
+	 *
+	 * @param  out  Validates all characters against the container media type.
+	 *              If passed-through, this will be a {@link JspWriter}.
 	 *
 	 * @see  #getOutputType()
 	 */

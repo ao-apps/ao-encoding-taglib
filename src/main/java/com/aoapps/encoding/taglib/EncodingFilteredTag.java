@@ -28,6 +28,7 @@ import com.aoapps.encoding.MediaType;
 import com.aoapps.encoding.MediaValidator;
 import com.aoapps.encoding.MediaWriter;
 import com.aoapps.encoding.servlet.EncodingContextEE;
+import com.aoapps.lang.Coercion;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.logging.Level;
@@ -75,8 +76,8 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 	private static final Logger logger = Logger.getLogger(EncodingFilteredTag.class.getName());
 
 	/**
-	 * Gets the type of data that is contained by this tag.
-	 * This is also the output type.
+	 * Gets the type of data that is contained by this tag.  This is used to determine the correct
+	 * encoder.  This is also the output type.
 	 */
 	public abstract MediaType getContentType();
 
@@ -93,7 +94,7 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 		final RequestEncodingContext parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
 		final MediaType newOutputType = getContentType();
 		final HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
-		final JspWriter out = pageContext.getOut();
+		final JspWriter directOut = pageContext.getOut();
 
 		// Determine the container's content type and validator
 		final MediaType containerType;
@@ -108,7 +109,7 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 			assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerType)
 				: "It is a bug in the parent to not validate its input consistent with its content type";
 			// Already validated
-			containerValidator = out;
+			containerValidator = directOut;
 			isNewContainerValidator = false;
 			if(logger.isLoggable(Level.FINER)) {
 				logger.finer("containerValidator from parentEncodingContext: " + containerValidator);
@@ -123,7 +124,7 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 				logger.finer("containerType from responseContentType: " + containerType + " from " + responseContentType);
 			}
 			// Need to add validator
-			containerValidator = MediaValidator.getMediaValidator(containerType, out);
+			containerValidator = MediaValidator.getMediaValidator(containerType, directOut);
 			isNewContainerValidator = true;
 			if(logger.isLoggable(Level.FINER)) {
 				logger.finer("containerValidator from containerType: " + containerValidator + " from " + containerType);
@@ -143,10 +144,11 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 			logger.finest("Setting encoder options");
 			setMediaEncoderOptions(mediaEncoder);
 			// Encode both our output and the content.  The encoder validates our input and guarantees valid output for our parent.
+			Writer optimized = Coercion.optimize(containerValidator, mediaEncoder);
 			logger.finest("Writing encoder prefix");
-			writeEncoderPrefix(mediaEncoder, out);
+			writeEncoderPrefix(mediaEncoder, optimized);
 			try {
-				MediaWriter mediaWriter = new MediaWriter(encodingContext, mediaEncoder, out);
+				MediaWriter mediaWriter = new MediaWriter(encodingContext, mediaEncoder, optimized, true);
 				RequestEncodingContext.setCurrentContext(
 					request,
 					new RequestEncodingContext(newOutputType, mediaWriter)
@@ -159,7 +161,7 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 				}
 			} finally {
 				logger.finest("Writing encoder suffix");
-				writeEncoderSuffix(mediaEncoder, out, newOutputType.getTrimBuffer());
+				writeEncoderSuffix(mediaEncoder, optimized, newOutputType.getTrimBuffer());
 			}
 		} else {
 			// If parentValidMediaInput exists and is validating our output type, no additional validation is required
@@ -175,13 +177,13 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 					new RequestEncodingContext(newOutputType, parentEncodingContext.validMediaInput)
 				);
 				try {
-					doTag(out);
+					doTag(containerValidator);
 				} finally {
 					RequestEncodingContext.setCurrentContext(request, parentEncodingContext);
 				}
 			} else {
 				// Not using an encoder and parent doesn't validate our output, validate our own output.
-				MediaValidator validator = MediaValidator.getMediaValidator(newOutputType, out);
+				MediaValidator validator = MediaValidator.getMediaValidator(newOutputType, containerValidator);
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("Using MediaValidator: " + validator);
 				}
@@ -213,6 +215,9 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 	 * <p>
 	 * This default implementation prints nothing.
 	 * </p>
+	 *
+	 * @param  out  Validates all characters against the container media type.
+	 *              If passed-through, this will be a {@link JspWriter}.
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
 	protected void writePrefix(MediaType containerType, Writer out) throws JspException, IOException {
@@ -228,7 +233,12 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 		// Do nothing
 	}
 
-	protected void writeEncoderPrefix(MediaEncoder mediaEncoder, JspWriter out) throws JspException, IOException {
+	/**
+	 * @param  out  Validates all characters against the container media type,
+	 *              already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}
+	 *              If passed-through, this will be a {@link JspWriter}.
+	 */
+	protected void writeEncoderPrefix(MediaEncoder mediaEncoder, Writer out) throws JspException, IOException {
 		mediaEncoder.writePrefixTo(out);
 	}
 
@@ -240,7 +250,8 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 	 * of the JSP body, if present.
 	 * </p>
 	 *
-	 * @param  out  the output.  If passed-through, this will be a {@link JspWriter}
+	 * @param  out  Validates all characters against the content type.
+	 *              If passed-through, this will be a {@link JspWriter}.
 	 */
 	protected void doTag(Writer out) throws JspException, IOException {
 		JspFragment body = getJspBody();
@@ -254,7 +265,12 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 		}
 	}
 
-	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, JspWriter out, boolean trim) throws JspException, IOException {
+	/**
+	 * @param  out  Validates all characters against the container media type,
+	 *              already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}
+	 *              If passed-through, this will be a {@link JspWriter}.
+	 */
+	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, Writer out, boolean trim) throws JspException, IOException {
 		mediaEncoder.writeSuffixTo(out, trim);
 	}
 
@@ -266,6 +282,9 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 	 * <p>
 	 * This default implementation prints nothing.
 	 * </p>
+	 *
+	 * @param  out  Validates all characters against the container media type.
+	 *              If passed-through, this will be a {@link JspWriter}.
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
 	protected void writeSuffix(MediaType containerType, Writer out) throws JspException, IOException {
