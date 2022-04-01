@@ -159,7 +159,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 			writePrefixSuffix = (newOutputType != null);
 			if(writePrefixSuffix) writePrefix(containerType, containerValidator);
 
-			updateValidatingOut(pageContext.getOut(), newOutputType);
+			updateValidatingOut(out, newOutputType);
 			RequestEncodingContext.setCurrentContext(request, validatingOutEncodingContext);
 			return checkStartTagReturn(doStartTag(validatingOut));
 		} catch(IOException e) {
@@ -369,7 +369,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 			BodyTagUtils.checkEndTagReturn(endTagReturn);
 			if(mediaEncoder != null) {
 				logger.finest("Writing encoder suffix");
-				writeEncoderSuffix(mediaEncoder, pageContext.getOut(), validatingOutputType.getTrimBuffer());
+				writeEncoderSuffix(mediaEncoder, out, validatingOutputType.getTrimBuffer());
 			}
 
 			// Write any suffix

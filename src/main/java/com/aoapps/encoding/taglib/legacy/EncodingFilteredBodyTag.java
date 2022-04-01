@@ -200,7 +200,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 			// Write any prefix
 			writePrefix(containerType, containerValidator);
 
-			updateValidatingOut(pageContext.getOut());
+			updateValidatingOut(out);
 			bodyUnbuffered = !mode.buffered;
 			RequestEncodingContext.setCurrentContext(request, validatingOutEncodingContext);
 			return checkStartTagReturn(doStartTag(validatingOut), mode);
@@ -425,7 +425,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 			BodyTagUtils.checkEndTagReturn(endTagReturn);
 			if(mediaEncoder != null) {
 				logger.finest("Writing encoder suffix");
-				writeEncoderSuffix(mediaEncoder, pageContext.getOut(), validatingOutputType.getTrimBuffer());
+				writeEncoderSuffix(mediaEncoder, out, validatingOutputType.getTrimBuffer());
 			}
 
 			// Write any suffix
