@@ -211,7 +211,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 	/**
 	 * Invokes the body.  This is only called when a body exists.  Subclasses may override this to perform
 	 * actions before and/or after invoking the body.  Any overriding implementation should call
-	 * super.invoke(JspFragment,MediaValidator) to invoke the body, unless it wants to suppress the body invocation.
+	 * {@code super.invoke(JspFragment)} to invoke the body, unless it wants to suppress the body invocation.
 	 * <p>
 	 * The {@link RequestEncodingContext} has been set to {@link RequestEncodingContext#DISCARD} because no validation
 	 * of the content is necessary as the output is discarded.  This means nested tags that attempt to produce valid

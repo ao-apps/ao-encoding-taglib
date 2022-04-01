@@ -307,7 +307,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 	/**
 	 * Invokes the body.  This is only called when a body exists.  Subclasses may override this to perform
 	 * actions before and/or after invoking the body.  Any overriding implementation should call
-	 * super.invoke(JspFragment,MediaValidator) to invoke the body, unless it wants to suppress the body invocation.
+	 * {@code super.invoke(JspFragment,MediaValidator)} to invoke the body, unless it wants to suppress the body invocation.
 	 * <p>
 	 * This implementation invokes {@link JspFragment#invoke(java.io.Writer)}
 	 * providing the capture validator.
