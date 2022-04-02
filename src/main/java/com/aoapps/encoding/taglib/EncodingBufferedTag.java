@@ -188,7 +188,9 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 		if(newOutputType == null) {
 			// No output, error if anything written.
 			// prefix skipped
-			doTag(capturedBody, FailOnWriteWriter.getInstance());
+			Writer failOut = FailOnWriteWriter.getInstance();
+			assert failOut == Coercion.optimize(failOut, null);
+			doTag(capturedBody, failOut);
 			// suffix skipped
 		} else {
 			final HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
@@ -207,7 +209,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 				assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerType)
 					: "It is a bug in the parent to not validate its input consistent with its content type";
 				// Already validated
-				containerValidator = directOut;
+				containerValidator = Coercion.optimize(directOut, null);
 				isNewContainerValidator = false;
 				if(logger.isLoggable(Level.FINER)) {
 					logger.finer("containerValidator from parentEncodingContext: " + containerValidator);
@@ -230,6 +232,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 			}
 
 			// Write any prefix
+			assert containerValidator == Coercion.optimize(containerValidator, null);
 			writePrefix(containerType, containerValidator);
 
 			// Find the encoder
@@ -252,6 +255,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 						new RequestEncodingContext(newOutputType, mediaWriter)
 					);
 					try {
+						assert mediaWriter == Coercion.optimize(mediaWriter, null);
 						doTag(capturedBody, mediaWriter);
 					} finally {
 						// Restore previous encoding context that is used for our output
@@ -275,6 +279,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 						new RequestEncodingContext(newOutputType, parentEncodingContext.validMediaInput)
 					);
 					try {
+						assert containerValidator == Coercion.optimize(containerValidator, null);
 						doTag(capturedBody, containerValidator);
 					} finally {
 						RequestEncodingContext.setCurrentContext(request, parentEncodingContext);
@@ -290,6 +295,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 						new RequestEncodingContext(newOutputType, validator)
 					);
 					try {
+						assert validator == Coercion.optimize(validator, null);
 						doTag(capturedBody, validator);
 						validator.validate(newOutputType.getTrimBuffer());
 					} finally {
@@ -299,6 +305,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 			}
 
 			// Write any suffix
+			assert containerValidator == Coercion.optimize(containerValidator, null);
 			writeSuffix(containerType, containerValidator);
 			if(isNewContainerValidator) {
 				((MediaValidator)containerValidator).validate(containerType.getTrimBuffer());
@@ -330,7 +337,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 	 * </p>
 	 *
 	 * @param  out  Validates all characters against the container media type.
-	 *              If passed-through, this will be a {@link JspWriter}.
+	 *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
 	 *
 	 * @see  #getOutputType()
 	 */
@@ -349,9 +356,8 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * @param  out  Validates all characters against the container media type,
-	 *              already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}
-	 *              If passed-through, this will be a {@link JspWriter}.
+	 * @param  out  Validates all characters against the container media type.
+	 *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
 	 */
 	protected void writeEncoderPrefix(MediaEncoder mediaEncoder, Writer out) throws JspException, IOException {
 		mediaEncoder.writePrefixTo(out);
@@ -370,7 +376,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 	 *
 	 * @param  out  When the output type is {@code null}, will throw an exception if anything written,
 	 *              otherwise validates all characters against the output type.
-	 *              If passed-through, this will be a {@link JspWriter}.
+	 *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
 	 */
 	@SuppressWarnings("NoopMethodInAbstractClass")
 	protected void doTag(BufferResult capturedBody, Writer out) throws JspException, IOException {
@@ -378,9 +384,8 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * @param  out  Validates all characters against the container media type,
-	 *              already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}
-	 *              If passed-through, this will be a {@link JspWriter}.
+	 * @param  out  Validates all characters against the container media type.
+	 *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
 	 */
 	protected void writeEncoderSuffix(MediaEncoder mediaEncoder, Writer out, boolean trim) throws JspException, IOException {
 		mediaEncoder.writeSuffixTo(out, trim);
@@ -397,7 +402,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 	 * </p>
 	 *
 	 * @param  out  Validates all characters against the container media type.
-	 *              If passed-through, this will be a {@link JspWriter}.
+	 *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
 	 *
 	 * @see  #getOutputType()
 	 */

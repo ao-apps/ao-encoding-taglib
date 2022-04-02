@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2013, 2015, 2016, 2017, 2019, 2020, 2021  AO Industries, Inc.
+ * Copyright (C) 2013, 2015, 2016, 2017, 2019, 2020, 2021, 2022  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -163,11 +163,11 @@ public class OutTag extends EncodingNullBodyTag {
 		if(toStringResult != null) {
 			out.write(toStringResult);
 		} else if(value != null) {
-			Coercion.write(value, out);
+			Coercion.write(value, out, true);
 		} else {
 			Object _default = getDefault();
 			if(_default != null) {
-				Coercion.write(_default, out);
+				Coercion.write(_default, out, true);
 			}
 		}
 /* BodyTag only: */
