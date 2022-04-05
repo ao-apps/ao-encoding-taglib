@@ -80,24 +80,6 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	<short-name>encoding</short-name>
 	<uri>&tld_uri;</uri>
 	<tag>
-		<!-- datePublished="2022-03-25T17:25:18-05:00" -->
-		<description><![CDATA[
-			<p class="semanticcms-tag-reference-summary">
-				Manually establishes a CSS context when automatic detection is not possible.
-				The body of this tag is valid CSS.
-			</p>
-			<p>
-				The content type of this tag is <code>text/css</code>.
-			</p>
-			<p>
-				For more advanced scenarios, please use <a href="https://oss.aoapps.com/taglib/]]>&aoTld;<![CDATA[/tag-style">&lt;ao:style&gt;</a>.
-			</p>
-		]]></description>
-		<name>css</name>
-		<tag-class>&package;.CssTag</tag-class>
-		<body-content>&JSP;</body-content>
-	</tag>
-	<tag>
 		<!-- datePublished="2020-11-21T17:26:24-06:00" -->
 		<!-- dateModified="2022-03-25T17:25:18-05:00" -->
 		<description><![CDATA[
@@ -324,6 +306,24 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 		]]></description>
 		<name>sh</name>
 		<tag-class>&package;.ShTag</tag-class>
+		<body-content>&JSP;</body-content>
+	</tag>
+	<tag>
+		<!-- datePublished="2022-04-05T01:08:57-05:00" -->
+		<description><![CDATA[
+			<p class="semanticcms-tag-reference-summary">
+				Manually establishes a CSS context when automatic detection is not possible.
+				The body of this tag is valid CSS.
+			</p>
+			<p>
+				The content type of this tag is <code>text/css</code>.
+			</p>
+			<p>
+				For more advanced scenarios, please use <a href="https://oss.aoapps.com/taglib/]]>&aoTld;<![CDATA[/tag-style">&lt;ao:style&gt;</a>.
+			</p>
+		]]></description>
+		<name>style</name>
+		<tag-class>&package;.StyleTag</tag-class>
 		<body-content>&JSP;</body-content>
 	</tag>
 	<tag>

@@ -37,7 +37,7 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
 		shortTitle="Changelog"
 		tocLevels="1"
 		datePublished="2020-11-18T11:39:31-06:00"
-		dateModified="2022-04-01T16:42:13-05:00"
+		dateModified="2022-04-05T01:08:57-05:00"
 	>
 		<c:if test="${fn:endsWith('@{project.version}', '-SNAPSHOT') and !fn:endsWith('@{project.version}', '-POST-SNAPSHOT')}">
 			<changelog:release
@@ -51,7 +51,7 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
 				<ul>
 					<li>Implemented <ao:a href="https://www.w3.org/TR/CSS2/syndata.html#characters">CSS encoding</ao:a>:
 						<ol>
-							<li><core:link page="ao-encoding.tld/tag-css" /></li>
+							<li><core:link page="ao-encoding.tld/tag-style" /></li>
 						</ol>
 					</li>
 					<li>New interface <code>NoClose</code> along with static <code>wrap(…)</code> methods to avoid duplicate wrapping.</li>

@@ -27,7 +27,7 @@ import com.aoapps.encoding.MediaType;
 /**
  * @author  AO Industries, Inc.
  */
-public class CssTag extends EncodingFilteredBodyTag {
+public class StyleTag extends EncodingFilteredBodyTag {
 
 	@Override
 	public MediaType getContentType() {
