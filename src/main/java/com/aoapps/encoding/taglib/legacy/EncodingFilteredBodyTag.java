@@ -241,7 +241,15 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 				newOptimized = Coercion.optimize(containerValidator, newMediaEncoder);
 				logger.finest("Writing encoder prefix");
 				writeEncoderPrefix(newMediaEncoder, newOptimized);
-				MediaWriter mediaWriter = new MediaWriter(encodingContext, newMediaEncoder, newOptimized, true);
+				MediaWriter mediaWriter = newOutputType.newMediaWriter(
+					encodingContext,
+					newOutputType,
+					newMediaEncoder,
+					newOptimized,
+					true,
+					null,
+					Writer::close
+				);
 				newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, mediaWriter);
 				newValidatingOut = mediaWriter;
 				newIsNewValidator = false;

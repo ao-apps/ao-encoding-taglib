@@ -22,13 +22,13 @@
  */
 package com.aoapps.encoding.taglib;
 
+import com.aoapps.encoding.BufferedValidator;
 import com.aoapps.encoding.MediaType;
 import com.aoapps.encoding.MediaValidator;
 import com.aoapps.encoding.ValidMediaInput;
 import com.aoapps.lang.NullArgumentException;
 import com.aoapps.lang.io.NullWriter;
 import com.aoapps.servlet.attribute.ScopeEE;
-import java.io.UnsupportedEncodingException;
 import javax.servlet.ServletRequest;
 
 /**
@@ -65,13 +65,9 @@ public class RequestEncodingContext {
 	public static final RequestEncodingContext DISCARD = new RequestEncodingContext(
 		MediaType.TEXT,
 		new ValidMediaInput() {
-			private final MediaValidator textValidator;
+			private final MediaValidator textValidator = MediaValidator.getMediaValidator(MediaType.TEXT, NullWriter.getInstance());
 			{
-				try {
-					textValidator = MediaValidator.getMediaValidator(MediaType.TEXT, NullWriter.getInstance());
-				} catch(UnsupportedEncodingException e) {
-					throw new AssertionError("Validator must exist for " + MediaType.TEXT.name(), e);
-				}
+				assert !(textValidator instanceof BufferedValidator) : "If were " + BufferedValidator.class.getName() + " could not share singleton";
 			}
 			@Override
 			public MediaType getValidMediaInputType() {

@@ -249,7 +249,15 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 				logger.finest("Writing encoder prefix");
 				writeEncoderPrefix(mediaEncoder, optimized); // TODO: Skip prefix and suffix when empty?  Pass capturedBody so implementation may decide?
 				try {
-					MediaWriter mediaWriter = new MediaWriter(encodingContext, mediaEncoder, optimized, true);
+					MediaWriter mediaWriter = newOutputType.newMediaWriter(
+						encodingContext,
+						newOutputType,
+						mediaEncoder,
+						optimized,
+						true,
+						null,
+						Writer::close
+					);
 					RequestEncodingContext.setCurrentContext(
 						request,
 						new RequestEncodingContext(newOutputType, mediaWriter)

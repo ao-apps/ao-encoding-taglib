@@ -209,7 +209,15 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 					newOptimized = Coercion.optimize(containerValidator, newMediaEncoder);
 					logger.finest("Writing encoder prefix");
 					writeEncoderPrefix(newMediaEncoder, newOptimized); // TODO: Skip prefix and suffix when empty?
-					MediaWriter mediaWriter = new MediaWriter(encodingContext, newMediaEncoder, newOptimized, true);
+					MediaWriter mediaWriter = newOutputType.newMediaWriter(
+						encodingContext,
+						newOutputType,
+						newMediaEncoder,
+						newOptimized,
+						true,
+						null,
+						Writer::close
+					);
 					newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, mediaWriter);
 					newValidatingOut = mediaWriter;
 					newIsNewValidator = false;

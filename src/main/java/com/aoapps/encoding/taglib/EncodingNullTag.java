@@ -153,7 +153,15 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 				logger.finest("Writing encoder prefix");
 				writeEncoderPrefix(mediaEncoder, optimized);
 				try {
-					MediaWriter mediaWriter = new MediaWriter(encodingContext, mediaEncoder, optimized, true);
+					MediaWriter mediaWriter = newOutputType.newMediaWriter(
+						encodingContext,
+						newOutputType,
+						mediaEncoder,
+						optimized,
+						true,
+						null,
+						Writer::close
+					);
 					RequestEncodingContext.setCurrentContext(
 						request,
 						new RequestEncodingContext(newOutputType, mediaWriter)

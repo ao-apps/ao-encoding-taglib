@@ -81,7 +81,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	<uri>&tld_uri;</uri>
 	<tag>
 		<!-- datePublished="2020-11-21T17:26:24-06:00" -->
-		<!-- dateModified="2022-03-25T17:25:18-05:00" -->
+		<!-- dateModified="2022-04-05T01:40:09-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes an encoding context when automatic detection is not possible.
@@ -99,8 +99,8 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 				<li><code>url</code> or <code>text/url</code> - must be a valid URL</li>
 				<li><code>xhtml</code> or <code>application/xhtml+xml</code> - must be well-formed XHTML content. (Note: Currently only checks character values.)</li>
 				<li><code>xhtml_attribute</code> or <code>application/xhtml+xml+attribute</code> - must be a valid XHTML attribute.</li>
-				<li><code>mysql</code> or <code>text/x+mysql</code> - must be valid for the MySQL command line "mysql"</li>
-				<li><code>psql</code> or <code>text/x+psql</code> - must be valid for the PostgreSQL command line "psql"</li>
+				<li><code>mysql</code> or <code>text/x+mysql</code> - must be valid MySQL command "mysql" input</li>
+				<li><code>psql</code> or <code>text/x+psql</code> - must be valid PostgreSQL command "psql" input</li>
 				<li><code>sh</code> or <code>text/x+sh</code> - must be valid shell script</li>
 			</ul>
 		]]></description>
@@ -179,11 +179,11 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
+		<!-- dateModified="2022-04-05T01:40:09-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a MySQL context when automatic detection is not possible.
-				The body of this tag is valid for the MySQL command line "mysql".
+				The body of this tag is valid MySQL command "mysql" input.
 			</p>
 			<p>
 				The content type of this tag is <code>text/x+mysql</code>.
@@ -195,7 +195,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2022-03-25T17:25:18-05:00" -->
+		<!-- dateModified="2022-04-05T01:40:09-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Writes the value with proper escaping based on the context of the tag.
@@ -221,8 +221,8 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 				<li><code>url</code> or <code>text/url</code> - must be a valid URL</li>
 				<li><code>xhtml</code> or <code>application/xhtml+xml</code> - must be well-formed XHTML content. (Note: Currently only checks character values.)</li>
 				<li><code>xhtml_attribute</code> or <code>application/xhtml+xml+attribute</code> - must be a valid XHTML attribute.</li>
-				<li><code>mysql</code> or <code>text/x+mysql</code> - must be valid for the MySQL command line "mysql"</li>
-				<li><code>psql</code> or <code>text/x+psql</code> - must be valid for the PostgreSQL command line "psql"</li>
+				<li><code>mysql</code> or <code>text/x+mysql</code> - must be valid MySQL command "mysql" input</li>
+				<li><code>psql</code> or <code>text/x+psql</code> - must be valid PostgreSQL command "psql" input</li>
 				<li><code>sh</code> or <code>text/x+sh</code> - must be valid shell script</li>
 			</ul>
 			<p>
@@ -278,11 +278,11 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 	</tag>
 	<tag>
 		<!-- datePublished="2020-11-18T11:39:31-06:00" -->
-		<!-- dateModified="2021-06-01T03:18:06-05:00" -->
+		<!-- dateModified="2022-04-05T01:40:09-05:00" -->
 		<description><![CDATA[
 			<p class="semanticcms-tag-reference-summary">
 				Manually establishes a PostgreSQL context when automatic detection is not possible.
-				The body of this tag is valid for the PostgreSQL command line "psql".
+				The body of this tag is valid PostgreSQL command "psql" input.
 			</p>
 			<p>
 				The content type of this tag is <code>text/x+psql</code>.
