@@ -29,6 +29,7 @@ import com.aoapps.encoding.MediaValidator;
 import com.aoapps.encoding.MediaWriter;
 import com.aoapps.encoding.servlet.EncodingContextEE;
 import com.aoapps.lang.Coercion;
+import com.aoapps.lang.io.FailOnWriteWriter;
 import com.aoapps.lang.io.NullWriter;
 import java.io.IOException;
 import java.io.Writer;

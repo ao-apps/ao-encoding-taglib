@@ -34,6 +34,7 @@ import com.aoapps.io.buffer.BufferWriter;
 import com.aoapps.io.buffer.CharArrayBufferWriter;
 import com.aoapps.io.buffer.EmptyResult;
 import com.aoapps.lang.Coercion;
+import com.aoapps.lang.io.FailOnWriteWriter;
 import com.aoapps.tempfiles.TempFileContext;
 import com.aoapps.tempfiles.servlet.TempFileContextEE;
 import java.io.IOException;
