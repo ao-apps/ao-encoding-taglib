@@ -252,12 +252,12 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 				try {
 					MediaWriter mediaWriter = newOutputType.newMediaWriter(
 						encodingContext,
-						newOutputType,
 						mediaEncoder,
 						optimized,
 						true,
 						null,
-						Writer::close
+						MediaWriter.DEFAULT_IS_NO_CLOSE,
+						MediaWriter.DEFAULT_CLOSER
 					);
 					RequestEncodingContext.setCurrentContext(
 						request,

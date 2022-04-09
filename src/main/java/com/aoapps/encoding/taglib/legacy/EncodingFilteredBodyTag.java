@@ -243,12 +243,12 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 				writeEncoderPrefix(newMediaEncoder, newOptimized);
 				MediaWriter mediaWriter = newOutputType.newMediaWriter(
 					encodingContext,
-					newOutputType,
 					newMediaEncoder,
 					newOptimized,
 					true,
 					null,
-					Writer::close
+					MediaWriter.DEFAULT_IS_NO_CLOSE,
+					MediaWriter.DEFAULT_CLOSER
 				);
 				newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, mediaWriter);
 				newValidatingOut = mediaWriter;
