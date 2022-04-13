@@ -40,7 +40,6 @@ import com.aoapps.lang.io.FailOnWriteWriter;
 import com.aoapps.servlet.BodyContentImplCoercionOptimizerInitializer;
 import com.aoapps.servlet.jsp.LocalizedJspTagException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -376,11 +375,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	 */
 	@Override
 	public void doInitBody() throws JspException {
-		try {
-			initCapture();
-		} catch(UnsupportedEncodingException e) {
-			throw new JspTagException(e);
-		}
+		initCapture();
 	}
 
 	/**
