@@ -343,7 +343,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 	 * Otherwise, {@link #bodyUnbuffered} is {@code false} when the body content continues to use default buffering.
 	 * </p>
 	 */
-	private void initCapture() throws JspTagException, UnsupportedEncodingException {
+	private void initCapture() throws JspTagException {
 		assert captureBuffer == null;
 		assert captureType == null;
 		assert captureValidator == null;
