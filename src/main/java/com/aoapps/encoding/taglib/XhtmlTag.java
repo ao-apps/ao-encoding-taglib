@@ -30,12 +30,12 @@ import com.aoapps.encoding.MediaType;
  */
 public class XhtmlTag extends EncodingFilteredTag {
 
-	@Override
-	public MediaType getContentType() {
-		return MediaType.XHTML;
-	}
+  @Override
+  public MediaType getContentType() {
+    return MediaType.XHTML;
+  }
 
 /* BodyTag only:
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 /**/
 }

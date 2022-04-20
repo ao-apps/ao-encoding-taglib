@@ -31,20 +31,22 @@ import com.aoapps.servlet.filter.FunctionContext;
 
 public final class Functions {
 
-	/** Make no instances. */
-	private Functions() {throw new AssertionError();}
+  /** Make no instances. */
+  private Functions() {
+    throw new AssertionError();
+  }
 
-	public static Serialization getSerialization() {
-		return SerializationEE.get(
-			FunctionContext.getServletContext(),
-			FunctionContext.getRequest()
-		);
-	}
+  public static Serialization getSerialization() {
+    return SerializationEE.get(
+      FunctionContext.getServletContext(),
+      FunctionContext.getRequest()
+    );
+  }
 
-	public static Doctype getDoctype() {
-		return DoctypeEE.get(
-			FunctionContext.getServletContext(),
-			FunctionContext.getRequest()
-		);
-	}
+  public static Doctype getDoctype() {
+    return DoctypeEE.get(
+      FunctionContext.getServletContext(),
+      FunctionContext.getRequest()
+    );
+  }
 }

@@ -46,98 +46,100 @@ import static javax.servlet.jsp.tagext.Tag.SKIP_PAGE;
 @SuppressWarnings({"UseSpecificCatch", "TooBroadCatch"})
 final class BodyTagUtils  {
 
-	/** Make no instances. */
-	private BodyTagUtils() {throw new AssertionError();}
+  /** Make no instances. */
+  private BodyTagUtils() {
+    throw new AssertionError();
+  }
 
-	private static final Logger logger = Logger.getLogger(BodyTagUtils.class.getName());
+  private static final Logger logger = Logger.getLogger(BodyTagUtils.class.getName());
 
-	private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, BodyTagUtils.class);
+  private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, BodyTagUtils.class);
 
-	static int checkAfterBodyReturn(int afterBodyReturn) throws JspTagException {
-		if(
-			afterBodyReturn != SKIP_BODY
-			&& afterBodyReturn != EVAL_BODY_AGAIN
-		) {
-			throw new LocalizedJspTagException(RESOURCES, "checkAfterBodyReturn.invalid", afterBodyReturn);
-		}
-		return afterBodyReturn;
-	}
+  static int checkAfterBodyReturn(int afterBodyReturn) throws JspTagException {
+    if (
+      afterBodyReturn != SKIP_BODY
+      && afterBodyReturn != EVAL_BODY_AGAIN
+    ) {
+      throw new LocalizedJspTagException(RESOURCES, "checkAfterBodyReturn.invalid", afterBodyReturn);
+    }
+    return afterBodyReturn;
+  }
 
-	static int checkEndTagReturn(int endTagReturn) throws JspTagException {
-		if(
-			endTagReturn != EVAL_PAGE
-			&& endTagReturn != SKIP_PAGE
-		) {
-			throw new LocalizedJspTagException(RESOURCES, "checkEndTagReturn.invalid", endTagReturn);
-		}
-		return endTagReturn;
-	}
+  static int checkEndTagReturn(int endTagReturn) throws JspTagException {
+    if (
+      endTagReturn != EVAL_PAGE
+      && endTagReturn != SKIP_PAGE
+    ) {
+      throw new LocalizedJspTagException(RESOURCES, "checkEndTagReturn.invalid", endTagReturn);
+    }
+    return endTagReturn;
+  }
 
-	private static final String BODY_CONTENT_IMPL_CLASS = "org.apache.jasper.runtime.BodyContentImpl";
-	private static final String WRITER_FIELD = "writer";
+  private static final String BODY_CONTENT_IMPL_CLASS = "org.apache.jasper.runtime.BodyContentImpl";
+  private static final String WRITER_FIELD = "writer";
 
-	private static final Class<?> bodyContentImplClass;
-	private static final Field writerField;
-	static {
-		Class<?> clazz;
-		Field field;
-		try {
-			clazz = Class.forName(BODY_CONTENT_IMPL_CLASS);
-			field = clazz.getDeclaredField(WRITER_FIELD);
-			field.setAccessible(true);
-		} catch(ThreadDeath td) {
-			throw td;
-		} catch(Throwable t) {
-			if(logger.isLoggable(Level.INFO)) {
-				logger.log(
-					Level.INFO,
-					"Cannot get direct access to the "+BODY_CONTENT_IMPL_CLASS+"."+WRITER_FIELD+" field.  "
-					+ "Unbuffering of BodyContent disabled.  "
-					+ "The system will behave correctly, but some optimizations are disabled.",
-					t
-				);
-			}
-			clazz = null;
-			field = null;
-		}
-		bodyContentImplClass = clazz;
-		writerField = field;
-	}
+  private static final Class<?> bodyContentImplClass;
+  private static final Field writerField;
+  static {
+    Class<?> clazz;
+    Field field;
+    try {
+      clazz = Class.forName(BODY_CONTENT_IMPL_CLASS);
+      field = clazz.getDeclaredField(WRITER_FIELD);
+      field.setAccessible(true);
+    } catch (ThreadDeath td) {
+      throw td;
+    } catch (Throwable t) {
+      if (logger.isLoggable(Level.INFO)) {
+        logger.log(
+          Level.INFO,
+          "Cannot get direct access to the "+BODY_CONTENT_IMPL_CLASS+"."+WRITER_FIELD+" field.  "
+          + "Unbuffering of BodyContent disabled.  "
+          + "The system will behave correctly, but some optimizations are disabled.",
+          t
+        );
+      }
+      clazz = null;
+      field = null;
+    }
+    bodyContentImplClass = clazz;
+    writerField = field;
+  }
 
-	/**
-	 * <p>
-	 * Unbuffers a {@link BodyContent}, when possible.
-	 * </p>
-	 * <p>
-	 * This implementation is Tomcat-specific, in that it sets the <code>BodyContentImpl.writer</code> field directly
-	 * through reflection.
-	 * </p>
-	 * <p>
-	 * TODO: Consider putting this Tomcat-specific optimization into a different package that would register itself
-	 * here.  Then this package could be selectively added to dependencies to allow the feature to only be enable in
-	 * development mode.
-	 * </p>
-	 */
-	static boolean unbuffer(BodyContent bodyContent, Writer writer) throws JspTagException {
-		// Note: bodyContentImplClass will be null when direct access disabled
-		if(bodyContentImplClass != null) {
-			Class<? extends Writer> bodyContentClass = bodyContent.getClass();
-			if(bodyContentClass == bodyContentImplClass) {
-				try {
-					assert writerField.get(bodyContent) == null : "writer must be null since is setup for buffering";
-					writerField.set(bodyContent, writer);
-					if(logger.isLoggable(Level.FINER)) {
-						logger.finer("Successfully unbuffered BodyContextImpl");
-					}
-					return true;
-				} catch(IllegalAccessException e) {
-					if(logger.isLoggable(Level.SEVERE)) {
-						logger.severe("Failed to unbuffer BodyContextImpl");
-					}
-					throw new JspTagException(e);
-				}
-			}
-		}
-		return false;
-	}
+  /**
+   * <p>
+   * Unbuffers a {@link BodyContent}, when possible.
+   * </p>
+   * <p>
+   * This implementation is Tomcat-specific, in that it sets the <code>BodyContentImpl.writer</code> field directly
+   * through reflection.
+   * </p>
+   * <p>
+   * TODO: Consider putting this Tomcat-specific optimization into a different package that would register itself
+   * here.  Then this package could be selectively added to dependencies to allow the feature to only be enable in
+   * development mode.
+   * </p>
+   */
+  static boolean unbuffer(BodyContent bodyContent, Writer writer) throws JspTagException {
+    // Note: bodyContentImplClass will be null when direct access disabled
+    if (bodyContentImplClass != null) {
+      Class<? extends Writer> bodyContentClass = bodyContent.getClass();
+      if (bodyContentClass == bodyContentImplClass) {
+        try {
+          assert writerField.get(bodyContent) == null : "writer must be null since is setup for buffering";
+          writerField.set(bodyContent, writer);
+          if (logger.isLoggable(Level.FINER)) {
+            logger.finer("Successfully unbuffered BodyContextImpl");
+          }
+          return true;
+        } catch (IllegalAccessException e) {
+          if (logger.isLoggable(Level.SEVERE)) {
+            logger.severe("Failed to unbuffer BodyContextImpl");
+          }
+          throw new JspTagException(e);
+        }
+      }
+    }
+    return false;
+  }
 }

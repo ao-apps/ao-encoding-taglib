@@ -32,26 +32,26 @@ import java.io.UnsupportedEncodingException;
  */
 public class EncodingTag extends EncodingFilteredBodyTag {
 
-	@Override
-	public MediaType getContentType() {
-		return mediaType;
-	}
+  @Override
+  public MediaType getContentType() {
+    return mediaType;
+  }
 
 /* BodyTag only: */
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 /**/
 
-	private MediaType mediaType;
-	public void setType(String type) {
-		String typeStr = Strings.trim(type);
-		MediaType newMediaType = MediaType.getMediaTypeByName(typeStr);
-		if(newMediaType==null) {
-			try {
-				newMediaType = MediaType.getMediaTypeForContentType(typeStr);
-			} catch(UnsupportedEncodingException e) {
-				throw new IllegalArgumentException(e);
-			}
-		}
-		this.mediaType = newMediaType;
-	}
+  private MediaType mediaType;
+  public void setType(String type) {
+    String typeStr = Strings.trim(type);
+    MediaType newMediaType = MediaType.getMediaTypeByName(typeStr);
+    if (newMediaType == null) {
+      try {
+        newMediaType = MediaType.getMediaTypeForContentType(typeStr);
+      } catch (UnsupportedEncodingException e) {
+        throw new IllegalArgumentException(e);
+      }
+    }
+    this.mediaType = newMediaType;
+  }
 }

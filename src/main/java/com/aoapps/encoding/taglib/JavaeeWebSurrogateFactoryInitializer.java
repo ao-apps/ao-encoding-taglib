@@ -35,39 +35,39 @@ import com.aoapps.lang.Throwables;
  */
 public class JavaeeWebSurrogateFactoryInitializer implements ThrowableSurrogateFactoryInitializer {
 
-	@Override
-	@SuppressWarnings("deprecation")
-	public void run() {
-		// From https://docs.oracle.com/javaee/6/api/overview-tree.html
-		// JavaEE 7: Review
+  @Override
+  @SuppressWarnings("deprecation")
+  public void run() {
+    // From https://docs.oracle.com/javaee/6/api/overview-tree.html
+    // JavaEE 7: Review
 
-		// javax:javaee-web-api:6.0
-		// Would add a dependency, not doing
+    // javax:javaee-web-api:6.0
+    // Would add a dependency, not doing
 
-		// javax.el:javax.el-api:2.2.5
-		Throwables.registerSurrogateFactory(javax.el.ELException.class, (template, cause) ->
-			new javax.el.ELException(template.getMessage(), cause)
-		);
-		Throwables.registerSurrogateFactory(javax.el.MethodNotFoundException.class, (template, cause) ->
-			new javax.el.MethodNotFoundException(template.getMessage(), cause)
-		);
-		Throwables.registerSurrogateFactory(javax.el.PropertyNotFoundException.class, (template, cause) ->
-			new javax.el.PropertyNotFoundException(template.getMessage(), cause)
-		);
-		Throwables.registerSurrogateFactory(javax.el.PropertyNotWritableException.class, (template, cause) ->
-			new javax.el.PropertyNotWritableException(template.getMessage(), cause)
-		);
+    // javax.el:javax.el-api:2.2.5
+    Throwables.registerSurrogateFactory(javax.el.ELException.class, (template, cause) ->
+      new javax.el.ELException(template.getMessage(), cause)
+    );
+    Throwables.registerSurrogateFactory(javax.el.MethodNotFoundException.class, (template, cause) ->
+      new javax.el.MethodNotFoundException(template.getMessage(), cause)
+    );
+    Throwables.registerSurrogateFactory(javax.el.PropertyNotFoundException.class, (template, cause) ->
+      new javax.el.PropertyNotFoundException(template.getMessage(), cause)
+    );
+    Throwables.registerSurrogateFactory(javax.el.PropertyNotWritableException.class, (template, cause) ->
+      new javax.el.PropertyNotWritableException(template.getMessage(), cause)
+    );
 
-		// javax.servlet:javax.servlet-api:3.0.1
-		// Added by ao-servlet-util project
+    // javax.servlet:javax.servlet-api:3.0.1
+    // Added by ao-servlet-util project
 
-		// javax.servlet.jsp:javax.servlet.jsp-api:2.2.1
-		// Added by ao-servlet-util project
+    // javax.servlet.jsp:javax.servlet.jsp-api:2.2.1
+    // Added by ao-servlet-util project
 
-		// javax.servlet:jstl:1.2
-		// Would add a dependency, not doing
+    // javax.servlet:jstl:1.2
+    // Would add a dependency, not doing
 
-		// org.glassfish.web:jstl-impl:1.2
-		// Would add a dependency, not doing
-	}
+    // org.glassfish.web:jstl-impl:1.2
+    // Would add a dependency, not doing
+  }
 }

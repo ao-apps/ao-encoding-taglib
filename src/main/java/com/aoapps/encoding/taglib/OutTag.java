@@ -43,152 +43,160 @@ import org.w3c.dom.Node;
  */
 public class OutTag extends EncodingNullTag {
 
-	public OutTag() {
-		init();
-	}
+  public OutTag() {
+    init();
+  }
 
-	@Override
-	public MediaType getOutputType() {
-		return mediaType;
-	}
+  @Override
+  public MediaType getOutputType() {
+    return mediaType;
+  }
 
 /* BodyTag only:
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 /**/
 
-	private Object value;
-	public void setValue(Object value) {
-		this.value = value;
-	}
+  private Object value;
+  public void setValue(Object value) {
+    this.value = value;
+  }
 
-	private ValueExpression def;
-	private boolean defValueSet;
-	private Object defValue;
-	public void setDefault(ValueExpression def) {
-		this.def = def;
-		this.defValueSet = false;
-		this.defValue = null;
-	}
+  private ValueExpression def;
+  private boolean defValueSet;
+  private Object defValue;
+  public void setDefault(ValueExpression def) {
+    this.def = def;
+    this.defValueSet = false;
+    this.defValue = null;
+  }
 
-	private Object getDefault() {
+  private Object getDefault() {
 /* BodyTag only:
-		ELContext elContext = pageContext.getELContext();
+    ELContext elContext = pageContext.getELContext();
 /**/
 /* SimpleTag only: */
-		ELContext elContext = getJspContext().getELContext();
+    ELContext elContext = getJspContext().getELContext();
 /**/
-		if(def == null) return null;
-		if(defValueSet) return defValue;
-		Object _value = def.getValue(elContext);
-		defValue = _value;
-		defValueSet = true;
-		return _value;
-	}
+    if (def == null) {
+      return null;
+    }
+    if (defValueSet) {
+      return defValue;
+    }
+    Object _value = def.getValue(elContext);
+    defValue = _value;
+    defValueSet = true;
+    return _value;
+  }
 
-	/**
-	 * <p>
-	 * TODO: Support a type of "auto" (not the default - use with care) that
-	 * takes the media type from the object being written, if it implements
-	 * an interface that has a <code>getOutputType()</code> method.
-	 * If no <code>getOutputType()</code> method in auto mode, default to
-	 * {@link MediaType#TEXT} or throw exception?  Other objects with
-	 * a <code>getOutputType()</code> method should also implement this new
-	 * method?  Other places with <code>setType(Object)</code> might support
-	 * the same auto-mode.  Or would we allow a object passed into "type"
-	 * attribute to implement this interface?  Or a different "typeOf" attribute?
-	 * </p>
-	 */
-	private MediaType mediaType;
-	public void setType(String type) {
-		String typeStr = Strings.trim(type);
-		MediaType newMediaType = MediaType.getMediaTypeByName(typeStr);
-		if(newMediaType==null) {
-			try {
-				newMediaType = MediaType.getMediaTypeForContentType(typeStr);
-			} catch(UnsupportedEncodingException e) {
-				throw new IllegalArgumentException(e);
-			}
-		}
-		this.mediaType = newMediaType;
-	}
+  /**
+   * <p>
+   * TODO: Support a type of "auto" (not the default - use with care) that
+   * takes the media type from the object being written, if it implements
+   * an interface that has a <code>getOutputType()</code> method.
+   * If no <code>getOutputType()</code> method in auto mode, default to
+   * {@link MediaType#TEXT} or throw exception?  Other objects with
+   * a <code>getOutputType()</code> method should also implement this new
+   * method?  Other places with <code>setType(Object)</code> might support
+   * the same auto-mode.  Or would we allow a object passed into "type"
+   * attribute to implement this interface?  Or a different "typeOf" attribute?
+   * </p>
+   */
+  private MediaType mediaType;
+  public void setType(String type) {
+    String typeStr = Strings.trim(type);
+    MediaType newMediaType = MediaType.getMediaTypeByName(typeStr);
+    if (newMediaType == null) {
+      try {
+        newMediaType = MediaType.getMediaTypeForContentType(typeStr);
+      } catch (UnsupportedEncodingException e) {
+        throw new IllegalArgumentException(e);
+      }
+    }
+    this.mediaType = newMediaType;
+  }
 
-	private MarkupType markupType;
-	private String toStringResult;
-	private BundleLookupMarkup lookupMarkup;
+  private MarkupType markupType;
+  private String toStringResult;
+  private BundleLookupMarkup lookupMarkup;
 
-	private void init() {
-		value = null;
-		def = null;
-		defValueSet = false;
-		defValue = null;
-		mediaType = MediaType.TEXT;
-		markupType = null;
-		toStringResult = null;
-		lookupMarkup = null;
-	}
+  private void init() {
+    value = null;
+    def = null;
+    defValueSet = false;
+    defValue = null;
+    mediaType = MediaType.TEXT;
+    markupType = null;
+    toStringResult = null;
+    lookupMarkup = null;
+  }
 
-	@Override
-	protected void writePrefix(MediaType containerType, Writer out) throws JspException, IOException {
-		Object effectiveValue = (value != null) ? value : getDefault();
-		if(effectiveValue != null) {
-			markupType = containerType.getMarkupType();
-			BundleLookupThreadContext threadContext;
-			if(
-				markupType != null
-				&& markupType != MarkupType.NONE
-				&& (threadContext = BundleLookupThreadContext.getThreadContext()) != null
-				// Avoid intermediate String from Writable
-				&& (
-					!(effectiveValue instanceof Writable)
-					|| ((Writable)effectiveValue).isFastToString()
-				)
-				// Other types that will not be converted to String for bundle lookups
-				&& !(value instanceof char[])
-				&& !(value instanceof Node)
-			) {
-				toStringResult = Coercion.toString(effectiveValue);
-				// Look for any message markup
-				lookupMarkup = threadContext.getLookupMarkup(toStringResult);
-				if(lookupMarkup != null) lookupMarkup.appendPrefixTo(markupType, out);
-			}
-		}
-	}
+  @Override
+  protected void writePrefix(MediaType containerType, Writer out) throws JspException, IOException {
+    Object effectiveValue = (value != null) ? value : getDefault();
+    if (effectiveValue != null) {
+      markupType = containerType.getMarkupType();
+      BundleLookupThreadContext threadContext;
+      if (
+        markupType != null
+        && markupType != MarkupType.NONE
+        && (threadContext = BundleLookupThreadContext.getThreadContext()) != null
+        // Avoid intermediate String from Writable
+        && (
+          !(effectiveValue instanceof Writable)
+          || ((Writable)effectiveValue).isFastToString()
+        )
+        // Other types that will not be converted to String for bundle lookups
+        && !(value instanceof char[])
+        && !(value instanceof Node)
+      ) {
+        toStringResult = Coercion.toString(effectiveValue);
+        // Look for any message markup
+        lookupMarkup = threadContext.getLookupMarkup(toStringResult);
+        if (lookupMarkup != null) {
+          lookupMarkup.appendPrefixTo(markupType, out);
+        }
+      }
+    }
+  }
 
-	@Override
+  @Override
 /* BodyTag only:
-	protected int doEndTag(Writer out) throws JspException, IOException {
+  protected int doEndTag(Writer out) throws JspException, IOException {
 /**/
 /* SimpleTag only: */
-	protected void doTag(Writer out) throws JspException, IOException {
+  protected void doTag(Writer out) throws JspException, IOException {
 /**/
-		if(toStringResult != null) {
-			out.write(toStringResult);
-		} else if(value != null) {
-			Coercion.write(value, out, true);
-		} else {
-			Object _default = getDefault();
-			if(_default != null) {
-				Coercion.write(_default, out, true);
-			}
-		}
+    if (toStringResult != null) {
+      out.write(toStringResult);
+    } else if (value != null) {
+      Coercion.write(value, out, true);
+    } else {
+      Object _default = getDefault();
+      if (_default != null) {
+        Coercion.write(_default, out, true);
+      }
+    }
 /* BodyTag only:
-		return EVAL_PAGE;
+    return EVAL_PAGE;
 /**/
-	}
+  }
 
-	@Override
-	protected void writeSuffix(MediaType containerType, Writer out) throws JspException, IOException {
-		if(lookupMarkup != null) lookupMarkup.appendSuffixTo(markupType, out);
-	}
+  @Override
+  protected void writeSuffix(MediaType containerType, Writer out) throws JspException, IOException {
+    if (lookupMarkup != null) {
+      lookupMarkup.appendSuffixTo(markupType, out);
+    }
+  }
 
 /* BodyTag only:
-	@Override
-	public void doFinally() {
-		try {
-			init();
-		} finally {
-			super.doFinally();
-		}
-	}
+  @Override
+  public void doFinally() {
+    try {
+      init();
+    } finally {
+      super.doFinally();
+    }
+  }
 /**/
 }

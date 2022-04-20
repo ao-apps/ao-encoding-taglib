@@ -22,176 +22,176 @@ You should have received a copy of the GNU Lesser General Public License
 along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <jsp:root
-	xmlns:ao="https://oss.aoapps.com/taglib/"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:changelog="https://semanticcms.com/changelog/taglib/"
-	xmlns:core="https://semanticcms.com/core/taglib/"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-	xmlns:jsp="http://java.sun.com/JSP/Page"
-	version="2.1"
+  xmlns:ao="https://oss.aoapps.com/taglib/"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:changelog="https://semanticcms.com/changelog/taglib/"
+  xmlns:core="https://semanticcms.com/core/taglib/"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:jsp="http://java.sun.com/JSP/Page"
+  version="2.1"
 >
-	<jsp:directive.page language="java" pageEncoding="UTF-8" />
-	<jsp:directive.page session="false" />
-	<core:page
-		title="@{documented.name} Changelog"
-		shortTitle="Changelog"
-		tocLevels="1"
-		datePublished="2020-11-18T11:39:31-06:00"
-		dateModified="2022-04-07T08:50:29-05:00"
-	>
-		<c:if test="${fn:endsWith('@{project.version}', '-SNAPSHOT') and !fn:endsWith('@{project.version}', '-POST-SNAPSHOT')}">
-			<changelog:release
-				projectName="@{documented.name}"
-				version="@{project.version}"
-				groupId="@{project.groupId}"
-				artifactId="@{documented.artifactId}"
-				repository="@{nexusUrl}content/repositories/snapshots/"
-				scmUrl="@{project.scm.url}"
-			>
-				<ul>
-					<li>Implemented <ao:a href="https://www.w3.org/TR/CSS2/syndata.html#characters">CSS encoding</ao:a>:
-						<ol>
-							<li><core:link page="ao-encoding.tld/tag-style" /></li>
-						</ol>
-					</li>
-					<li>New interface <code>NoClose</code> along with static <code>wrap(…)</code> methods to avoid duplicate wrapping.</li>
-					<li>More thorough internal character validation, with additional optimizations.</li>
-					<li>Moved <code>FailOnWriteWriter</code> to <core:link book="/lang" page="/index.jspx" />.</li>
-				</ul>
-			</changelog:release>
-		</c:if>
+  <jsp:directive.page language="java" pageEncoding="UTF-8" />
+  <jsp:directive.page session="false" />
+  <core:page
+    title="@{documented.name} Changelog"
+    shortTitle="Changelog"
+    tocLevels="1"
+    datePublished="2020-11-18T11:39:31-06:00"
+    dateModified="2022-04-07T08:50:29-05:00"
+  >
+    <c:if test="${fn:endsWith('@{project.version}', '-SNAPSHOT') and !fn:endsWith('@{project.version}', '-POST-SNAPSHOT')}">
+      <changelog:release
+        projectName="@{documented.name}"
+        version="@{project.version}"
+        groupId="@{project.groupId}"
+        artifactId="@{documented.artifactId}"
+        repository="@{nexusUrl}content/repositories/snapshots/"
+        scmUrl="@{project.scm.url}"
+      >
+        <ul>
+          <li>Implemented <ao:a href="https://www.w3.org/TR/CSS2/syndata.html#characters">CSS encoding</ao:a>:
+            <ol>
+              <li><core:link page="ao-encoding.tld/tag-style" /></li>
+            </ol>
+          </li>
+          <li>New interface <code>NoClose</code> along with static <code>wrap(…)</code> methods to avoid duplicate wrapping.</li>
+          <li>More thorough internal character validation, with additional optimizations.</li>
+          <li>Moved <code>FailOnWriteWriter</code> to <core:link book="/lang" page="/index.jspx" />.</li>
+        </ul>
+      </changelog:release>
+    </c:if>
 
-		<changelog:release
-			projectName="@{documented.name}"
-			version="3.0.1"
-			datePublished="2021-10-15T21:50:23-05:00"
-			groupId="@{project.groupId}"
-			artifactId="@{documented.artifactId}"
-			scmUrl="@{project.scm.url}"
-		>
-			<ul>
-				<li>Updated dependencies.</li>
-			</ul>
-		</changelog:release>
+    <changelog:release
+      projectName="@{documented.name}"
+      version="3.0.1"
+      datePublished="2021-10-15T21:50:23-05:00"
+      groupId="@{project.groupId}"
+      artifactId="@{documented.artifactId}"
+      scmUrl="@{project.scm.url}"
+    >
+      <ul>
+        <li>Updated dependencies.</li>
+      </ul>
+    </changelog:release>
 
-		<changelog:release
-			projectName="@{documented.name}"
-			version="3.0.0"
-			datePublished="2021-09-25T21:40:17-05:00"
-			groupId="@{project.groupId}"
-			artifactId="@{documented.artifactId}"
-			scmUrl="@{project.scm.url}"
-		>
-			<ul>
-				<li><core:link page="ao-encoding.tld/tag-url" /> now trims the URL before validation.</li>
-				<li>
-					<core:link page="ao-encoding.tld/tag-url" /> now supports both
-					<ao:a href="https://datatracker.ietf.org/doc/html/rfc3986">RFC 3986 URI</ao:a>
-					and <ao:a href="https://datatracker.ietf.org/doc/html/rfc3987">RFC 3987 IRI</ao:a>.
-				</li>
-			</ul>
-		</changelog:release>
+    <changelog:release
+      projectName="@{documented.name}"
+      version="3.0.0"
+      datePublished="2021-09-25T21:40:17-05:00"
+      groupId="@{project.groupId}"
+      artifactId="@{documented.artifactId}"
+      scmUrl="@{project.scm.url}"
+    >
+      <ul>
+        <li><core:link page="ao-encoding.tld/tag-url" /> now trims the URL before validation.</li>
+        <li>
+          <core:link page="ao-encoding.tld/tag-url" /> now supports both
+          <ao:a href="https://datatracker.ietf.org/doc/html/rfc3986">RFC 3986 URI</ao:a>
+          and <ao:a href="https://datatracker.ietf.org/doc/html/rfc3987">RFC 3987 IRI</ao:a>.
+        </li>
+      </ul>
+    </changelog:release>
 
-		<changelog:release
-			projectName="@{documented.name}"
-			version="2.0.0"
-			datePublished="2021-07-05T07:39:42-05:00"
-			groupId="@{project.groupId}"
-			artifactId="@{documented.artifactId}"
-			scmUrl="@{project.scm.url}"
-		>
-			<ul>
-				<li>Updated to <ao:a rel="nofollow" href="https://www.oracle.com/java/technologies/javaee/javaeetechnologies.html#javaee7">Java™ EE 7 Web Profile</ao:a> (Servlet 3.1, JSP 2.3, EL 3.0, and JSTL 1.2).</li>
-				<li>
-					Now supports Java 9+ modules.  Due to still having filename-based automatic module dependencies,
-					*-SNAPSHOT versions include <code>module-info.class</code> while releases include the
-					<code>Automatic-Module-Name</code> manifest entry.  To minimize the difference between these
-					modes, <code>module-info.java</code> does not perform any transitive requires.
-				</li>
-				<li>Maven artifact relocated from <code>com.aoindustries:ao-encoding-taglib</code> to <code>com.aoapps:ao-encoding-taglib</code>.</li>
-				<li>Package renamed from <code>com.aoindustries.encoding.taglib</code> to <code>com.aoapps.encoding.taglib</code>.</li>
-				<li>Taglib URL changed to <code>https://oss.aoapps.com/encoding/taglib/</code> to match project URL.</li>
-			</ul>
-		</changelog:release>
+    <changelog:release
+      projectName="@{documented.name}"
+      version="2.0.0"
+      datePublished="2021-07-05T07:39:42-05:00"
+      groupId="@{project.groupId}"
+      artifactId="@{documented.artifactId}"
+      scmUrl="@{project.scm.url}"
+    >
+      <ul>
+        <li>Updated to <ao:a rel="nofollow" href="https://www.oracle.com/java/technologies/javaee/javaeetechnologies.html#javaee7">Java™ EE 7 Web Profile</ao:a> (Servlet 3.1, JSP 2.3, EL 3.0, and JSTL 1.2).</li>
+        <li>
+          Now supports Java 9+ modules.  Due to still having filename-based automatic module dependencies,
+          *-SNAPSHOT versions include <code>module-info.class</code> while releases include the
+          <code>Automatic-Module-Name</code> manifest entry.  To minimize the difference between these
+          modes, <code>module-info.java</code> does not perform any transitive requires.
+        </li>
+        <li>Maven artifact relocated from <code>com.aoindustries:ao-encoding-taglib</code> to <code>com.aoapps:ao-encoding-taglib</code>.</li>
+        <li>Package renamed from <code>com.aoindustries.encoding.taglib</code> to <code>com.aoapps.encoding.taglib</code>.</li>
+        <li>Taglib URL changed to <code>https://oss.aoapps.com/encoding/taglib/</code> to match project URL.</li>
+      </ul>
+    </changelog:release>
 
-		<changelog:release
-			projectName="@{documented.name}"
-			version="1.0.2"
-			datePublished="2020-12-13T02:13:30-06:00"
-			groupId="com.aoindustries"
-			artifactId="@{documented.artifactId}"
-			scmUrl="@{project.scm.url}"
-		>
-			<ul>
-				<li>
-					Split development-only classes into a new sub-project in <code>devel/</code>.  This
-					sub-project is used only for development and is never deployed to artifact repositories.
-				</li>
-				<li>Updated dependencies.</li>
-			</ul>
-		</changelog:release>
+    <changelog:release
+      projectName="@{documented.name}"
+      version="1.0.2"
+      datePublished="2020-12-13T02:13:30-06:00"
+      groupId="com.aoindustries"
+      artifactId="@{documented.artifactId}"
+      scmUrl="@{project.scm.url}"
+    >
+      <ul>
+        <li>
+          Split development-only classes into a new sub-project in <code>devel/</code>.  This
+          sub-project is used only for development and is never deployed to artifact repositories.
+        </li>
+        <li>Updated dependencies.</li>
+      </ul>
+    </changelog:release>
 
-		<changelog:release
-			projectName="@{documented.name}"
-			version="1.0.1"
-			datePublished="2020-11-24T22:06:06-06:00"
-			groupId="com.aoindustries"
-			artifactId="@{documented.artifactId}"
-			scmUrl="@{project.scm.url}"
-		>
-			<ul>
-				<li>Attribute setters now throw <code>IllegalArgumentException</code> instead of <code>JspTagException</code>.</li>
-			</ul>
-		</changelog:release>
+    <changelog:release
+      projectName="@{documented.name}"
+      version="1.0.1"
+      datePublished="2020-11-24T22:06:06-06:00"
+      groupId="com.aoindustries"
+      artifactId="@{documented.artifactId}"
+      scmUrl="@{project.scm.url}"
+    >
+      <ul>
+        <li>Attribute setters now throw <code>IllegalArgumentException</code> instead of <code>JspTagException</code>.</li>
+      </ul>
+    </changelog:release>
 
-		<changelog:release
-			projectName="@{documented.name}"
-			version="1.0.0"
-			datePublished="2020-11-24T21:32:41-06:00"
-			groupId="com.aoindustries"
-			artifactId="@{documented.artifactId}"
-			scmUrl="@{project.scm.url}"
-		>
-			<ul>
-				<li>New project for character encoding in JSP split from <core:link book="/taglib" page="/index.jspx" />.</li>
-				<li>
-					Added <core:link page="ao-encoding-legacy.tld/">alternate implementation</core:link> compatible
-					with legacy JSP that use scriptlets.
-				</li>
-				<li>
-					Added tags to fill-out all the currently supported media types:
-					<ol>
-						<li><core:link page="ao-encoding.tld/tag-javascript" /></li>
-						<li><core:link page="ao-encoding.tld/tag-json" /></li>
-						<li><core:link page="ao-encoding.tld/tag-ldJson" /></li>
-						<li><core:link page="ao-encoding.tld/tag-url" /></li>
-					</ol>
-				</li>
-				<li>
-					<p>
-						Now registering exception types for use with <code>Throwables.newSurrogate(…)</code> that supports creating new instances
-						of throwables in order to have caller stack trace.  When wrapped, the original throwable is the
-						cause of the new throwable.  When not wrapped, the original throwable is used directly and
-						caller stack trace is lost.
-					</p>
-					<p>
-						This is used to maintain exception types and states across thread boundaries, such as when an exception cause
-						is obtained from an <code>ExecutionException</code>.
-					</p>
-				</li>
-				<li>New tag <core:link page="ao-encoding.tld/tag-encoding" /> that has a type defined in its type attribute.</li>
-				<li>
-					<code>EncodingNullTag</code> now sets <code>MediaType.TEXT</code> context before invoking the
-					JSP body.  This means nested tags that attempt to produce valid output will not be limited by the
-					parent encoding context of the tag.
-				</li>
-				<li>
-					Cleaned-up use of <code>JspTagException</code> versus <code>JspException</code>.  Generally,
-					methods declare <code>throws JspException</code> while actually throwing instances of
-					<code>JspTagException</code>.  The exceptions to this are attribute setters and private
-					implementation methods that both declare and throw <code>JspTagException</code>.
-				</li>
-			</ul>
-		</changelog:release>
-	</core:page>
+    <changelog:release
+      projectName="@{documented.name}"
+      version="1.0.0"
+      datePublished="2020-11-24T21:32:41-06:00"
+      groupId="com.aoindustries"
+      artifactId="@{documented.artifactId}"
+      scmUrl="@{project.scm.url}"
+    >
+      <ul>
+        <li>New project for character encoding in JSP split from <core:link book="/taglib" page="/index.jspx" />.</li>
+        <li>
+          Added <core:link page="ao-encoding-legacy.tld/">alternate implementation</core:link> compatible
+          with legacy JSP that use scriptlets.
+        </li>
+        <li>
+          Added tags to fill-out all the currently supported media types:
+          <ol>
+            <li><core:link page="ao-encoding.tld/tag-javascript" /></li>
+            <li><core:link page="ao-encoding.tld/tag-json" /></li>
+            <li><core:link page="ao-encoding.tld/tag-ldJson" /></li>
+            <li><core:link page="ao-encoding.tld/tag-url" /></li>
+          </ol>
+        </li>
+        <li>
+          <p>
+            Now registering exception types for use with <code>Throwables.newSurrogate(…)</code> that supports creating new instances
+            of throwables in order to have caller stack trace.  When wrapped, the original throwable is the
+            cause of the new throwable.  When not wrapped, the original throwable is used directly and
+            caller stack trace is lost.
+          </p>
+          <p>
+            This is used to maintain exception types and states across thread boundaries, such as when an exception cause
+            is obtained from an <code>ExecutionException</code>.
+          </p>
+        </li>
+        <li>New tag <core:link page="ao-encoding.tld/tag-encoding" /> that has a type defined in its type attribute.</li>
+        <li>
+          <code>EncodingNullTag</code> now sets <code>MediaType.TEXT</code> context before invoking the
+          JSP body.  This means nested tags that attempt to produce valid output will not be limited by the
+          parent encoding context of the tag.
+        </li>
+        <li>
+          Cleaned-up use of <code>JspTagException</code> versus <code>JspException</code>.  Generally,
+          methods declare <code>throws JspException</code> while actually throwing instances of
+          <code>JspTagException</code>.  The exceptions to this are attribute setters and private
+          implementation methods that both declare and throw <code>JspTagException</code>.
+        </li>
+      </ul>
+    </changelog:release>
+  </core:page>
 </jsp:root>

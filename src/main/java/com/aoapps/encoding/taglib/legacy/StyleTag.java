@@ -30,12 +30,12 @@ import com.aoapps.encoding.MediaType;
  */
 public class StyleTag extends EncodingFilteredBodyTag {
 
-	@Override
-	public MediaType getContentType() {
-		return MediaType.CSS;
-	}
+  @Override
+  public MediaType getContentType() {
+    return MediaType.CSS;
+  }
 
 /* BodyTag only: */
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 /**/
 }

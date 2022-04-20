@@ -30,12 +30,12 @@ import com.aoapps.encoding.MediaType;
  */
 public class JsonTag extends EncodingFilteredBodyTag {
 
-	@Override
-	public MediaType getContentType() {
-		return MediaType.JSON;
-	}
+  @Override
+  public MediaType getContentType() {
+    return MediaType.JSON;
+  }
 
 /* BodyTag only: */
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 /**/
 }

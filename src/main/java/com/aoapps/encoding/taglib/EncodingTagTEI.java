@@ -34,10 +34,10 @@ import javax.servlet.jsp.tagext.ValidationMessage;
  */
 public class EncodingTagTEI extends TagExtraInfo {
 
-	@Override
-	public ValidationMessage[] validate(TagData data) {
-		List<ValidationMessage> messages = MinimalList.emptyList();
-		messages = TeiUtils.validateMediaType(data, messages);
-		return messages.isEmpty() ? null : messages.toArray(new ValidationMessage[messages.size()]);
-	}
+  @Override
+  public ValidationMessage[] validate(TagData data) {
+    List<ValidationMessage> messages = MinimalList.emptyList();
+    messages = TeiUtils.validateMediaType(data, messages);
+    return messages.isEmpty() ? null : messages.toArray(new ValidationMessage[messages.size()]);
+  }
 }

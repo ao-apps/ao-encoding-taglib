@@ -21,10 +21,10 @@
  * along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
  */
 module com.aoapps.encoding.taglib.devel {
-	exports com.aoapps.encoding.taglib.legacy.i18n;
-	// Direct
-	requires com.aoapps.hodgepodge; // <groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId>
-	requires static jsr305; // <groupId>com.google.code.findbugs</groupId><artifactId>jsr305</artifactId>
-	// Java SE
-	requires java.logging;
+  exports com.aoapps.encoding.taglib.legacy.i18n;
+  // Direct
+  requires com.aoapps.hodgepodge; // <groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId>
+  requires static jsr305; // <groupId>com.google.code.findbugs</groupId><artifactId>jsr305</artifactId>
+  // Java SE
+  requires java.logging;
 }

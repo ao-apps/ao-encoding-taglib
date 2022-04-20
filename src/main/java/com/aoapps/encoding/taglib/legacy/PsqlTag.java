@@ -30,12 +30,12 @@ import com.aoapps.encoding.MediaType;
  */
 public class PsqlTag extends EncodingFilteredBodyTag {
 
-	@Override
-	public MediaType getContentType() {
-		return MediaType.PSQL;
-	}
+  @Override
+  public MediaType getContentType() {
+    return MediaType.PSQL;
+  }
 
 /* BodyTag only: */
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 /**/
 }

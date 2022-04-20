@@ -46,64 +46,64 @@ import javax.servlet.ServletRequest;
 // Java 9: Make module-private
 public class RequestEncodingContext {
 
-	private static final ScopeEE.Request.Attribute<RequestEncodingContext> CURRENT_CONTEXT_REQUEST_ATTRIBUTE =
-		ScopeEE.REQUEST.attribute(RequestEncodingContext.class.getName() + ".currentContext");
+  private static final ScopeEE.Request.Attribute<RequestEncodingContext> CURRENT_CONTEXT_REQUEST_ATTRIBUTE =
+    ScopeEE.REQUEST.attribute(RequestEncodingContext.class.getName() + ".currentContext");
 
-	// Java 9: Make module-private
-	public static RequestEncodingContext getCurrentContext(ServletRequest request) {
-		return CURRENT_CONTEXT_REQUEST_ATTRIBUTE.context(request).get();
-	}
+  // Java 9: Make module-private
+  public static RequestEncodingContext getCurrentContext(ServletRequest request) {
+    return CURRENT_CONTEXT_REQUEST_ATTRIBUTE.context(request).get();
+  }
 
-	// Java 9: Make module-private
-	public static void setCurrentContext(ServletRequest request, RequestEncodingContext context) {
-		CURRENT_CONTEXT_REQUEST_ATTRIBUTE.context(request).set(context);
-	}
+  // Java 9: Make module-private
+  public static void setCurrentContext(ServletRequest request, RequestEncodingContext context) {
+    CURRENT_CONTEXT_REQUEST_ATTRIBUTE.context(request).set(context);
+  }
 
-	/**
-	 * A context that performs no validation and discards all output.
-	 */
-	// Java 9: Make module-private
-	public static final RequestEncodingContext DISCARD = new RequestEncodingContext(
-		MediaType.TEXT,
-		new ValidMediaInput() {
-			private final MediaValidator textValidator = MediaValidator.getMediaValidator(MediaType.TEXT, NullWriter.getInstance());
-			{
-				assert !(textValidator instanceof BufferedValidator) : "If were " + BufferedValidator.class.getName() + " could not share singleton";
-			}
-			@Override
-			public MediaType getValidMediaInputType() {
-				assert textValidator.getValidMediaInputType() == MediaType.TEXT;
-				return MediaType.TEXT;
-			}
+  /**
+   * A context that performs no validation and discards all output.
+   */
+  // Java 9: Make module-private
+  public static final RequestEncodingContext DISCARD = new RequestEncodingContext(
+    MediaType.TEXT,
+    new ValidMediaInput() {
+      private final MediaValidator textValidator = MediaValidator.getMediaValidator(MediaType.TEXT, NullWriter.getInstance());
+      {
+        assert !(textValidator instanceof BufferedValidator) : "If were " + BufferedValidator.class.getName() + " could not share singleton";
+      }
+      @Override
+      public MediaType getValidMediaInputType() {
+        assert textValidator.getValidMediaInputType() == MediaType.TEXT;
+        return MediaType.TEXT;
+      }
 
-			@Override
-			public boolean isValidatingMediaInputType(MediaType inputType) {
-				return textValidator.isValidatingMediaInputType(inputType);
-			}
+      @Override
+      public boolean isValidatingMediaInputType(MediaType inputType) {
+        return textValidator.isValidatingMediaInputType(inputType);
+      }
 
-			@Override
-			public boolean canSkipValidation(MediaType outputType) {
-				return textValidator.isValidatingMediaInputType(outputType);
-			}
-		}
-	);
+      @Override
+      public boolean canSkipValidation(MediaType outputType) {
+        return textValidator.isValidatingMediaInputType(outputType);
+      }
+    }
+  );
 
-	/**
-	 * The content type that is currently be written.
-	 */
-	// Java 9: Make module-private
-	public final MediaType contentType;
+  /**
+   * The content type that is currently be written.
+   */
+  // Java 9: Make module-private
+  public final MediaType contentType;
 
-	/**
-	 * The validator that is ensuring the data being written is valid for the current
-	 * outputType.
-	 */
-	// Java 9: Make module-private
-	public final ValidMediaInput validMediaInput;
+  /**
+   * The validator that is ensuring the data being written is valid for the current
+   * outputType.
+   */
+  // Java 9: Make module-private
+  public final ValidMediaInput validMediaInput;
 
-	// Java 9: Make module-private
-	public RequestEncodingContext(MediaType contentType, ValidMediaInput validMediaInput) {
-		this.contentType = NullArgumentException.checkNotNull(contentType, "contentType");
-		this.validMediaInput = NullArgumentException.checkNotNull(validMediaInput, "validMediaInput");
-	}
+  // Java 9: Make module-private
+  public RequestEncodingContext(MediaType contentType, ValidMediaInput validMediaInput) {
+    this.contentType = NullArgumentException.checkNotNull(contentType, "contentType");
+    this.validMediaInput = NullArgumentException.checkNotNull(validMediaInput, "validMediaInput");
+  }
 }

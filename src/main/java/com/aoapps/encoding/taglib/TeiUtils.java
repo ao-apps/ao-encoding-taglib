@@ -39,48 +39,50 @@ import javax.servlet.jsp.tagext.ValidationMessage;
  */
 public final class TeiUtils {
 
-	/** Make no instances. */
-	private TeiUtils() {throw new AssertionError();}
+  /** Make no instances. */
+  private TeiUtils() {
+    throw new AssertionError();
+  }
 
-	/**
-	 * Checks that a type is a valid MediaType.
-	 *
-	 * @param  messages  the list of messages to add to, maybe <code>null</code>
-	 *
-	 * @return  the list of messages.  A new list will have been created if the <code>message</code> parameter was <code>null</code>
-	 *
-	 * @see  MediaType#getMediaTypeByName(java.lang.String)
-	 * @see  MediaType#getMediaTypeForContentType(java.lang.String)
-	 */
-	// TODO: Stop using MinimalList - over-optimized
-	public static List<ValidationMessage> validateMediaType(TagData data, List<ValidationMessage> messages) {
-		Object typeAttr = data.getAttribute("type");
-		if(
-			typeAttr != null
-			&& typeAttr != TagData.REQUEST_TIME_VALUE
-		) {
-			String type = Strings.trimNullIfEmpty((String)typeAttr); // TODO: normalizeType
-			if(type != null) {
-				try {
-					// First allow shortcuts (matching enum names)
-					MediaType mediaType = MediaType.getMediaTypeByName(type);
-					if(mediaType == null) {
-						// Return value not used: valdation only:
-						mediaType = MediaType.getMediaTypeForContentType(type);
-						assert mediaType != null;
-					}
-					// Value is OK
-				} catch(UnsupportedEncodingException err) {
-					messages = MinimalList.add(
-						messages,
-						new ValidationMessage(
-							data.getId(),
-							err.getLocalizedMessage()
-						)
-					);
-				}
-			}
-		}
-		return messages;
-	}
+  /**
+   * Checks that a type is a valid MediaType.
+   *
+   * @param  messages  the list of messages to add to, maybe <code>null</code>
+   *
+   * @return  the list of messages.  A new list will have been created if the <code>message</code> parameter was <code>null</code>
+   *
+   * @see  MediaType#getMediaTypeByName(java.lang.String)
+   * @see  MediaType#getMediaTypeForContentType(java.lang.String)
+   */
+  // TODO: Stop using MinimalList - over-optimized
+  public static List<ValidationMessage> validateMediaType(TagData data, List<ValidationMessage> messages) {
+    Object typeAttr = data.getAttribute("type");
+    if (
+      typeAttr != null
+      && typeAttr != TagData.REQUEST_TIME_VALUE
+    ) {
+      String type = Strings.trimNullIfEmpty((String)typeAttr); // TODO: normalizeType
+      if (type != null) {
+        try {
+          // First allow shortcuts (matching enum names)
+          MediaType mediaType = MediaType.getMediaTypeByName(type);
+          if (mediaType == null) {
+            // Return value not used: valdation only:
+            mediaType = MediaType.getMediaTypeForContentType(type);
+            assert mediaType != null;
+          }
+          // Value is OK
+        } catch (UnsupportedEncodingException err) {
+          messages = MinimalList.add(
+            messages,
+            new ValidationMessage(
+              data.getId(),
+              err.getLocalizedMessage()
+            )
+          );
+        }
+      }
+    }
+    return messages;
+  }
 }
