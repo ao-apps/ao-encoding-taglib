@@ -57,8 +57,8 @@ final class BodyTagUtils  {
 
   static int checkAfterBodyReturn(int afterBodyReturn) throws JspTagException {
     if (
-      afterBodyReturn != SKIP_BODY
-      && afterBodyReturn != EVAL_BODY_AGAIN
+        afterBodyReturn != SKIP_BODY
+            && afterBodyReturn != EVAL_BODY_AGAIN
     ) {
       throw new LocalizedJspTagException(RESOURCES, "checkAfterBodyReturn.invalid", afterBodyReturn);
     }
@@ -67,8 +67,8 @@ final class BodyTagUtils  {
 
   static int checkEndTagReturn(int endTagReturn) throws JspTagException {
     if (
-      endTagReturn != EVAL_PAGE
-      && endTagReturn != SKIP_PAGE
+        endTagReturn != EVAL_PAGE
+            && endTagReturn != SKIP_PAGE
     ) {
       throw new LocalizedJspTagException(RESOURCES, "checkEndTagReturn.invalid", endTagReturn);
     }
@@ -80,6 +80,7 @@ final class BodyTagUtils  {
 
   private static final Class<?> bodyContentImplClass;
   private static final Field writerField;
+
   static {
     Class<?> clazz;
     Field field;
@@ -92,11 +93,11 @@ final class BodyTagUtils  {
     } catch (Throwable t) {
       if (logger.isLoggable(Level.INFO)) {
         logger.log(
-          Level.INFO,
-          "Cannot get direct access to the "+BODY_CONTENT_IMPL_CLASS+"."+WRITER_FIELD+" field.  "
-          + "Unbuffering of BodyContent disabled.  "
-          + "The system will behave correctly, but some optimizations are disabled.",
-          t
+            Level.INFO,
+            "Cannot get direct access to the " + BODY_CONTENT_IMPL_CLASS + "." + WRITER_FIELD + " field.  "
+                + "Unbuffering of BodyContent disabled.  "
+                + "The system will behave correctly, but some optimizations are disabled.",
+            t
         );
       }
       clazz = null;

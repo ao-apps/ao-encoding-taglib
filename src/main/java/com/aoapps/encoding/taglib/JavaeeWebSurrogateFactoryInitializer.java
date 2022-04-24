@@ -46,16 +46,16 @@ public class JavaeeWebSurrogateFactoryInitializer implements ThrowableSurrogateF
 
     // javax.el:javax.el-api:2.2.5
     Throwables.registerSurrogateFactory(javax.el.ELException.class, (template, cause) ->
-      new javax.el.ELException(template.getMessage(), cause)
+        new javax.el.ELException(template.getMessage(), cause)
     );
     Throwables.registerSurrogateFactory(javax.el.MethodNotFoundException.class, (template, cause) ->
-      new javax.el.MethodNotFoundException(template.getMessage(), cause)
+        new javax.el.MethodNotFoundException(template.getMessage(), cause)
     );
     Throwables.registerSurrogateFactory(javax.el.PropertyNotFoundException.class, (template, cause) ->
-      new javax.el.PropertyNotFoundException(template.getMessage(), cause)
+        new javax.el.PropertyNotFoundException(template.getMessage(), cause)
     );
     Throwables.registerSurrogateFactory(javax.el.PropertyNotWritableException.class, (template, cause) ->
-      new javax.el.PropertyNotWritableException(template.getMessage(), cause)
+        new javax.el.PropertyNotWritableException(template.getMessage(), cause)
     );
 
     // javax.servlet:javax.servlet-api:3.0.1

@@ -37,11 +37,12 @@ public class EncodingTag extends EncodingFilteredTag {
     return mediaType;
   }
 
-/* BodyTag only:
-  private static final long serialVersionUID = 1L;
-/**/
+  /* BodyTag only:
+    private static final long serialVersionUID = 1L;
+  /**/
 
   private MediaType mediaType;
+
   public void setType(String type) {
     String typeStr = Strings.trim(type);
     MediaType newMediaType = MediaType.getMediaTypeByName(typeStr);

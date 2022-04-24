@@ -88,9 +88,9 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
     BufferWriter bufferWriter = new CharArrayBufferWriter();
     if (tempFileThreshold != Long.MAX_VALUE) {
       bufferWriter = new AutoTempFileWriter(
-        bufferWriter,
-        tempFileContext,
-        tempFileThreshold
+          bufferWriter,
+          tempFileContext,
+          tempFileThreshold
       );
     }
     return bufferWriter;
@@ -152,8 +152,8 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
   @Deprecated
   @Override
   public void doTag() throws JspException, IOException {
-    final PageContext pageContext = (PageContext)getJspContext();
-    final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
+    final PageContext pageContext = (PageContext) getJspContext();
+    final HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
     final RequestEncodingContext parentEncodingContext = RequestEncodingContext.getCurrentContext(request);
     // The output type cannot be determined until the body of the tag is invoked, because nested tags may
     // alter the resulting type.  We invoke the body first to accommodate nested tags.
@@ -167,8 +167,8 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
         final MediaType captureType = getContentType();
         MediaValidator captureValidator = MediaValidator.getMediaValidator(captureType, captureBuffer);
         RequestEncodingContext.setCurrentContext(
-          request,
-          new RequestEncodingContext(captureType, captureValidator)
+            request,
+            new RequestEncodingContext(captureType, captureValidator)
         );
         try {
           invoke(body, captureValidator);
@@ -195,7 +195,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
       doTag(capturedBody, failOut);
       // suffix skipped
     } else {
-      final HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
+      final HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
       final JspWriter directOut = pageContext.getOut();
 
       // Determine the container's content type and validator
@@ -209,7 +209,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
           logger.finer("containerType from parentEncodingContext: " + containerType);
         }
         assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerType)
-          : "It is a bug in the parent to not validate its input consistent with its content type";
+            : "It is a bug in the parent to not validate its input consistent with its content type";
         // Already validated
         containerValidator = Coercion.optimize(directOut, null);
         isNewContainerValidator = false;
@@ -254,17 +254,17 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
         writeEncoderPrefix(mediaEncoder, optimized); // TODO: Skip prefix and suffix when empty?  Pass capturedBody so implementation may decide?
         try {
           MediaWriter mediaWriter = newOutputType.newMediaWriter(
-            encodingContext,
-            mediaEncoder,
-            optimized,
-            true,
-            null,
-            MediaWriter.DEFAULT_IS_NO_CLOSE,
-            MediaWriter.DEFAULT_CLOSER
+              encodingContext,
+              mediaEncoder,
+              optimized,
+              true,
+              null,
+              MediaWriter.DEFAULT_IS_NO_CLOSE,
+              MediaWriter.DEFAULT_CLOSER
           );
           RequestEncodingContext.setCurrentContext(
-            request,
-            new RequestEncodingContext(newOutputType, mediaWriter)
+              request,
+              new RequestEncodingContext(newOutputType, mediaWriter)
           );
           try {
             assert mediaWriter == Coercion.optimize(mediaWriter, null);
@@ -280,15 +280,15 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
       } else {
         // If parentValidMediaInput exists and is validating our output type, no additional validation is required
         if (
-          parentEncodingContext != null
-          && parentEncodingContext.validMediaInput.isValidatingMediaInputType(newOutputType)
+            parentEncodingContext != null
+                && parentEncodingContext.validMediaInput.isValidatingMediaInputType(newOutputType)
         ) {
           if (logger.isLoggable(Level.FINER)) {
             logger.finer("Passing-through with validating parent: " + parentEncodingContext.validMediaInput);
           }
           RequestEncodingContext.setCurrentContext(
-            request,
-            new RequestEncodingContext(newOutputType, parentEncodingContext.validMediaInput)
+              request,
+              new RequestEncodingContext(newOutputType, parentEncodingContext.validMediaInput)
           );
           try {
             assert containerValidator == Coercion.optimize(containerValidator, null);
@@ -303,8 +303,8 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
             logger.finer("Using MediaValidator: " + validator);
           }
           RequestEncodingContext.setCurrentContext(
-            request,
-            new RequestEncodingContext(newOutputType, validator)
+              request,
+              new RequestEncodingContext(newOutputType, validator)
           );
           try {
             assert validator == Coercion.optimize(validator, null);
@@ -320,7 +320,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
       assert containerValidator == Coercion.optimize(containerValidator, null);
       writeSuffix(containerType, containerValidator);
       if (isNewContainerValidator) {
-        ((MediaValidator)containerValidator).validate(containerType.getTrimBuffer());
+        ((MediaValidator) containerValidator).validate(containerType.getTrimBuffer());
       }
     }
   }

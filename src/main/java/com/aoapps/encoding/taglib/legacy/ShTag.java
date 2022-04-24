@@ -35,7 +35,7 @@ public class ShTag extends EncodingFilteredBodyTag {
     return MediaType.SH;
   }
 
-/* BodyTag only: */
+  /* BodyTag only: */
   private static final long serialVersionUID = 1L;
-/**/
+  /**/
 }

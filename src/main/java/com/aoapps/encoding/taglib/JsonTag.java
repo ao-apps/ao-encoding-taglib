@@ -35,7 +35,7 @@ public class JsonTag extends EncodingFilteredTag {
     return MediaType.JSON;
   }
 
-/* BodyTag only:
+  /* BodyTag only:
   private static final long serialVersionUID = 1L;
 /**/
 }

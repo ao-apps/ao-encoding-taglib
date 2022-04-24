@@ -58,10 +58,10 @@ public final class TeiUtils {
   public static List<ValidationMessage> validateMediaType(TagData data, List<ValidationMessage> messages) {
     Object typeAttr = data.getAttribute("type");
     if (
-      typeAttr != null
-      && typeAttr != TagData.REQUEST_TIME_VALUE
+        typeAttr != null
+            && typeAttr != TagData.REQUEST_TIME_VALUE
     ) {
-      String type = Strings.trimNullIfEmpty((String)typeAttr); // TODO: normalizeType
+      String type = Strings.trimNullIfEmpty((String) typeAttr); // TODO: normalizeType
       if (type != null) {
         try {
           // First allow shortcuts (matching enum names)
@@ -74,11 +74,11 @@ public final class TeiUtils {
           // Value is OK
         } catch (UnsupportedEncodingException err) {
           messages = MinimalList.add(
-            messages,
-            new ValidationMessage(
-              data.getId(),
-              err.getLocalizedMessage()
-            )
+              messages,
+              new ValidationMessage(
+                  data.getId(),
+                  err.getLocalizedMessage()
+              )
           );
         }
       }

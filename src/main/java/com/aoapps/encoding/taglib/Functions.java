@@ -38,15 +38,15 @@ public final class Functions {
 
   public static Serialization getSerialization() {
     return SerializationEE.get(
-      FunctionContext.getServletContext(),
-      FunctionContext.getRequest()
+        FunctionContext.getServletContext(),
+        FunctionContext.getRequest()
     );
   }
 
   public static Doctype getDoctype() {
     return DoctypeEE.get(
-      FunctionContext.getServletContext(),
-      FunctionContext.getRequest()
+        FunctionContext.getServletContext(),
+        FunctionContext.getRequest()
     );
   }
 }

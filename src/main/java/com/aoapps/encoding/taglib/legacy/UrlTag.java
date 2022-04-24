@@ -35,7 +35,7 @@ public class UrlTag extends EncodingFilteredBodyTag {
     return MediaType.URL;
   }
 
-/* BodyTag only: */
+  /* BodyTag only: */
   private static final long serialVersionUID = 1L;
-/**/
+  /**/
 }

@@ -29,17 +29,17 @@ public class AoEncodingTldInitializer extends TagReferenceInitializer {
 
   public AoEncodingTldInitializer() {
     super(
-      Maven.properties.getProperty("documented.name") + " Reference",
-      "Taglib Reference",
-      "/encoding/taglib",
-      "/ao-encoding.tld",
-      true,
-      Maven.properties.getProperty("documented.javadoc.link.javase"),
-      Maven.properties.getProperty("documented.javadoc.link.javaee"),
-      // Self
-      "com.aoapps.encoding.taglib", Maven.properties.getProperty("project.url") + "apidocs/com.aoapps.encoding.taglib/",
-      // Dependencies
-      "com.aoapps.encoding", "https://oss.aoapps.com/encoding/apidocs/com.aoapps.encoding/"
+        Maven.properties.getProperty("documented.name") + " Reference",
+        "Taglib Reference",
+        "/encoding/taglib",
+        "/ao-encoding.tld",
+        true,
+        Maven.properties.getProperty("documented.javadoc.link.javase"),
+        Maven.properties.getProperty("documented.javadoc.link.javaee"),
+        // Self
+        "com.aoapps.encoding.taglib", Maven.properties.getProperty("project.url") + "apidocs/com.aoapps.encoding.taglib/",
+        // Dependencies
+        "com.aoapps.encoding", "https://oss.aoapps.com/encoding/apidocs/com.aoapps.encoding/"
     );
   }
 }

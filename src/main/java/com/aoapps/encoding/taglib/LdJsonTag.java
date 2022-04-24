@@ -35,7 +35,7 @@ public class LdJsonTag extends EncodingFilteredTag {
     return MediaType.LD_JSON;
   }
 
-/* BodyTag only:
+  /* BodyTag only:
   private static final long serialVersionUID = 1L;
 /**/
 }

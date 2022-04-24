@@ -47,7 +47,7 @@ import javax.servlet.ServletRequest;
 public class RequestEncodingContext {
 
   private static final ScopeEE.Request.Attribute<RequestEncodingContext> CURRENT_CONTEXT_REQUEST_ATTRIBUTE =
-    ScopeEE.REQUEST.attribute(RequestEncodingContext.class.getName() + ".currentContext");
+      ScopeEE.REQUEST.attribute(RequestEncodingContext.class.getName() + ".currentContext");
 
   // Java 9: Make module-private
   public static RequestEncodingContext getCurrentContext(ServletRequest request) {
@@ -64,28 +64,28 @@ public class RequestEncodingContext {
    */
   // Java 9: Make module-private
   public static final RequestEncodingContext DISCARD = new RequestEncodingContext(
-    MediaType.TEXT,
-    new ValidMediaInput() {
-      private final MediaValidator textValidator = MediaValidator.getMediaValidator(MediaType.TEXT, NullWriter.getInstance());
-      {
-        assert !(textValidator instanceof BufferedValidator) : "If were " + BufferedValidator.class.getName() + " could not share singleton";
-      }
-      @Override
-      public MediaType getValidMediaInputType() {
-        assert textValidator.getValidMediaInputType() == MediaType.TEXT;
-        return MediaType.TEXT;
-      }
+      MediaType.TEXT,
+      new ValidMediaInput() {
+        private final MediaValidator textValidator = MediaValidator.getMediaValidator(MediaType.TEXT, NullWriter.getInstance());
+        {
+          assert !(textValidator instanceof BufferedValidator) : "If were " + BufferedValidator.class.getName() + " could not share singleton";
+        }
+        @Override
+        public MediaType getValidMediaInputType() {
+          assert textValidator.getValidMediaInputType() == MediaType.TEXT;
+          return MediaType.TEXT;
+        }
 
-      @Override
-      public boolean isValidatingMediaInputType(MediaType inputType) {
-        return textValidator.isValidatingMediaInputType(inputType);
-      }
+        @Override
+        public boolean isValidatingMediaInputType(MediaType inputType) {
+          return textValidator.isValidatingMediaInputType(inputType);
+        }
 
-      @Override
-      public boolean canSkipValidation(MediaType outputType) {
-        return textValidator.isValidatingMediaInputType(outputType);
+        @Override
+        public boolean canSkipValidation(MediaType outputType) {
+          return textValidator.isValidatingMediaInputType(outputType);
+        }
       }
-    }
   );
 
   /**

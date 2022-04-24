@@ -35,7 +35,7 @@ public class XhtmlTag extends EncodingFilteredBodyTag {
     return MediaType.XHTML;
   }
 
-/* BodyTag only: */
+  /* BodyTag only: */
   private static final long serialVersionUID = 1L;
-/**/
+  /**/
 }

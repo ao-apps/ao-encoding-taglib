@@ -29,18 +29,18 @@ public class AoEncodingLegacyTldInitializer extends TagReferenceInitializer {
 
   public AoEncodingLegacyTldInitializer() {
     super(
-      Maven.properties.getProperty("documented.name") + " Reference (Legacy)",
-      "Taglib Reference (Legacy)",
-      "/encoding/taglib",
-      "/ao-encoding-legacy.tld",
-      true,
-      Maven.properties.getProperty("documented.javadoc.link.javase"),
-      Maven.properties.getProperty("documented.javadoc.link.javaee"),
-      // Self
-      "com.aoapps.encoding.taglib", Maven.properties.getProperty("project.url") + "apidocs/com.aoapps.encoding.taglib/",
-      "com.aoapps.encoding.taglib.legacy", Maven.properties.getProperty("project.url") + "apidocs/com.aoapps.encoding.taglib/",
-      // Dependencies
-      "com.aoapps.encoding", "https://oss.aoapps.com/encoding/apidocs/com.aoapps.encoding/"
+        Maven.properties.getProperty("documented.name") + " Reference (Legacy)",
+        "Taglib Reference (Legacy)",
+        "/encoding/taglib",
+        "/ao-encoding-legacy.tld",
+        true,
+        Maven.properties.getProperty("documented.javadoc.link.javase"),
+        Maven.properties.getProperty("documented.javadoc.link.javaee"),
+        // Self
+        "com.aoapps.encoding.taglib", Maven.properties.getProperty("project.url") + "apidocs/com.aoapps.encoding.taglib/",
+        "com.aoapps.encoding.taglib.legacy", Maven.properties.getProperty("project.url") + "apidocs/com.aoapps.encoding.taglib/",
+        // Dependencies
+        "com.aoapps.encoding", "https://oss.aoapps.com/encoding/apidocs/com.aoapps.encoding/"
     );
   }
 }

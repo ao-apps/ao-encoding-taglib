@@ -35,7 +35,7 @@ public class TextTag extends EncodingFilteredBodyTag {
     return MediaType.TEXT;
   }
 
-/* BodyTag only: */
+  /* BodyTag only: */
   private static final long serialVersionUID = 1L;
-/**/
+  /**/
 }

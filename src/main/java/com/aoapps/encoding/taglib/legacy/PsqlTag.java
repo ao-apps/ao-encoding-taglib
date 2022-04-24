@@ -35,7 +35,7 @@ public class PsqlTag extends EncodingFilteredBodyTag {
     return MediaType.PSQL;
   }
 
-/* BodyTag only: */
+  /* BodyTag only: */
   private static final long serialVersionUID = 1L;
-/**/
+  /**/
 }

@@ -35,7 +35,7 @@ public class JavaScriptTag extends EncodingFilteredTag {
     return MediaType.JAVASCRIPT;
   }
 
-/* BodyTag only:
+  /* BodyTag only:
   private static final long serialVersionUID = 1L;
 /**/
 }

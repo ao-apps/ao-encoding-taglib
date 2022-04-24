@@ -52,11 +52,12 @@ public class OutTag extends EncodingNullTag {
     return mediaType;
   }
 
-/* BodyTag only:
-  private static final long serialVersionUID = 1L;
-/**/
+  /* BodyTag only:
+    private static final long serialVersionUID = 1L;
+  /**/
 
   private Object value;
+
   public void setValue(Object value) {
     this.value = value;
   }
@@ -64,6 +65,7 @@ public class OutTag extends EncodingNullTag {
   private ValueExpression def;
   private boolean defValueSet;
   private Object defValue;
+
   public void setDefault(ValueExpression def) {
     this.def = def;
     this.defValueSet = false;
@@ -71,12 +73,12 @@ public class OutTag extends EncodingNullTag {
   }
 
   private Object getDefault() {
-/* BodyTag only:
-    ELContext elContext = pageContext.getELContext();
-/**/
-/* SimpleTag only: */
+    /* BodyTag only:
+        ELContext elContext = pageContext.getELContext();
+    /**/
+    /* SimpleTag only: */
     ELContext elContext = getJspContext().getELContext();
-/**/
+    /**/
     if (def == null) {
       return null;
     }
@@ -103,6 +105,7 @@ public class OutTag extends EncodingNullTag {
    * </p>
    */
   private MediaType mediaType;
+
   public void setType(String type) {
     String typeStr = Strings.trim(type);
     MediaType newMediaType = MediaType.getMediaTypeByName(typeStr);
@@ -138,17 +141,17 @@ public class OutTag extends EncodingNullTag {
       markupType = containerType.getMarkupType();
       BundleLookupThreadContext threadContext;
       if (
-        markupType != null
-        && markupType != MarkupType.NONE
-        && (threadContext = BundleLookupThreadContext.getThreadContext()) != null
-        // Avoid intermediate String from Writable
-        && (
-          !(effectiveValue instanceof Writable)
-          || ((Writable)effectiveValue).isFastToString()
-        )
-        // Other types that will not be converted to String for bundle lookups
-        && !(value instanceof char[])
-        && !(value instanceof Node)
+          markupType != null
+              && markupType != MarkupType.NONE
+              && (threadContext = BundleLookupThreadContext.getThreadContext()) != null
+              // Avoid intermediate String from Writable
+              && (
+              !(effectiveValue instanceof Writable)
+                  || ((Writable) effectiveValue).isFastToString()
+          )
+              // Other types that will not be converted to String for bundle lookups
+              && !(value instanceof char[])
+              && !(value instanceof Node)
       ) {
         toStringResult = Coercion.toString(effectiveValue);
         // Look for any message markup
@@ -161,12 +164,12 @@ public class OutTag extends EncodingNullTag {
   }
 
   @Override
-/* BodyTag only:
-  protected int doEndTag(Writer out) throws JspException, IOException {
-/**/
-/* SimpleTag only: */
+  /* BodyTag only:
+    protected int doEndTag(Writer out) throws JspException, IOException {
+  /**/
+  /* SimpleTag only: */
   protected void doTag(Writer out) throws JspException, IOException {
-/**/
+    /**/
     if (toStringResult != null) {
       out.write(toStringResult);
     } else if (value != null) {
@@ -177,9 +180,9 @@ public class OutTag extends EncodingNullTag {
         Coercion.write(_default, out, true);
       }
     }
-/* BodyTag only:
-    return EVAL_PAGE;
-/**/
+    /* BodyTag only:
+      return EVAL_PAGE;
+  /**/
   }
 
   @Override
@@ -189,7 +192,7 @@ public class OutTag extends EncodingNullTag {
     }
   }
 
-/* BodyTag only:
+  /* BodyTag only:
   @Override
   public void doFinally() {
     try {

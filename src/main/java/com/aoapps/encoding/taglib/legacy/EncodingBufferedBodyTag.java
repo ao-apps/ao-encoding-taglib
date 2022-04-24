@@ -174,7 +174,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
           logger.finer("containerType from parentEncodingContext: " + containerType);
         }
         assert parentEncodingContext.validMediaInput.isValidatingMediaInputType(containerType)
-          : "It is a bug in the parent to not validate its input consistent with its content type";
+            : "It is a bug in the parent to not validate its input consistent with its content type";
         // Already validated
         containerValidator = Coercion.optimize(directOut, null);
         isNewContainerValidator = false;
@@ -239,8 +239,8 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
         newIsNewValidator = false;
         // suffix skipped
       } else {
-        final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-        final HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
+        final HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+        final HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
         // Find the encoder
         EncodingContext encodingContext = new EncodingContextEE(pageContext.getServletContext(), request, response);
         newMediaEncoder = MediaEncoder.getInstance(encodingContext, newOutputType, containerType);
@@ -255,13 +255,13 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
           logger.finest("Writing encoder prefix");
           writeEncoderPrefix(newMediaEncoder, newOptimized); // TODO: Skip prefix and suffix when empty?
           MediaWriter mediaWriter = newOutputType.newMediaWriter(
-            encodingContext,
-            newMediaEncoder,
-            newOptimized,
-            true,
-            null,
-            MediaWriter.DEFAULT_IS_NO_CLOSE,
-            MediaWriter.DEFAULT_CLOSER
+              encodingContext,
+              newMediaEncoder,
+              newOptimized,
+              true,
+              null,
+              MediaWriter.DEFAULT_IS_NO_CLOSE,
+              MediaWriter.DEFAULT_CLOSER
           );
           newValidatingOutEncodingContext = new RequestEncodingContext(newOutputType, mediaWriter);
           newValidatingOut = mediaWriter;
@@ -270,8 +270,8 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
           newOptimized = null;
           // If parentValidMediaInput exists and is validating our output type, no additional validation is required
           if (
-            parentEncodingContext != null
-            && parentEncodingContext.validMediaInput.isValidatingMediaInputType(newOutputType)
+              parentEncodingContext != null
+                  && parentEncodingContext.validMediaInput.isValidatingMediaInputType(newOutputType)
           ) {
             if (logger.isLoggable(Level.FINER)) {
               logger.finer("Passing-through with validating parent: " + parentEncodingContext.validMediaInput);
@@ -294,13 +294,13 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
       if (validatingOut != null) {
         if (logger.isLoggable(Level.FINER)) {
           logger.finer(
-            "Changing output type from "
-            + validatingOutputType + " to "
-            + newOutputType
+              "Changing output type from "
+                  + validatingOutputType + " to "
+                  + newOutputType
           );
         }
         if (isNewValidator) {
-          ((MediaValidator)validatingOut).validate(validatingOutputType.getTrimBuffer());
+          ((MediaValidator) validatingOut).validate(validatingOutputType.getTrimBuffer());
         }
       }
       validatingOutputType = newOutputType;
@@ -354,8 +354,8 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
     captureType = getContentType();
     captureValidator = MediaValidator.getMediaValidator(captureType, captureBuffer);
     RequestEncodingContext.setCurrentContext(
-      request,
-      new RequestEncodingContext(captureType, captureValidator)
+        request,
+        new RequestEncodingContext(captureType, captureValidator)
     );
     bodyUnbuffered = BodyTagUtils.unbuffer(bodyContent, captureValidator);
   }
@@ -448,7 +448,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
       assert validatingOut == Coercion.optimize(validatingOut, null);
       int endTagReturn = doEndTag(capturedBody, validatingOut);
       if (isNewValidator) {
-        ((MediaValidator)validatingOut).validate(validatingOutputType.getTrimBuffer());
+        ((MediaValidator) validatingOut).validate(validatingOutputType.getTrimBuffer());
       }
       BodyTagUtils.checkEndTagReturn(endTagReturn);
       if (mediaEncoder != null) {
@@ -462,7 +462,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
         writeSuffix(containerType, containerValidator);
       }
       if (isNewContainerValidator) {
-        ((MediaValidator)containerValidator).validate(containerType.getTrimBuffer());
+        ((MediaValidator) containerValidator).validate(containerType.getTrimBuffer());
       }
 
       return endTagReturn;

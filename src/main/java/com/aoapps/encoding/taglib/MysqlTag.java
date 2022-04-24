@@ -35,7 +35,7 @@ public class MysqlTag extends EncodingFilteredTag {
     return MediaType.MYSQL;
   }
 
-/* BodyTag only:
+  /* BodyTag only:
   private static final long serialVersionUID = 1L;
 /**/
 }

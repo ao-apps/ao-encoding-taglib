@@ -35,7 +35,7 @@ public class StyleTag extends EncodingFilteredBodyTag {
     return MediaType.CSS;
   }
 
-/* BodyTag only: */
+  /* BodyTag only: */
   private static final long serialVersionUID = 1L;
-/**/
+  /**/
 }
