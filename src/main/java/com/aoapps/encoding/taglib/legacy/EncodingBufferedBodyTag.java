@@ -203,7 +203,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 
       // Write any prefix
       MediaType newOutputType = getOutputType();
-      writePrefixSuffix = (newOutputType != null);
+      writePrefixSuffix = newOutputType != null;
       if (writePrefixSuffix) {
         assert containerValidator == Coercion.optimize(containerValidator, null);
         writePrefix(containerType, containerValidator);
