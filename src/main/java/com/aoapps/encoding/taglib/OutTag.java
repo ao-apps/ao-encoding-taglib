@@ -85,10 +85,10 @@ public class OutTag extends EncodingNullTag {
     if (defValueSet) {
       return defValue;
     }
-    Object _value = def.getValue(elContext);
-    defValue = _value;
+    Object myValue = def.getValue(elContext);
+    defValue = myValue;
     defValueSet = true;
-    return _value;
+    return myValue;
   }
 
   /**
@@ -175,9 +175,9 @@ public class OutTag extends EncodingNullTag {
     } else if (value != null) {
       Coercion.write(value, out, true);
     } else {
-      Object _default = getDefault();
-      if (_default != null) {
-        Coercion.write(_default, out, true);
+      Object myDefault = getDefault();
+      if (myDefault != null) {
+        Coercion.write(myDefault, out, true);
       }
     }
     /* BodyTag only:

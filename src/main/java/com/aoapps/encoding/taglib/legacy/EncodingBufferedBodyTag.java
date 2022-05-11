@@ -153,6 +153,8 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
   }
 
   /**
+   * {@inheritDoc}
+   *
    * @deprecated  You should probably be implementing in {@link #doStartTag(java.io.Writer)}
    *
    * @see  #doStartTag(java.io.Writer)
@@ -382,6 +384,8 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
   }
 
   /**
+   * {@inheritDoc}
+   *
    * @deprecated  You should probably be implementing in {@link #doAfterBody(com.aoapps.io.buffer.BufferResult, java.io.Writer)}
    *
    * @see  #doAfterBody(com.aoapps.io.buffer.BufferResult, java.io.Writer)
@@ -435,6 +439,8 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
   }
 
   /**
+   * {@inheritDoc}
+   *
    * @deprecated  You should probably be implementing in {@link #doEndTag(com.aoapps.io.buffer.BufferResult, java.io.Writer)}
    *
    * @see  #doEndTag(com.aoapps.io.buffer.BufferResult, java.io.Writer)

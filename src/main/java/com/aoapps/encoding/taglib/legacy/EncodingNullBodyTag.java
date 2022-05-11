@@ -111,6 +111,8 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
   }
 
   /**
+   * {@inheritDoc}
+   *
    * @deprecated  You should probably be implementing in {@link #doStartTag(java.io.Writer)}
    *
    * @see  #doStartTag(java.io.Writer)
@@ -335,6 +337,8 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
   }
 
   /**
+   * {@inheritDoc}
+   *
    * @deprecated  You should probably be implementing in {@link #doAfterBody(java.io.Writer)}
    *
    * @see  #doAfterBody(java.io.Writer)
@@ -378,6 +382,8 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
   }
 
   /**
+   * {@inheritDoc}
+   *
    * @deprecated  You should probably be implementing in {@link #doEndTag(java.io.Writer)}
    *
    * @see  #doEndTag(java.io.Writer)

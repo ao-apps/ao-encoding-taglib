@@ -63,6 +63,8 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
   public abstract MediaType getOutputType();
 
   /**
+   * {@inheritDoc}
+   *
    * @deprecated  You should probably be implementing in {@link #doTag(java.io.Writer)}
    *
    * @see  #doTag(java.io.Writer)

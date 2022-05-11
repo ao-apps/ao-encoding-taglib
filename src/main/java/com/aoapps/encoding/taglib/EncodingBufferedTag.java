@@ -145,6 +145,8 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
   }
 
   /**
+   * {@inheritDoc}
+   *
    * @deprecated  You should probably be implementing in {@link #doTag(com.aoapps.io.buffer.BufferResult, java.io.Writer)}
    *
    * @see  #doTag(com.aoapps.io.buffer.BufferResult, java.io.Writer)

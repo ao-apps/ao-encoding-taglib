@@ -70,6 +70,7 @@ public class RequestEncodingContext {
         {
           assert !(textValidator instanceof BufferedValidator) : "If were " + BufferedValidator.class.getName() + " could not share singleton";
         }
+
         @Override
         public MediaType getValidMediaInputType() {
           assert textValidator.getValidMediaInputType() == MediaType.TEXT;

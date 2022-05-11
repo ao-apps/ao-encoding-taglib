@@ -83,6 +83,8 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
   public abstract MediaType getContentType();
 
   /**
+   * {@inheritDoc}
+   *
    * @deprecated  You should probably be implementing in {@link #doTag(java.io.Writer)}
    *
    * @see  #doTag(java.io.Writer)

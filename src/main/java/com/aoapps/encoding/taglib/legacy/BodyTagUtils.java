@@ -23,6 +23,11 @@
 
 package com.aoapps.encoding.taglib.legacy;
 
+import static javax.servlet.jsp.tagext.IterationTag.EVAL_BODY_AGAIN;
+import static javax.servlet.jsp.tagext.Tag.EVAL_PAGE;
+import static javax.servlet.jsp.tagext.Tag.SKIP_BODY;
+import static javax.servlet.jsp.tagext.Tag.SKIP_PAGE;
+
 import com.aoapps.lang.i18n.Resources;
 import com.aoapps.servlet.jsp.LocalizedJspTagException;
 import java.io.Writer;
@@ -33,10 +38,6 @@ import java.util.logging.Logger;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTag;
-import static javax.servlet.jsp.tagext.IterationTag.EVAL_BODY_AGAIN;
-import static javax.servlet.jsp.tagext.Tag.EVAL_PAGE;
-import static javax.servlet.jsp.tagext.Tag.SKIP_BODY;
-import static javax.servlet.jsp.tagext.Tag.SKIP_PAGE;
 
 /**
  * Helper utilities for working with {@link BodyTag}.
