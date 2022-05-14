@@ -37,7 +37,7 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
     shortTitle="Changelog"
     tocLevels="1"
     datePublished="2020-11-18T11:39:31-06:00"
-    dateModified="2022-04-07T08:50:29-05:00"
+    dateModified="2022-05-13T22:52:09-05:00"
   >
     <c:if test="${fn:endsWith('@{project.version}', '-SNAPSHOT') and !fn:endsWith('@{project.version}', '-POST-SNAPSHOT')}">
       <changelog:release
@@ -47,19 +47,28 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
         artifactId="@{documented.artifactId}"
         repository="@{nexusUrl}content/repositories/snapshots/"
         scmUrl="@{project.scm.url}"
-      >
-        <ul>
-          <li>Implemented <ao:a href="https://www.w3.org/TR/CSS2/syndata.html#characters">CSS encoding</ao:a>:
-            <ol>
-              <li><core:link page="ao-encoding.tld/tag-style" /></li>
-            </ol>
-          </li>
-          <li>New interface <code>NoClose</code> along with static <code>wrap(…)</code> methods to avoid duplicate wrapping.</li>
-          <li>More thorough internal character validation, with additional optimizations.</li>
-          <li>Moved <code>FailOnWriteWriter</code> to <core:link book="/lang" page="/index.jspx" />.</li>
-        </ul>
-      </changelog:release>
+      />
     </c:if>
+
+    <changelog:release
+      projectName="@{documented.name}"
+      version="4.0.0"
+      datePublished="2022-05-13T22:52:09-05:00"
+      groupId="@{project.groupId}"
+      artifactId="@{documented.artifactId}"
+      scmUrl="@{project.scm.url}"
+    >
+      <ul>
+        <li>Implemented <ao:a href="https://www.w3.org/TR/CSS2/syndata.html#characters">CSS encoding</ao:a>:
+          <ol>
+            <li><core:link page="ao-encoding.tld/tag-style" /></li>
+          </ol>
+        </li>
+        <li>New interface <code>NoClose</code> along with static <code>wrap(…)</code> methods to avoid duplicate wrapping.</li>
+        <li>More thorough internal character validation, with additional optimizations.</li>
+        <li>Moved <code>FailOnWriteWriter</code> to <core:link book="/lang" page="/index.jspx" />.</li>
+      </ul>
+    </changelog:release>
 
     <changelog:release
       projectName="@{documented.name}"
