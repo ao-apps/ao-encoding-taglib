@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022, 2023  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -24,7 +24,8 @@
 package com.aoapps.encoding.taglib.legacy;
 
 import com.aoapps.encoding.MediaType;
-import com.aoapps.lang.Strings;
+import com.aoapps.lang.Coercion;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -43,8 +44,8 @@ public class EncodingTag extends EncodingFilteredBodyTag {
 
   private MediaType mediaType;
 
-  public void setType(String type) {
-    String typeStr = Strings.trim(type);
+  public void setType(Object type) throws IOException {
+    String typeStr = Coercion.toString(Coercion.trimNullIfEmpty(type));
     MediaType newMediaType = MediaType.getMediaTypeByName(typeStr);
     if (newMediaType == null) {
       try {

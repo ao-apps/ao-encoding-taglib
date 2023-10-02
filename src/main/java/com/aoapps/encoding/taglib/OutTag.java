@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2013, 2015, 2016, 2017, 2019, 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2013, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -28,7 +28,6 @@ import com.aoapps.hodgepodge.i18n.BundleLookupMarkup;
 import com.aoapps.hodgepodge.i18n.BundleLookupThreadContext;
 import com.aoapps.hodgepodge.i18n.MarkupType;
 import com.aoapps.lang.Coercion;
-import com.aoapps.lang.Strings;
 import com.aoapps.lang.io.Writable;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -106,8 +105,8 @@ public class OutTag extends EncodingNullTag {
    */
   private MediaType mediaType;
 
-  public void setType(String type) {
-    String typeStr = Strings.trim(type);
+  public void setType(Object type) throws IOException {
+    String typeStr = Coercion.toString(Coercion.trimNullIfEmpty(type));
     MediaType newMediaType = MediaType.getMediaTypeByName(typeStr);
     if (newMediaType == null) {
       try {

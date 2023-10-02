@@ -37,7 +37,7 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
     shortTitle="Changelog"
     tocLevels="1"
     datePublished="2020-11-18T11:39:31-06:00"
-    dateModified="2022-05-13T22:52:09-05:00"
+    dateModified="2023-10-02T00:34:59Z"
   >
     <c:set var="latestRelease" value="4.0.0" />
     <c:if test="${
@@ -52,7 +52,18 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
         artifactId="@{documented.artifactId}"
         repository="@{nexusUrl}content/repositories/snapshots/"
         scmUrl="@{project.scm.url}"
-      />
+      >
+        <ul>
+          <li>
+            This is a major version bump for incompatible changes of Java API only.  The taglib itself is completely
+            backward compatible.
+          </li>
+          <li>
+            <code>type</code> attributes are now <code>java.lang.Object</code> instead of
+            <code>java.lang.String</code>.
+          </li>
+        </ul>
+      </changelog:release>
     </c:if>
 
     <changelog:release

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
-Copyright (C) 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021, 2022  AO Industries, Inc.
+Copyright (C) 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023  AO Industries, Inc.
     support@aoindustries.com
     7262 Bull Pen Cir
     Mobile, AL 36695
@@ -81,7 +81,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
   <uri>&tld_uri;</uri>
   <tag>
     <!-- datePublished="2020-11-21T17:26:24-06:00" -->
-    <!-- dateModified="2022-04-05T01:40:09-05:00" -->
+    <!-- dateModified="2023-10-02T00:34:59Z" -->
     <description><![CDATA[
       <p class="semanticcms-tag-reference-summary">
         Manually establishes an encoding context when automatic detection is not possible.
@@ -117,7 +117,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
       <name>type</name>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
-      <type>java.lang.String</type>
+      <type>java.lang.Object</type>
     </attribute>
   </tag>
   <tag>
@@ -195,7 +195,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
   </tag>
   <tag>
     <!-- datePublished="2020-11-18T11:39:31-06:00" -->
-    <!-- dateModified="2022-04-05T01:40:09-05:00" -->
+    <!-- dateModified="2023-10-02T00:34:59Z" -->
     <description><![CDATA[
       <p class="semanticcms-tag-reference-summary">
         Writes the value with proper escaping based on the context of the tag.
@@ -273,7 +273,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
       <name>type</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
-      <type>java.lang.String</type>
+      <type>java.lang.Object</type>
     </attribute>
   </tag>
   <tag>
