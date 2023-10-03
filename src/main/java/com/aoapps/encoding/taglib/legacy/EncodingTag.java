@@ -45,7 +45,8 @@ public class EncodingTag extends EncodingFilteredBodyTag {
   private MediaType mediaType;
 
   public void setType(Object type) throws IOException {
-    String typeStr = Coercion.toString(Coercion.trimNullIfEmpty(type));
+    type = Coercion.trimNullIfEmpty(type);
+    String typeStr = (type == null) ? null : Coercion.toString(type);
     MediaType newMediaType = MediaType.getMediaTypeByName(typeStr);
     if (newMediaType == null) {
       try {
