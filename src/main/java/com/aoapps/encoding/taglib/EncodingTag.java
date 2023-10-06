@@ -25,7 +25,6 @@ package com.aoapps.encoding.taglib;
 
 import com.aoapps.encoding.MediaType;
 import com.aoapps.lang.Coercion;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -44,7 +43,7 @@ public class EncodingTag extends EncodingFilteredTag {
 
   private MediaType mediaType;
 
-  public void setType(Object type) throws IOException {
+  public void setType(Object type) {
     type = Coercion.trimNullIfEmpty(type);
     String typeStr = (type == null) ? null : Coercion.toString(type);
     MediaType newMediaType = MediaType.getMediaTypeByName(typeStr);

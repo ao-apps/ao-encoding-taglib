@@ -105,7 +105,7 @@ public class OutTag extends EncodingNullTag {
    */
   private MediaType mediaType;
 
-  public void setType(Object type) throws IOException {
+  public void setType(Object type) {
     type = Coercion.trimNullIfEmpty(type);
     String typeStr = (type == null) ? null : Coercion.toString(type);
     MediaType newMediaType = MediaType.getMediaTypeByName(typeStr);
