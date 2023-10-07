@@ -41,7 +41,7 @@ public class EncodingTag extends EncodingFilteredBodyTag {
   private static final long serialVersionUID = 1L;
   /**/
 
-  private MediaType mediaType;
+  private transient MediaType mediaType;
 
   public void setType(Object type) {
     type = Coercion.trimNullIfEmpty(type);

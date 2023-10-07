@@ -30,6 +30,7 @@ import com.aoapps.hodgepodge.i18n.MarkupType;
 import com.aoapps.lang.Coercion;
 import com.aoapps.lang.io.Writable;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import javax.el.ELContext;
@@ -46,6 +47,11 @@ public class OutTag extends EncodingNullBodyTag {
     init();
   }
 
+  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    in.defaultReadObject();
+    init();
+  }
+
   @Override
   public MediaType getOutputType() {
     return mediaType;
@@ -55,15 +61,15 @@ public class OutTag extends EncodingNullBodyTag {
   private static final long serialVersionUID = 1L;
   /**/
 
-  private Object value;
+  private transient Object value;
 
   public void setValue(Object value) {
     this.value = value;
   }
 
-  private ValueExpression def;
-  private boolean defValueSet;
-  private Object defValue;
+  private transient ValueExpression def;
+  private transient boolean defValueSet;
+  private transient Object defValue;
 
   public void setDefault(ValueExpression def) {
     this.def = def;
