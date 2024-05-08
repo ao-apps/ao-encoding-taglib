@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
-Copyright (C) 2016, 2017, 2019, 2020, 2021, 2022, 2023  AO Industries, Inc.
+Copyright (C) 2016, 2017, 2019, 2020, 2021, 2022, 2023, 2024  AO Industries, Inc.
     support@aoindustries.com
     7262 Bull Pen Cir
     Mobile, AL 36695
@@ -37,9 +37,9 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
     shortTitle="Changelog"
     tocLevels="1"
     datePublished="2020-11-18T11:39:31-06:00"
-    dateModified="2023-10-07T03:54:47Z"
+    dateModified="2024-05-08T19:03:35Z"
   >
-    <c:set var="latestRelease" value="4.0.0" />
+    <c:set var="latestRelease" value="5.0.0" />
     <c:if test="${
       fn:endsWith('@{project.version}', '-SNAPSHOT')
       and !fn:endsWith('@{project.version}', '-POST-SNAPSHOT')
@@ -52,23 +52,32 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
         artifactId="@{documented.artifactId}"
         repository="@{nexusUrl}content/repositories/snapshots/"
         scmUrl="@{project.scm.url}"
-      >
-        <ul>
-          <li>
-            This is a major version bump for incompatible changes of Java API only.  The taglib itself is completely
-            backward compatible.
-          </li>
-          <li>
-            <code>type</code> attributes are now <code>java.lang.Object</code> instead of
-            <code>java.lang.String</code>.
-          </li>
-          <li>
-            Improved support for taglib serialization: marked attribute fields <code>transient</code> and calling
-            <code>init()</code> from <code>readObject(…)</code>.
-          </li>
-        </ul>
-      </changelog:release>
+      />
     </c:if>
+
+    <changelog:release
+      projectName="@{documented.name}"
+      version="5.0.0"
+      datePublished="2024-05-08T19:03:35Z"
+      groupId="@{project.groupId}"
+      artifactId="@{documented.artifactId}"
+      scmUrl="@{project.scm.url}"
+    >
+      <ul>
+        <li>
+          This is a major version bump for incompatible changes of Java API only.  The taglib itself is completely
+          backward compatible.
+        </li>
+        <li>
+          <code>type</code> attributes are now <code>java.lang.Object</code> instead of
+          <code>java.lang.String</code>.
+        </li>
+        <li>
+          Improved support for taglib serialization: marked attribute fields <code>transient</code> and calling
+          <code>init()</code> from <code>readObject(…)</code>.
+        </li>
+      </ul>
+    </changelog:release>
 
     <changelog:release
       projectName="@{documented.name}"
