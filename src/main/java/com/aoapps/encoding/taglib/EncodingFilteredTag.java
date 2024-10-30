@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2009, 2010, 2011, 2012, 2013, 2016, 2017, 2019, 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2009, 2010, 2011, 2012, 2013, 2016, 2017, 2019, 2020, 2021, 2022, 2024  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -44,31 +44,26 @@ import javax.servlet.jsp.tagext.SimpleTag;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 /**
- * <p>
  * An implementation of {@link SimpleTag} that automatically validates its
  * content and automatically encodes its output correctly given its context.
  * It also validates its own output when used in a non-validating context.  For
  * higher performance, it filters the output from its body instead of buffering.
- * </p>
- * <p>
- * The content validation is primarily focused on making sure the contained data
+ *
+ * <p>The content validation is primarily focused on making sure the contained data
  * is properly encoded.  This is to avoid data corruption or intermingling of
  * data and code.  It does not go through great lengths such as ensuring that
- * XHTML Strict is valid or JavaScript will run correctly.
- * </p>
- * <p>
- * In additional to checking that its contents are well behaved, it also is
+ * XHTML Strict is valid or JavaScript will run correctly.</p>
+ *
+ * <p>In additional to checking that its contents are well behaved, it also is
  * well behaved for its container by properly encoding its output for its
  * context.  To determine its context, it uses the content type of the currently
  * registered {@link RequestEncodingContext} to perform proper encoding.
  * If it fails to find any such context, it uses the content type of the
- * {@link HttpServletResponse}.
- * </p>
- * <p>
- * Finally, if no existing {@link RequestEncodingContext} is found, this will
+ * {@link HttpServletResponse}.</p>
+ *
+ * <p>Finally, if no existing {@link RequestEncodingContext} is found, this will
  * validate its own output against the content type of the
- * {@link HttpServletResponse} to make sure it is well-behaved.
- * </p>
+ * {@link HttpServletResponse} to make sure it is well-behaved.</p>
  *
  * @author  AO Industries, Inc.
  */
@@ -226,13 +221,10 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
   }
 
   /**
-   * <p>
    * Writes any prefix in the container's media type.
    * The output must be valid for the provided type.
-   * </p>
-   * <p>
-   * This default implementation prints nothing.
-   * </p>
+   *
+   * <p>This default implementation prints nothing.</p>
    *
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
@@ -262,10 +254,9 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
   /**
    * Once the out {@link JspWriter} has been replaced to output the proper content
    * type, this version of {@link #doTag()} is called.
-   * <p>
-   * This implementation invokes {@link JspFragment#invoke(java.io.Writer)}
-   * of the JSP body, if present.
-   * </p>
+   *
+   * <p>This implementation invokes {@link JspFragment#invoke(java.io.Writer)}
+   * of the JSP body, if present.</p>
    *
    * @param  out  Validates all characters against the content type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
@@ -291,13 +282,10 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
   }
 
   /**
-   * <p>
    * Writes any suffix in the container's media type.
    * The output must be valid for the provided type.
-   * </p>
-   * <p>
-   * This default implementation prints nothing.
-   * </p>
+   *
+   * <p>This default implementation prints nothing.</p>
    *
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.

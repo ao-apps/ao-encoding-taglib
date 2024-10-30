@@ -97,7 +97,6 @@ public class OutTag extends EncodingNullBodyTag {
   }
 
   /**
-   * <p>
    * TODO: Support a type of "auto" (not the default - use with care) that
    * takes the media type from the object being written, if it implements
    * an interface that has a <code>getOutputType()</code> method.
@@ -107,7 +106,6 @@ public class OutTag extends EncodingNullBodyTag {
    * method?  Other places with <code>setType(Object)</code> might support
    * the same auto-mode.  Or would we allow a object passed into "type"
    * attribute to implement this interface?  Or a different "typeOf" attribute?
-   * </p>
    */
   private transient MediaType mediaType;
 

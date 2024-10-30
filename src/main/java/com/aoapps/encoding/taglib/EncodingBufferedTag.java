@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2009, 2010, 2011, 2012, 2013, 2016, 2017, 2019, 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2009, 2010, 2011, 2012, 2013, 2016, 2017, 2019, 2020, 2021, 2022, 2024  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -52,17 +52,15 @@ import javax.servlet.jsp.tagext.JspFragment;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 /**
- * <p>
  * The exhibits all of the behavior of {@link EncodingFilteredTag} with
  * the only exception being that it buffers its content instead of using filters.
  * This allows the tag to capture its body.  Character validation is performed
  * as the data goes into the buffer to ensure the captured data is correct for
  * its content type.
- * </p>
- * <p>
- * The tag also has the addition of a separate output type.  Thus, we have three
- * types involved:
- * </p>
+ *
+ * <p>The tag also has the addition of a separate output type.  Thus, we have three
+ * types involved:</p>
+ *
  * <ol>
  * <li>contentType - The characters are validated to this type as they go into the buffer.</li>
  * <li>outputType - Our output characters are validated to this type as they are written.</li>
@@ -331,24 +329,20 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
    * Invokes the body.  This is only called when a body exists.  Subclasses may override this to perform
    * actions before and/or after invoking the body.  Any overriding implementation should call
    * {@code super.invoke(JspFragment,MediaValidator)} to invoke the body, unless it wants to suppress the body invocation.
-   * <p>
-   * This implementation invokes {@link JspFragment#invoke(java.io.Writer)}
-   * providing the capture validator.
-   * </p>
+   *
+   * <p>This implementation invokes {@link JspFragment#invoke(java.io.Writer)}
+   * providing the capture validator.</p>
    */
   protected void invoke(JspFragment body, MediaValidator captureValidator) throws JspException, IOException {
     body.invoke(captureValidator);
   }
 
   /**
-   * <p>
    * Writes any prefix in the container's media type.
    * The output must be valid for the provided type.
    * This will not be called when the output type is {@code null}.
-   * </p>
-   * <p>
-   * This default implementation prints nothing.
-   * </p>
+   *
+   * <p>This default implementation prints nothing.</p>
    *
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
@@ -380,13 +374,11 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
   /**
    * Once the out {@link JspWriter} has been replaced to output the proper content
    * type, this version of {@link #doTag()} is called.
-   * <p>
-   * {@linkplain JspFragment The body}, if present, has {@linkplain JspFragment#invoke(java.io.Writer) already been invoked}
-   * with any output captured.
-   * </p>
-   * <p>
-   * This default implementation does nothing.
-   * </p>
+   *
+   * <p>{@linkplain JspFragment The body}, if present, has {@linkplain JspFragment#invoke(java.io.Writer) already been invoked}
+   * with any output captured.</p>
+   *
+   * <p>This default implementation does nothing.</p>
    *
    * @param  out  When the output type is {@code null}, will throw an exception if anything written,
    *              otherwise validates all characters against the output type.
@@ -406,14 +398,11 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
   }
 
   /**
-   * <p>
    * Writes any suffix in the container's media type.
    * The output must be valid for the provided type.
    * This will not be called when the output type is {@code null}.
-   * </p>
-   * <p>
-   * This default implementation prints nothing.
-   * </p>
+   *
+   * <p>This default implementation prints nothing.</p>
    *
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.

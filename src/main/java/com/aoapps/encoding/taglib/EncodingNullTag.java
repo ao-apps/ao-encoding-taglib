@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2012, 2013, 2016, 2017, 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2012, 2013, 2016, 2017, 2020, 2021, 2022, 2024  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -235,29 +235,24 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
    * Invokes the body.  This is only called when a body exists.  Subclasses may override this to perform
    * actions before and/or after invoking the body.  Any overriding implementation should call
    * {@code super.invoke(JspFragment)} to invoke the body, unless it wants to suppress the body invocation.
-   * <p>
-   * The {@link RequestEncodingContext} has been set to {@link RequestEncodingContext#DISCARD} because no validation
+   *
+   * <p>The {@link RequestEncodingContext} has been set to {@link RequestEncodingContext#DISCARD} because no validation
    * of the content is necessary as the output is discarded.  This means nested tags that attempt to produce valid
-   * output will not be limited by the parent encoding context of this tag.
-   * </p>
-   * <p>
-   * This implementation invokes {@link JspFragment#invoke(java.io.Writer)}
-   * while discarding all nested output.
-   * </p>
+   * output will not be limited by the parent encoding context of this tag.</p>
+   *
+   * <p>This implementation invokes {@link JspFragment#invoke(java.io.Writer)}
+   * while discarding all nested output.</p>
    */
   protected void invoke(JspFragment body) throws JspException, IOException {
     body.invoke(NullWriter.getInstance());
   }
 
   /**
-   * <p>
    * Writes any prefix in the container's media type.
    * The output must be valid for the provided type.
    * This will not be called when the output type is {@code null}.
-   * </p>
-   * <p>
-   * This default implementation prints nothing.
-   * </p>
+   *
+   * <p>This default implementation prints nothing.</p>
    *
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
@@ -289,13 +284,11 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
   /**
    * Once the out {@link JspWriter} has been replaced to output the proper content
    * type, this version of {@link #doTag()} is called.
-   * <p>
-   * {@linkplain JspFragment The body}, if present, has {@linkplain JspFragment#invoke(java.io.Writer) already been invoked}
-   * with any output discarded.
-   * </p>
-   * <p>
-   * This default implementation does nothing.
-   * </p>
+   *
+   * <p>{@linkplain JspFragment The body}, if present, has {@linkplain JspFragment#invoke(java.io.Writer) already been invoked}
+   * with any output discarded.</p>
+   *
+   * <p>This default implementation does nothing.</p>
    *
    * @param  out  When the output type is {@code null}, will throw an exception if anything written,
    *              otherwise validates all characters against the output type.
@@ -315,14 +308,11 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
   }
 
   /**
-   * <p>
    * Writes any suffix in the container's media type.
    * The output must be valid for the provided type.
    * This will not be called when the output type is {@code null}.
-   * </p>
-   * <p>
-   * This default implementation prints nothing.
-   * </p>
+   *
+   * <p>This default implementation prints nothing.</p>
    *
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.

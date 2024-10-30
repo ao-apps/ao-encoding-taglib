@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022, 2024  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -109,18 +109,14 @@ final class BodyTagUtils  {
   }
 
   /**
-   * <p>
    * Unbuffers a {@link BodyContent}, when possible.
-   * </p>
-   * <p>
-   * This implementation is Tomcat-specific, in that it sets the <code>BodyContentImpl.writer</code> field directly
-   * through reflection.
-   * </p>
-   * <p>
-   * TODO: Consider putting this Tomcat-specific optimization into a different package that would register itself
+   *
+   * <p>This implementation is Tomcat-specific, in that it sets the <code>BodyContentImpl.writer</code> field directly
+   * through reflection.</p>
+   *
+   * <p>TODO: Consider putting this Tomcat-specific optimization into a different package that would register itself
    * here.  Then this package could be selectively added to dependencies to allow the feature to only be enable in
-   * development mode.
-   * </p>
+   * development mode.</p>
    */
   static boolean unbuffer(BodyContent bodyContent, Writer writer) throws JspTagException {
     // Note: bodyContentImplClass will be null when direct access disabled

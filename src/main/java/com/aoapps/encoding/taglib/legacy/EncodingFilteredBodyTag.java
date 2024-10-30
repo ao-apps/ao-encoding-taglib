@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022, 2024  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -51,31 +51,26 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TryCatchFinally;
 
 /**
- * <p>
  * An implementation of {@link BodyTagSupport} that automatically validates its
  * content and automatically encodes its output correctly given its context.
  * It also validates its own output when used in a non-validating context.  For
  * higher performance, it filters the output from its body instead of buffering.
- * </p>
- * <p>
- * The content validation is primarily focused on making sure the contained data
+ *
+ * <p>The content validation is primarily focused on making sure the contained data
  * is properly encoded.  This is to avoid data corruption or intermingling of
  * data and code.  It does not go through great lengths such as ensuring that
- * XHTML Strict is valid or JavaScript will run correctly.
- * </p>
- * <p>
- * In additional to checking that its contents are well behaved, it also is
+ * XHTML Strict is valid or JavaScript will run correctly.</p>
+ *
+ * <p>In additional to checking that its contents are well behaved, it also is
  * well behaved for its container by properly encoding its output for its
  * context.  To determine its context, it uses the content type of the currently
  * registered {@link RequestEncodingContext} to perform proper encoding.
  * If it fails to find any such context, it uses the content type of the
- * {@link HttpServletResponse}.
- * </p>
- * <p>
- * Finally, if no existing {@link RequestEncodingContext} is found, this will
+ * {@link HttpServletResponse}.</p>
+ *
+ * <p>Finally, if no existing {@link RequestEncodingContext} is found, this will
  * validate its own output against the content type of the
- * {@link HttpServletResponse} to make sure it is well-behaved.
- * </p>
+ * {@link HttpServletResponse} to make sure it is well-behaved.</p>
  *
  * @author  AO Industries, Inc.
  */
@@ -345,10 +340,9 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
    * If the {@linkplain Mode#buffered current mode is buffered}, attempts to
    * {@linkplain BodyTagUtils#unbuffer(javax.servlet.jsp.tagext.BodyContent, java.io.Writer) unbuffer} with direct
    * access to the current {@link #validatingOut}.
-   * <p>
-   * Sets {@link #bodyUnbuffered} to {@code true} when successfully directly performing validation.
-   * Otherwise, {@link #bodyUnbuffered} is {@code false} when the body content continues to use default buffering.
-   * </p>
+   *
+   * <p>Sets {@link #bodyUnbuffered} to {@code true} when successfully directly performing validation.
+   * Otherwise, {@link #bodyUnbuffered} is {@code false} when the body content continues to use default buffering.</p>
    */
   private void initValidation() throws JspTagException {
     ServletRequest request = pageContext.getRequest();
@@ -365,20 +359,16 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
   }
 
   /**
-   * <p>
    * The only way to replace the "out" variable in the generated JSP is to use
    * {@link #EVAL_BODY_BUFFERED}.  Without this, any writer given to {@link PageContext#pushBody(java.io.Writer)}
    * is not used.  We don't actually want to buffer the content, but only want to filter and validate the
    * data on-the-fly.
-   * </p>
-   * <p>
-   * To workaround this issue, this very hackily replaces the writer field directly on the
+   *
+   * <p>To workaround this issue, this very hackily replaces the writer field directly on the
    * <code>BodyContentImpl</code>.  When unable to replace the field, falls back to using
-   * the standard buffering (much less desirable).
-   * </p>
-   * <p>
-   * This is similar to the direct field access performed by {@link BodyContentImplCoercionOptimizerInitializer}.
-   * </p>
+   * the standard buffering (much less desirable).</p>
+   *
+   * <p>This is similar to the direct field access performed by {@link BodyContentImplCoercionOptimizerInitializer}.</p>
    */
   @Override
   public void doInitBody() throws JspException {
@@ -499,13 +489,10 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
   }
 
   /**
-   * <p>
    * Writes any prefix in the container's media type.
    * The output must be valid for the provided type.
-   * </p>
-   * <p>
-   * This default implementation prints nothing.
-   * </p>
+   *
+   * <p>This default implementation prints nothing.</p>
    *
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
@@ -541,13 +528,10 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
   }
 
   /**
-   * <p>
    * Writes any suffix in the container's media type.
    * The output must be valid for the provided type.
-   * </p>
-   * <p>
-   * This default implementation prints nothing.
-   * </p>
+   *
+   * <p>This default implementation prints nothing.</p>
    *
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.

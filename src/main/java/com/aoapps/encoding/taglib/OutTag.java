@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2013, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023  AO Industries, Inc.
+ * Copyright (C) 2013, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023, 2024  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -91,7 +91,6 @@ public class OutTag extends EncodingNullTag {
   }
 
   /**
-   * <p>
    * TODO: Support a type of "auto" (not the default - use with care) that
    * takes the media type from the object being written, if it implements
    * an interface that has a <code>getOutputType()</code> method.
@@ -101,7 +100,6 @@ public class OutTag extends EncodingNullTag {
    * method?  Other places with <code>setType(Object)</code> might support
    * the same auto-mode.  Or would we allow a object passed into "type"
    * attribute to implement this interface?  Or a different "typeOf" attribute?
-   * </p>
    */
   private MediaType mediaType;
 
