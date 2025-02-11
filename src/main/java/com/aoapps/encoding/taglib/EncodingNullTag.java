@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2012, 2013, 2016, 2017, 2020, 2021, 2022, 2024  AO Industries, Inc.
+ * Copyright (C) 2012, 2013, 2016, 2017, 2020, 2021, 2022, 2024, 2025  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -29,6 +29,7 @@ import com.aoapps.encoding.MediaType;
 import com.aoapps.encoding.MediaValidator;
 import com.aoapps.encoding.MediaWriter;
 import com.aoapps.encoding.servlet.EncodingContextEE;
+import com.aoapps.encoding.taglib.impl.RequestEncodingContext;
 import com.aoapps.lang.Coercion;
 import com.aoapps.lang.io.FailOnWriteWriter;
 import com.aoapps.lang.io.NullWriter;

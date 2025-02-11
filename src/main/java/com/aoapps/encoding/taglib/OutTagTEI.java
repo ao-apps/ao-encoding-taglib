@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2013, 2016, 2017, 2018, 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2013, 2016, 2017, 2018, 2020, 2021, 2022, 2025  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -38,6 +38,6 @@ public class OutTagTEI extends TagExtraInfo {
   public ValidationMessage[] validate(TagData data) {
     List<ValidationMessage> messages = MinimalList.emptyList();
     messages = TeiUtils.validateMediaType(data, messages);
-    return messages.isEmpty() ? null : messages.toArray(new ValidationMessage[messages.size()]);
+    return messages.isEmpty() ? null : messages.toArray(ValidationMessage[]::new);
   }
 }

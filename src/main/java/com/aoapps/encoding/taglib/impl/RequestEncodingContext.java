@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2012, 2016, 2017, 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2012, 2016, 2017, 2020, 2021, 2022, 2025  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -21,7 +21,7 @@
  * along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.aoapps.encoding.taglib;
+package com.aoapps.encoding.taglib.impl;
 
 import com.aoapps.encoding.BufferedValidator;
 import com.aoapps.encoding.MediaType;
@@ -43,18 +43,15 @@ import javax.servlet.ServletRequest;
 //       Or done as a registrable subrequest event?  (Remove self from subrequest attributes OnSubrequest)
 //       Or should this just be reset of SemantiCCMS page captures only?
 //       Basically, how do we know when in a new page, and the old tag context is not actually what we want?
-// Java 9: Make module-private
 public class RequestEncodingContext {
 
   private static final ScopeEE.Request.Attribute<RequestEncodingContext> CURRENT_CONTEXT_REQUEST_ATTRIBUTE =
       ScopeEE.REQUEST.attribute(RequestEncodingContext.class.getName() + ".currentContext");
 
-  // Java 9: Make module-private
   public static RequestEncodingContext getCurrentContext(ServletRequest request) {
     return CURRENT_CONTEXT_REQUEST_ATTRIBUTE.context(request).get();
   }
 
-  // Java 9: Make module-private
   public static void setCurrentContext(ServletRequest request, RequestEncodingContext context) {
     CURRENT_CONTEXT_REQUEST_ATTRIBUTE.context(request).set(context);
   }
@@ -62,7 +59,6 @@ public class RequestEncodingContext {
   /**
    * A context that performs no validation and discards all output.
    */
-  // Java 9: Make module-private
   public static final RequestEncodingContext DISCARD = new RequestEncodingContext(
       MediaType.TEXT,
       new ValidMediaInput() {
@@ -92,17 +88,14 @@ public class RequestEncodingContext {
   /**
    * The content type that is currently be written.
    */
-  // Java 9: Make module-private
   public final MediaType contentType;
 
   /**
    * The validator that is ensuring the data being written is valid for the current
    * outputType.
    */
-  // Java 9: Make module-private
   public final ValidMediaInput validMediaInput;
 
-  // Java 9: Make module-private
   public RequestEncodingContext(MediaType contentType, ValidMediaInput validMediaInput) {
     this.contentType = NullArgumentException.checkNotNull(contentType, "contentType");
     this.validMediaInput = NullArgumentException.checkNotNull(validMediaInput, "validMediaInput");
