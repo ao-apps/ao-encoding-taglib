@@ -83,7 +83,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
    * @see  AutoTempFileWriter
    */
   public static BufferWriter newBufferWriter(TempFileContext tempFileContext, long tempFileThreshold) {
-    //return new SegmentedWriter();
+    // return new SegmentedWriter();
     BufferWriter bufferWriter = new CharArrayBufferWriter();
     if (tempFileThreshold != Long.MAX_VALUE) {
       bufferWriter = new AutoTempFileWriter(
