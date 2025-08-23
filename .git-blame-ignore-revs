@@ -22,3 +22,6 @@ a915dbaf2fcbacd16e810d6898ae4393466736c2
 
 # Added all whitespace-only commits to .git-blame-ignore-revs
 b480ddbe9be385aaa37b3f035dcfd097522528e5
+
+# checkstyle-11.0.0 compatibility
+577692cf7b6cc350cfc86ce4033e5ba5b4cb51a2
