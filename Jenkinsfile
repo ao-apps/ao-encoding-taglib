@@ -36,14 +36,14 @@ def upstreamProjects = [
   // Direct
   'collections', // <groupId>com.aoapps</groupId><artifactId>ao-collections</artifactId>
   'encoding', // <groupId>com.aoapps</groupId><artifactId>ao-encoding</artifactId>
-  'encoding-servlet', // <groupId>com.aoapps</groupId><artifactId>ao-encoding-servlet</artifactId>
+  'encoding-servlet-javaee', // <groupId>com.aoapps</groupId><artifactId>ao-encoding-servlet</artifactId>
   'hodgepodge', // <groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId>
   'io-buffer', // <groupId>com.aoapps</groupId><artifactId>ao-io-buffer</artifactId>
   'lang', // <groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId>
-  'servlet-filter', // <groupId>com.aoapps</groupId><artifactId>ao-servlet-filter</artifactId>
-  'servlet-util', // <groupId>com.aoapps</groupId><artifactId>ao-servlet-util</artifactId>
+  'servlet-filter-javaee', // <groupId>com.aoapps</groupId><artifactId>ao-servlet-filter</artifactId>
+  'servlet-util-javaee', // <groupId>com.aoapps</groupId><artifactId>ao-servlet-util</artifactId>
   'tempfiles', // <groupId>com.aoapps</groupId><artifactId>ao-tempfiles</artifactId>
-  'tempfiles-servlet', // <groupId>com.aoapps</groupId><artifactId>ao-tempfiles-servlet</artifactId>
+  'tempfiles-servlet-javaee', // <groupId>com.aoapps</groupId><artifactId>ao-tempfiles-servlet</artifactId>
   // No Jenkins: <groupId>javax.el</groupId><artifactId>javax.el-api</artifactId>
   // No Jenkins: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId>
   // No Jenkins: <groupId>javax.servlet.jsp</groupId><artifactId>javax.servlet.jsp-api</artifactId>

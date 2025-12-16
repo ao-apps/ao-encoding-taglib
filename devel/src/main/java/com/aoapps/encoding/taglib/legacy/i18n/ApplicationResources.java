@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022, 2025  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -47,7 +47,7 @@ public final class ApplicationResources extends EditableResourceBundle {
 
   static File getSourceFile(String filename) {
     try {
-      return new File(System.getProperty("user.home") + "/maven2/ao/oss/encoding-taglib/src/main/resources/com/aoapps/encoding/taglib/legacy/i18n", filename);
+      return new File(System.getProperty("user.home") + "/maven2/ao/oss/encoding-taglib-javaee/src/main/resources/com/aoapps/encoding/taglib/legacy/i18n", filename);
     } catch (SecurityException e) {
       Logger.getLogger(ApplicationResources.class.getName()).log(
           Level.WARNING,
