@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
-Copyright (C) 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023  AO Industries, Inc.
+Copyright (C) 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2025, 2026  AO Industries, Inc.
     support@aoindustries.com
     7262 Bull Pen Cir
     Mobile, AL 36695
@@ -27,7 +27,7 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
 <!ENTITY tld "ao-encoding.tld">
 <!ENTITY tld_displayName "@{project.name}">
 <!ENTITY tld_uri "@{project.url}">
-<!ENTITY tld_description "&lt;em&gt;This is the scriptless implementation based on &lt;a rel=&quot;nofollow&quot; href=&quot;@{javadoc.link.javaee}javax/servlet/jsp/tagext/SimpleTagSupport.html&quot;&gt;javax.servlet.jsp.tagext.SimpleTagSupport&lt;/a&gt;.&lt;/em&gt;
+<!ENTITY tld_description "&lt;em&gt;This is the scriptless implementation based on &lt;a rel=&quot;nofollow&quot; href=&quot;@{javadoc.link.javaee}jakarta/servlet/jsp/tagext/SimpleTagSupport.html&quot;&gt;jakarta.servlet.jsp.tagext.SimpleTagSupport&lt;/a&gt;.&lt;/em&gt;
 For compatibility with legacy applications that use JSP scriptlets, please use &lt;a rel=&quot;nofollow&quot; href=&quot;@{project.url}ao-encoding-legacy.tld/&quot;&gt;@{project.name} Reference (Legacy)&lt;/a&gt;.">
 <!ENTITY package "com.aoapps.encoding.taglib">
 <!ENTITY JSP "scriptless">
@@ -37,12 +37,13 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
 
 ]>
 <!-- <common> -->
-<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+<taglib xmlns="https://jakarta.ee/xml/ns/jakartaee"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
-  version="2.1">
+  xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                      https://jakarta.ee/xml/ns/jakartaee/web-jsptaglibrary_3_1.xsd"
+  version="3.1">
   <!-- datePublished="2020-11-18T11:39:31-06:00" -->
-  <!-- dateModified="2021-09-09T01:33:34-05:00" -->
+  <!-- dateModified="2025-12-30T13:42:11Z" -->
 <!-- </common> -->
   <!-- allowRobots="auto" -->
 <!-- <common> -->
@@ -367,7 +368,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
   </tag>
   <tag>
     <!-- datePublished="2020-11-18T11:39:31-06:00" -->
-    <!-- dateModified="2022-03-25T17:25:18-05:00" -->
+    <!-- dateModified="2025-12-30T13:42:11Z" -->
     <description><![CDATA[
       <p class="semanticcms-tag-reference-summary">
         Manually establishes a URL context when automatic detection is not possible.
@@ -376,7 +377,7 @@ For compatibility with legacy applications that use JSP scriptlets, please use &
       </p>
       <p>
         Depending on context, the URL will be passed through
-        <a rel="nofollow" href="@{javadoc.link.javaee}javax/servlet/http/HttpServletResponse.html#encodeURL(java.lang.String)">HttpServletResponse.encodeURL</a>
+        <a rel="nofollow" href="@{javadoc.link.javaee}jakarta/servlet/http/HttpServletResponse.html#encodeURL(java.lang.String)">HttpServletResponse.encodeURL</a>
         to add any URL-based session state.  Session state will never be added to external links.
       </p>
       <p>

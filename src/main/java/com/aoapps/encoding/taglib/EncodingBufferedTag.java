@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2009, 2010, 2011, 2012, 2013, 2016, 2017, 2019, 2020, 2021, 2022, 2024, 2025  AO Industries, Inc.
+ * Copyright (C) 2009, 2010, 2011, 2012, 2013, 2016, 2017, 2019, 2020, 2021, 2022, 2024, 2025, 2026  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -39,18 +39,18 @@ import com.aoapps.lang.Coercion;
 import com.aoapps.lang.io.FailOnWriteWriter;
 import com.aoapps.tempfiles.TempFileContext;
 import com.aoapps.tempfiles.servlet.TempFileContextEE;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.PageContext;
+import jakarta.servlet.jsp.tagext.JspFragment;
+import jakarta.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.JspFragment;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 /**
  * The exhibits all of the behavior of {@link EncodingFilteredTag} with
@@ -105,14 +105,14 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 
   /**
    * @see  #newBufferWriter(com.aoapps.tempfiles.TempFileContext, long)
-   * @see  TempFileContextEE#get(javax.servlet.ServletRequest)
+   * @see  TempFileContextEE#get(jakarta.servlet.ServletRequest)
    */
   public static BufferWriter newBufferWriter(ServletRequest request, long tempFileThreshold) {
     return newBufferWriter(TempFileContextEE.get(request), tempFileThreshold);
   }
 
   /**
-   * @see  #newBufferWriter(javax.servlet.ServletRequest, long)
+   * @see  #newBufferWriter(jakarta.servlet.ServletRequest, long)
    * @see  AutoTempFileWriter#DEFAULT_TEMP_FILE_THRESHOLD
    */
   public static BufferWriter newBufferWriter(ServletRequest request) {

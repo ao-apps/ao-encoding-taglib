@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020, 2021, 2022, 2024  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022, 2024, 2025, 2026  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -23,21 +23,21 @@
 
 package com.aoapps.encoding.taglib.legacy;
 
-import static javax.servlet.jsp.tagext.IterationTag.EVAL_BODY_AGAIN;
-import static javax.servlet.jsp.tagext.Tag.EVAL_PAGE;
-import static javax.servlet.jsp.tagext.Tag.SKIP_BODY;
-import static javax.servlet.jsp.tagext.Tag.SKIP_PAGE;
+import static jakarta.servlet.jsp.tagext.IterationTag.EVAL_BODY_AGAIN;
+import static jakarta.servlet.jsp.tagext.Tag.EVAL_PAGE;
+import static jakarta.servlet.jsp.tagext.Tag.SKIP_BODY;
+import static jakarta.servlet.jsp.tagext.Tag.SKIP_PAGE;
 
 import com.aoapps.lang.i18n.Resources;
 import com.aoapps.servlet.jsp.LocalizedJspTagException;
+import jakarta.servlet.jsp.JspTagException;
+import jakarta.servlet.jsp.tagext.BodyContent;
+import jakarta.servlet.jsp.tagext.BodyTag;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.tagext.BodyContent;
-import javax.servlet.jsp.tagext.BodyTag;
 
 /**
  * Helper utilities for working with {@link BodyTag}.

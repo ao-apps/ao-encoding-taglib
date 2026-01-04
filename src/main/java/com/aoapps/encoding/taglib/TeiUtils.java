@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2013, 2015, 2016, 2017, 2019, 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2013, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2025, 2026  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -26,11 +26,11 @@ package com.aoapps.encoding.taglib;
 import com.aoapps.collections.MinimalList;
 import com.aoapps.encoding.MediaType;
 import com.aoapps.lang.Strings;
+import jakarta.servlet.jsp.tagext.TagData;
+import jakarta.servlet.jsp.tagext.TagExtraInfo;
+import jakarta.servlet.jsp.tagext.ValidationMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import javax.servlet.jsp.tagext.TagData;
-import javax.servlet.jsp.tagext.TagExtraInfo;
-import javax.servlet.jsp.tagext.ValidationMessage;
 
 /**
  * Utilities common to several {@link TagExtraInfo} implementations.

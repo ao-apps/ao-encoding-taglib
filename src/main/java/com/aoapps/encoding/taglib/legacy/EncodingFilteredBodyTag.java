@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2020, 2021, 2022, 2024, 2025  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022, 2024, 2025, 2026  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -34,21 +34,21 @@ import com.aoapps.lang.Coercion;
 import com.aoapps.lang.i18n.Resources;
 import com.aoapps.servlet.BodyContentImplCoercionOptimizerInitializer;
 import com.aoapps.servlet.jsp.LocalizedJspTagException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspTagException;
+import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.PageContext;
+import jakarta.servlet.jsp.tagext.BodyTagSupport;
+import jakarta.servlet.jsp.tagext.TryCatchFinally;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.BodyTagSupport;
-import javax.servlet.jsp.tagext.TryCatchFinally;
 
 /**
  * An implementation of {@link BodyTagSupport} that automatically validates its
@@ -338,7 +338,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 
   /**
    * If the {@linkplain Mode#buffered current mode is buffered}, attempts to
-   * {@linkplain BodyTagUtils#unbuffer(javax.servlet.jsp.tagext.BodyContent, java.io.Writer) unbuffer} with direct
+   * {@linkplain BodyTagUtils#unbuffer(jakarta.servlet.jsp.tagext.BodyContent, java.io.Writer) unbuffer} with direct
    * access to the current {@link #validatingOut}.
    *
    * <p>Sets {@link #bodyUnbuffered} to {@code true} when successfully directly performing validation.
