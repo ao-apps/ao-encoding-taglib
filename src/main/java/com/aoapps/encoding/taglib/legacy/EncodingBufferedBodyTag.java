@@ -153,9 +153,9 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
   /**
    * {@inheritDoc}
    *
-   * @deprecated  You should probably be implementing in {@link #doStartTag(java.io.Writer)}
+   * @deprecated  You should probably be implementing in {@link EncodingBufferedBodyTag#doStartTag(java.io.Writer)}
    *
-   * @see  #doStartTag(java.io.Writer)
+   * @see  EncodingBufferedBodyTag#doStartTag(java.io.Writer)
    */
   @Deprecated
   @Override
@@ -219,7 +219,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
   }
 
   /**
-   * Sets or replaces the validating out variables based on the current {@linkplain #getOutputType() output type}.
+   * Sets or replaces the validating out variables based on the current {@linkplain EncodingBufferedBodyTag#getOutputType() output type}.
    * When the output type changes, which can happen during body invocation, the validating variables will be updated.
    */
   private void updateValidatingOut(MediaType newOutputType) throws JspException, IOException {
@@ -314,13 +314,13 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 
   /**
    * Once the out {@link JspWriter} has been replaced to output the proper content
-   * type, this version of {@link #doStartTag()} is called.
+   * type, this version of {@link EncodingBufferedBodyTag#doStartTag()} is called.
    *
    * @param  out  When the output type is {@code null}, will throw an exception if anything written,
    *              otherwise validates all characters against the output type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @return  Must return either {@link #EVAL_BODY_BUFFERED} (the default) or {@link #SKIP_BODY}
+   * @return  Must return either {@link EncodingBufferedBodyTag#EVAL_BODY_BUFFERED} (the default) or {@link EncodingBufferedBodyTag#SKIP_BODY}
    */
   protected int doStartTag(Writer out) throws JspException, IOException {
     return EVAL_BODY_BUFFERED;
@@ -339,10 +339,10 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
   /**
    * Replaces the captureBuffer, preparing for the next invocation of doBody, attempts to
    * {@linkplain BodyTagUtils#unbuffer(jakarta.servlet.jsp.tagext.BodyContent, java.io.Writer) unbuffer} with direct
-   * access to the current {@link #captureValidator}.
+   * access to the current {@link EncodingBufferedBodyTag#captureValidator}.
    *
-   * <p>Sets {@link #bodyUnbuffered} to {@code true} when successfully directly performing capture.
-   * Otherwise, {@link #bodyUnbuffered} is {@code false} when the body content continues to use default buffering.</p>
+   * <p>Sets {@link EncodingBufferedBodyTag#bodyUnbuffered} to {@code true} when successfully directly performing capture.
+   * Otherwise, {@link EncodingBufferedBodyTag#bodyUnbuffered} is {@code false} when the body content continues to use default buffering.</p>
    */
   private void initCapture() throws JspTagException {
     assert captureBuffer == null;
@@ -361,7 +361,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 
   /**
    * The only way to replace the "out" variable in the generated JSP is to use
-   * {@link #EVAL_BODY_BUFFERED}.  Without this, any writer given to {@link PageContext#pushBody(java.io.Writer)}
+   * {@link EncodingBufferedBodyTag#EVAL_BODY_BUFFERED}.  Without this, any writer given to {@link PageContext#pushBody(java.io.Writer)}
    * is not used.  We want to both use {@linkplain BufferWriter our own buffer implementation} as well as validate the
    * data on-the-fly.
    *
@@ -379,9 +379,9 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
   /**
    * {@inheritDoc}
    *
-   * @deprecated  You should probably be implementing in {@link #doAfterBody(com.aoapps.io.buffer.BufferResult, java.io.Writer)}
+   * @deprecated  You should probably be implementing in {@link EncodingBufferedBodyTag#doAfterBody(com.aoapps.io.buffer.BufferResult, java.io.Writer)}
    *
-   * @see  #doAfterBody(com.aoapps.io.buffer.BufferResult, java.io.Writer)
+   * @see  EncodingBufferedBodyTag#doAfterBody(com.aoapps.io.buffer.BufferResult, java.io.Writer)
    */
   @Deprecated
   @Override
@@ -417,7 +417,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 
   /**
    * While the out {@link JspWriter} is still replaced to output the proper content
-   * type, this version of {@link #doAfterBody()} is called.
+   * type, this version of {@link EncodingBufferedBodyTag#doAfterBody()} is called.
    *
    * @param  capturedBody  The buffered result of the most recent body invocation.
    *
@@ -425,7 +425,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
    *              otherwise validates all characters against the output type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @return  Must return either {@link #SKIP_BODY} (the default) or {@link #EVAL_BODY_AGAIN}
+   * @return  Must return either {@link EncodingBufferedBodyTag#SKIP_BODY} (the default) or {@link EncodingBufferedBodyTag#EVAL_BODY_AGAIN}
    */
   protected int doAfterBody(BufferResult capturedBody, Writer out) throws JspException, IOException {
     return SKIP_BODY;
@@ -434,9 +434,9 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
   /**
    * {@inheritDoc}
    *
-   * @deprecated  You should probably be implementing in {@link #doEndTag(com.aoapps.io.buffer.BufferResult, java.io.Writer)}
+   * @deprecated  You should probably be implementing in {@link EncodingBufferedBodyTag#doEndTag(com.aoapps.io.buffer.BufferResult, java.io.Writer)}
    *
-   * @see  #doEndTag(com.aoapps.io.buffer.BufferResult, java.io.Writer)
+   * @see  EncodingBufferedBodyTag#doEndTag(com.aoapps.io.buffer.BufferResult, java.io.Writer)
    */
   @Deprecated
   @Override
@@ -472,7 +472,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
 
   /**
    * While the out {@link JspWriter} is still replaced to output the proper content
-   * type, this version of {@link #doEndTag()} is called.
+   * type, this version of {@link EncodingBufferedBodyTag#doEndTag()} is called.
    *
    * @param  capturedBody  The buffered result of the most recent body invocation or {@link EmptyResult#getInstance()}
    *                       when body never invoked.
@@ -481,7 +481,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
    *              otherwise validates all characters against the output type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @return  Must return either {@link #EVAL_PAGE} (the default) or {@link #SKIP_PAGE}
+   * @return  Must return either {@link EncodingBufferedBodyTag#EVAL_PAGE} (the default) or {@link EncodingBufferedBodyTag#SKIP_PAGE}
    */
   protected int doEndTag(BufferResult capturedBody, Writer out) throws JspException, IOException {
     return EVAL_PAGE;
@@ -512,7 +512,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @see  #getOutputType()
+   * @see  EncodingBufferedBodyTag#getOutputType()
    */
   @SuppressWarnings("NoopMethodInAbstractClass")
   protected void writePrefix(MediaType containerType, Writer out) throws JspException, IOException {
@@ -554,7 +554,7 @@ public abstract class EncodingBufferedBodyTag extends BodyTagSupport implements 
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @see  #getOutputType()
+   * @see  EncodingBufferedBodyTag#getOutputType()
    */
   @SuppressWarnings("NoopMethodInAbstractClass")
   protected void writeSuffix(MediaType containerType, Writer out) throws JspException, IOException {
