@@ -66,9 +66,9 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
   /**
    * {@inheritDoc}
    *
-   * @deprecated  You should probably be implementing in {@link #doTag(java.io.Writer)}
+   * @deprecated  You should probably be implementing in {@link EncodingNullTag#doTag(java.io.Writer)}
    *
-   * @see  #doTag(java.io.Writer)
+   * @see  EncodingNullTag#doTag(java.io.Writer)
    */
   @Deprecated
   @Override
@@ -258,7 +258,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @see  #getOutputType()
+   * @see  EncodingNullTag#getOutputType()
    */
   @SuppressWarnings("NoopMethodInAbstractClass")
   protected void writePrefix(MediaType containerType, Writer out) throws JspException, IOException {
@@ -284,7 +284,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
 
   /**
    * Once the out {@link JspWriter} has been replaced to output the proper content
-   * type, this version of {@link #doTag()} is called.
+   * type, this version of {@link EncodingNullTag#doTag()} is called.
    *
    * <p>{@linkplain JspFragment The body}, if present, has {@linkplain JspFragment#invoke(java.io.Writer) already been invoked}
    * with any output discarded.</p>
@@ -318,7 +318,7 @@ public abstract class EncodingNullTag extends SimpleTagSupport {
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @see  #getOutputType()
+   * @see  EncodingNullTag#getOutputType()
    */
   @SuppressWarnings("NoopMethodInAbstractClass")
   protected void writeSuffix(MediaType containerType, Writer out) throws JspException, IOException {

@@ -113,9 +113,9 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
   /**
    * {@inheritDoc}
    *
-   * @deprecated  You should probably be implementing in {@link #doStartTag(java.io.Writer)}
+   * @deprecated  You should probably be implementing in {@link EncodingNullBodyTag#doStartTag(java.io.Writer)}
    *
-   * @see  #doStartTag(java.io.Writer)
+   * @see  EncodingNullBodyTag#doStartTag(java.io.Writer)
    */
   @Deprecated
   @Override
@@ -179,7 +179,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
   }
 
   /**
-   * Sets or replaces the validating out variables based on the current {@linkplain #getOutputType() output type}.
+   * Sets or replaces the validating out variables based on the current {@linkplain EncodingNullBodyTag#getOutputType() output type}.
    * When the output type changes, which can happen during body invocation, the validating variables will be updated.
    */
   private void updateValidatingOut(MediaType newOutputType) throws JspException, IOException {
@@ -274,13 +274,13 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 
   /**
    * Once the out {@link JspWriter} has been replaced to output the proper content
-   * type, this version of {@link #doStartTag()} is called.
+   * type, this version of {@link EncodingNullBodyTag#doStartTag()} is called.
    *
    * @param  out  When the output type is {@code null}, will throw an exception if anything written,
    *              otherwise validates all characters against the output type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @return  Must return either {@link #EVAL_BODY_BUFFERED} (the default) or {@link #SKIP_BODY}
+   * @return  Must return either {@link EncodingNullBodyTag#EVAL_BODY_BUFFERED} (the default) or {@link EncodingNullBodyTag#SKIP_BODY}
    */
   protected int doStartTag(Writer out) throws JspException, IOException {
     return EVAL_BODY_BUFFERED;
@@ -304,8 +304,8 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
    * <p>Once the encoding context is set, attempts to {@linkplain BodyTagUtils#unbuffer(javax.servlet.jsp.tagext.BodyContent, java.io.Writer) unbuffer}
    * the current {@link BodyContent} in order to immediately discard all nested output.</p>
    *
-   * <p>Sets {@link #bodyUnbuffered} to {@code true} when successfully directly performing discard.
-   * Otherwise, {@link #bodyUnbuffered} is {@code false} when the body content continues to use default buffering.</p>
+   * <p>Sets {@link EncodingNullBodyTag#bodyUnbuffered} to {@code true} when successfully directly performing discard.
+   * Otherwise, {@link EncodingNullBodyTag#bodyUnbuffered} is {@code false} when the body content continues to use default buffering.</p>
    */
   private void initDiscard() throws JspTagException {
     RequestEncodingContext.setCurrentContext(pageContext.getRequest(), RequestEncodingContext.DISCARD);
@@ -314,7 +314,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 
   /**
    * The only way to replace the "out" variable in the generated JSP is to use
-   * {@link #EVAL_BODY_BUFFERED}.  Without this, any writer given to {@link PageContext#pushBody(java.io.Writer)}
+   * {@link EncodingNullBodyTag#EVAL_BODY_BUFFERED}.  Without this, any writer given to {@link PageContext#pushBody(java.io.Writer)}
    * is not used.  We want to use {@link NullWriter} to discard data on-the-fly.
    *
    * <p>To workaround this issue, this very hackily replaces the writer field directly on the
@@ -331,9 +331,9 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
   /**
    * {@inheritDoc}
    *
-   * @deprecated  You should probably be implementing in {@link #doAfterBody(java.io.Writer)}
+   * @deprecated  You should probably be implementing in {@link EncodingNullBodyTag#doAfterBody(java.io.Writer)}
    *
-   * @see  #doAfterBody(java.io.Writer)
+   * @see  EncodingNullBodyTag#doAfterBody(java.io.Writer)
    */
   @Deprecated
   @Override
@@ -361,13 +361,13 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 
   /**
    * While the out {@link JspWriter} is still replaced to output the proper content
-   * type, this version of {@link #doAfterBody()} is called.
+   * type, this version of {@link EncodingNullBodyTag#doAfterBody()} is called.
    *
    * @param  out  When the output type is {@code null}, will throw an exception if anything written,
    *              otherwise validates all characters against the output type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @return  Must return either {@link #SKIP_BODY} (the default) or {@link #EVAL_BODY_AGAIN}
+   * @return  Must return either {@link EncodingNullBodyTag#SKIP_BODY} (the default) or {@link EncodingNullBodyTag#EVAL_BODY_AGAIN}
    */
   protected int doAfterBody(Writer out) throws JspException, IOException {
     return SKIP_BODY;
@@ -376,9 +376,9 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
   /**
    * {@inheritDoc}
    *
-   * @deprecated  You should probably be implementing in {@link #doEndTag(java.io.Writer)}
+   * @deprecated  You should probably be implementing in {@link EncodingNullBodyTag#doEndTag(java.io.Writer)}
    *
-   * @see  #doEndTag(java.io.Writer)
+   * @see  EncodingNullBodyTag#doEndTag(java.io.Writer)
    */
   @Deprecated
   @Override
@@ -414,13 +414,13 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
 
   /**
    * While the out {@link JspWriter} is still replaced to output the proper content
-   * type, this version of {@link #doEndTag()} is called.
+   * type, this version of {@link EncodingNullBodyTag#doEndTag()} is called.
    *
    * @param  out  When the output type is {@code null}, will throw an exception if anything written,
    *              otherwise validates all characters against the output type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @return  Must return either {@link #EVAL_PAGE} (the default) or {@link #SKIP_PAGE}
+   * @return  Must return either {@link EncodingNullBodyTag#EVAL_PAGE} (the default) or {@link EncodingNullBodyTag#SKIP_PAGE}
    */
   protected int doEndTag(Writer out) throws JspException, IOException {
     return EVAL_PAGE;
@@ -451,7 +451,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @see  #getOutputType()
+   * @see  EncodingNullBodyTag#getOutputType()
    */
   @SuppressWarnings("NoopMethodInAbstractClass")
   protected void writePrefix(MediaType containerType, Writer out) throws JspException, IOException {
@@ -493,7 +493,7 @@ public abstract class EncodingNullBodyTag extends BodyTagSupport implements TryC
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @see  #getOutputType()
+   * @see  EncodingNullBodyTag#getOutputType()
    */
   @SuppressWarnings("NoopMethodInAbstractClass")
   protected void writeSuffix(MediaType containerType, Writer out) throws JspException, IOException {

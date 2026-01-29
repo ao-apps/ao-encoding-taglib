@@ -81,8 +81,8 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
   private static final Resources RESOURCES = Resources.getResources(ResourceBundle::getBundle, EncodingFilteredBodyTag.class);
 
   /**
-   * Return value for {@link #doStartTag(java.io.Writer)}.  It will be converted
-   * to either {@link #EVAL_BODY_INCLUDE} or {@link #EVAL_BODY_BUFFERED}, as
+   * Return value for {@link EncodingFilteredBodyTag#doStartTag(java.io.Writer)}.  It will be converted
+   * to either {@link EncodingFilteredBodyTag#EVAL_BODY_INCLUDE} or {@link EncodingFilteredBodyTag#EVAL_BODY_BUFFERED}, as
    * appropriate to the given filtering and validation.
    */
   public static final int EVAL_BODY_FILTERED = 7;
@@ -151,9 +151,9 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
   /**
    * {@inheritDoc}
    *
-   * @deprecated  You should probably be implementing in {@link #doStartTag(java.io.Writer)}
+   * @deprecated  You should probably be implementing in {@link EncodingFilteredBodyTag#doStartTag(java.io.Writer)}
    *
-   * @see  #doStartTag(java.io.Writer)
+   * @see  EncodingFilteredBodyTag#doStartTag(java.io.Writer)
    */
   @Deprecated
   @Override
@@ -214,7 +214,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
   }
 
   /**
-   * Sets or replaces the validating out variables based on the current {@linkplain #getContentType() output type}.
+   * Sets or replaces the validating out variables based on the current {@linkplain EncodingFilteredBodyTag#getContentType() output type}.
    * When the output type changes, which can happen during body invocation, the validating variables will be updated.
    */
   private void updateValidatingOut() throws JspException, IOException {
@@ -314,13 +314,13 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 
   /**
    * Once the out {@link JspWriter} has been replaced to output the proper content
-   * type, this version of {@link #doStartTag()} is called.
+   * type, this version of {@link EncodingFilteredBodyTag#doStartTag()} is called.
    *
    * @param  out  When the output type is {@code null}, will throw an exception if anything written,
    *              otherwise validates all characters against the output type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @return  Must return either {@link #EVAL_BODY_FILTERED} (the default) or {@link #SKIP_BODY}
+   * @return  Must return either {@link EncodingFilteredBodyTag#EVAL_BODY_FILTERED} (the default) or {@link EncodingFilteredBodyTag#SKIP_BODY}
    */
   protected int doStartTag(Writer out) throws JspException, IOException {
     return EVAL_BODY_FILTERED;
@@ -339,10 +339,10 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
   /**
    * If the {@linkplain Mode#buffered current mode is buffered}, attempts to
    * {@linkplain BodyTagUtils#unbuffer(javax.servlet.jsp.tagext.BodyContent, java.io.Writer) unbuffer} with direct
-   * access to the current {@link #validatingOut}.
+   * access to the current {@link EncodingFilteredBodyTag#validatingOut}.
    *
-   * <p>Sets {@link #bodyUnbuffered} to {@code true} when successfully directly performing validation.
-   * Otherwise, {@link #bodyUnbuffered} is {@code false} when the body content continues to use default buffering.</p>
+   * <p>Sets {@link EncodingFilteredBodyTag#bodyUnbuffered} to {@code true} when successfully directly performing validation.
+   * Otherwise, {@link EncodingFilteredBodyTag#bodyUnbuffered} is {@code false} when the body content continues to use default buffering.</p>
    */
   private void initValidation() throws JspTagException {
     ServletRequest request = pageContext.getRequest();
@@ -360,7 +360,7 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 
   /**
    * The only way to replace the "out" variable in the generated JSP is to use
-   * {@link #EVAL_BODY_BUFFERED}.  Without this, any writer given to {@link PageContext#pushBody(java.io.Writer)}
+   * {@link EncodingFilteredBodyTag#EVAL_BODY_BUFFERED}.  Without this, any writer given to {@link PageContext#pushBody(java.io.Writer)}
    * is not used.  We don't actually want to buffer the content, but only want to filter and validate the
    * data on-the-fly.
    *
@@ -380,9 +380,9 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
   /**
    * {@inheritDoc}
    *
-   * @deprecated  You should probably be implementing in {@link #doAfterBody(java.io.Writer)}
+   * @deprecated  You should probably be implementing in {@link EncodingFilteredBodyTag#doAfterBody(java.io.Writer)}
    *
-   * @see  #doAfterBody(java.io.Writer)
+   * @see  EncodingFilteredBodyTag#doAfterBody(java.io.Writer)
    */
   @Deprecated
   @Override
@@ -412,12 +412,12 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 
   /**
    * While the out {@link JspWriter} is still replaced to output the proper content
-   * type, this version of {@link #doAfterBody()} is called.
+   * type, this version of {@link EncodingFilteredBodyTag#doAfterBody()} is called.
    *
    * @param  out  Validates all characters against the content type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @return  Must return either {@link #SKIP_BODY} (the default) or {@link #EVAL_BODY_AGAIN}
+   * @return  Must return either {@link EncodingFilteredBodyTag#SKIP_BODY} (the default) or {@link EncodingFilteredBodyTag#EVAL_BODY_AGAIN}
    */
   protected int doAfterBody(Writer out) throws JspException, IOException {
     return SKIP_BODY;
@@ -426,9 +426,9 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
   /**
    * {@inheritDoc}
    *
-   * @deprecated  You should probably be implementing in {@link #doEndTag(java.io.Writer)}
+   * @deprecated  You should probably be implementing in {@link EncodingFilteredBodyTag#doEndTag(java.io.Writer)}
    *
-   * @see  #doEndTag(java.io.Writer)
+   * @see  EncodingFilteredBodyTag#doEndTag(java.io.Writer)
    */
   @Deprecated
   @Override
@@ -462,12 +462,12 @@ public abstract class EncodingFilteredBodyTag extends BodyTagSupport implements 
 
   /**
    * While the out {@link JspWriter} is still replaced to output the proper content
-   * type, this version of {@link #doEndTag()} is called.
+   * type, this version of {@link EncodingFilteredBodyTag#doEndTag()} is called.
    *
    * @param  out  Validates all characters against the content type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @return  Must return either {@link #EVAL_PAGE} (the default) or {@link #SKIP_PAGE}
+   * @return  Must return either {@link EncodingFilteredBodyTag#EVAL_PAGE} (the default) or {@link EncodingFilteredBodyTag#SKIP_PAGE}
    */
   protected int doEndTag(Writer out) throws JspException, IOException {
     return EVAL_PAGE;

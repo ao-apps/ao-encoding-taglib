@@ -81,9 +81,9 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
   /**
    * {@inheritDoc}
    *
-   * @deprecated  You should probably be implementing in {@link #doTag(java.io.Writer)}
+   * @deprecated  You should probably be implementing in {@link EncodingFilteredTag#doTag(java.io.Writer)}
    *
-   * @see  #doTag(java.io.Writer)
+   * @see  EncodingFilteredTag#doTag(java.io.Writer)
    */
   @Deprecated
   @Override
@@ -254,7 +254,7 @@ public abstract class EncodingFilteredTag extends SimpleTagSupport {
 
   /**
    * Once the out {@link JspWriter} has been replaced to output the proper content
-   * type, this version of {@link #doTag()} is called.
+   * type, this version of {@link EncodingFilteredTag#doTag()} is called.
    *
    * <p>This implementation invokes {@link JspFragment#invoke(java.io.Writer)}
    * of the JSP body, if present.</p>

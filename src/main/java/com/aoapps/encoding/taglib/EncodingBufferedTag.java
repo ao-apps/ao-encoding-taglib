@@ -96,7 +96,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
   }
 
   /**
-   * @see  #newBufferWriter(com.aoapps.tempfiles.TempFileContext, long)
+   * @see  EncodingBufferedTag#newBufferWriter(com.aoapps.tempfiles.TempFileContext, long)
    * @see  AutoTempFileWriter#DEFAULT_TEMP_FILE_THRESHOLD
    */
   public static BufferWriter newBufferWriter(TempFileContext tempFileContext) {
@@ -104,7 +104,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
   }
 
   /**
-   * @see  #newBufferWriter(com.aoapps.tempfiles.TempFileContext, long)
+   * @see  EncodingBufferedTag#newBufferWriter(com.aoapps.tempfiles.TempFileContext, long)
    * @see  TempFileContextEE#get(javax.servlet.ServletRequest)
    */
   public static BufferWriter newBufferWriter(ServletRequest request, long tempFileThreshold) {
@@ -112,7 +112,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
   }
 
   /**
-   * @see  #newBufferWriter(javax.servlet.ServletRequest, long)
+   * @see  EncodingBufferedTag#newBufferWriter(javax.servlet.ServletRequest, long)
    * @see  AutoTempFileWriter#DEFAULT_TEMP_FILE_THRESHOLD
    */
   public static BufferWriter newBufferWriter(ServletRequest request) {
@@ -146,9 +146,9 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
   /**
    * {@inheritDoc}
    *
-   * @deprecated  You should probably be implementing in {@link #doTag(com.aoapps.io.buffer.BufferResult, java.io.Writer)}
+   * @deprecated  You should probably be implementing in {@link EncodingBufferedTag#doTag(com.aoapps.io.buffer.BufferResult, java.io.Writer)}
    *
-   * @see  #doTag(com.aoapps.io.buffer.BufferResult, java.io.Writer)
+   * @see  EncodingBufferedTag#doTag(com.aoapps.io.buffer.BufferResult, java.io.Writer)
    */
   @Deprecated
   @Override
@@ -348,7 +348,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @see  #getOutputType()
+   * @see  EncodingBufferedTag#getOutputType()
    */
   @SuppressWarnings("NoopMethodInAbstractClass")
   protected void writePrefix(MediaType containerType, Writer out) throws JspException, IOException {
@@ -374,7 +374,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
 
   /**
    * Once the out {@link JspWriter} has been replaced to output the proper content
-   * type, this version of {@link #doTag()} is called.
+   * type, this version of {@link EncodingBufferedTag#doTag()} is called.
    *
    * <p>{@linkplain JspFragment The body}, if present, has {@linkplain JspFragment#invoke(java.io.Writer) already been invoked}
    * with any output captured.</p>
@@ -408,7 +408,7 @@ public abstract class EncodingBufferedTag extends SimpleTagSupport {
    * @param  out  Validates all characters against the container media type.
    *              Already optimized via {@link Coercion#optimize(java.io.Writer, com.aoapps.lang.io.Encoder)}.
    *
-   * @see  #getOutputType()
+   * @see  EncodingBufferedTag#getOutputType()
    */
   @SuppressWarnings("NoopMethodInAbstractClass")
   protected void writeSuffix(MediaType containerType, Writer out) throws JspException, IOException {
