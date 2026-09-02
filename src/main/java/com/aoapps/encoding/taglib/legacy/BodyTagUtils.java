@@ -45,7 +45,7 @@ import java.util.logging.Logger;
  * @author  AO Industries, Inc.
  */
 @SuppressWarnings({"UseSpecificCatch", "TooBroadCatch"})
-final class BodyTagUtils  {
+final class BodyTagUtils {
 
   /** Make no instances. */
   private BodyTagUtils() {
