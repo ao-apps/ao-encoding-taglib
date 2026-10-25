@@ -1,6 +1,6 @@
 /*
  * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2021, 2022, 2026  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -21,9 +21,6 @@
  * along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
  */
 module com.aoapps.encoding.taglib {
-  exports com.aoapps.encoding.taglib;
-  exports com.aoapps.encoding.taglib.legacy;
-  provides com.aoapps.lang.ThrowableSurrogateFactoryInitializer with com.aoapps.encoding.taglib.JavaeeWebSurrogateFactoryInitializer;
   // Direct
   requires com.aoapps.collections; // <groupId>com.aoapps</groupId><artifactId>ao-collections</artifactId>
   requires com.aoapps.encoding; // <groupId>com.aoapps</groupId><artifactId>ao-encoding</artifactId>
@@ -41,4 +38,9 @@ module com.aoapps.encoding.taglib {
   // Java SE
   requires java.logging;
   requires java.xml;
+
+  exports com.aoapps.encoding.taglib;
+  exports com.aoapps.encoding.taglib.legacy;
+
+  provides com.aoapps.lang.ThrowableSurrogateFactoryInitializer with com.aoapps.encoding.taglib.JavaeeWebSurrogateFactoryInitializer;
 }
