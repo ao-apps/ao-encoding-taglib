@@ -21,10 +21,6 @@
  * along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
  */
 module com.aoapps.encoding.taglib.book {
-  exports com.aoapps.encoding.taglib.book;
-  provides jakarta.servlet.ServletContainerInitializer with
-    com.aoapps.encoding.taglib.book.AoEncodingTldInitializer,
-    com.aoapps.encoding.taglib.book.AoEncodingLegacyTldInitializer;
   // Direct
   requires com.aoapps.badges; // <groupId>com.aoapps</groupId><artifactId>ao-badges</artifactId>
   requires com.aoapps.lang; // <groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId>
@@ -35,4 +31,10 @@ module com.aoapps.encoding.taglib.book {
   requires com.semanticcms.core.taglib; // <groupId>com.semanticcms</groupId><artifactId>semanticcms-core-taglib</artifactId>
   requires com.semanticcms.section.taglib; // <groupId>com.semanticcms</groupId><artifactId>semanticcms-section-taglib</artifactId>
   requires com.semanticcms.tagreference; // <groupId>com.semanticcms</groupId><artifactId>semanticcms-tag-reference</artifactId>
+
+  exports com.aoapps.encoding.taglib.book;
+
+  provides jakarta.servlet.ServletContainerInitializer with
+    com.aoapps.encoding.taglib.book.AoEncodingTldInitializer,
+    com.aoapps.encoding.taglib.book.AoEncodingLegacyTldInitializer;
 }
