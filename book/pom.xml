@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
+ao-encoding-taglib - High performance, composable, streaming character encoding in a JSP environment.
 Copyright (C) 2020, 2021, 2022, 2023, 2024, 2025, 2026  AO Industries, Inc.
     support@aoindustries.com
     7262 Bull Pen Cir
@@ -47,7 +47,7 @@ along with ao-encoding-taglib.  If not, see <https://www.gnu.org/licenses/>.
     <!-- These values are copied from the project being documented -->
     <documented.artifactId>ao-encoding-taglib</documented.artifactId>
     <documented.name>AO Encoding Taglib</documented.name>
-    <documented.description>High performance streaming character encoding in a JSP environment.</documented.description>
+    <documented.description>High performance, composable, streaming character encoding in a JSP environment.</documented.description>
 
     <javadoc.breadcrumbs><![CDATA[<a target="${javadoc.target}" href="https://oss.aoapps.com/">AO OSS</a>
 / <a target="${javadoc.target}" href="https://oss.aoapps.com/encoding/">Encoding</a>

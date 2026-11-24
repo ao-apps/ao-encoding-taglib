@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 /*
- * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
+ * ao-encoding-taglib - High performance, composable, streaming character encoding in a JSP environment.
  * Copyright (C) 2021, 2022, 2023, 2024, 2025, 2026  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
