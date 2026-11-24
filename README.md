@@ -17,7 +17,7 @@
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?branch=javaee&project=com.aoapps%3Aao-encoding-taglib&metric=sqale_rating)](https://sonarcloud.io/component_measures?branch=javaee&id=com.aoapps%3Aao-encoding-taglib&metric=Maintainability)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?branch=javaee&project=com.aoapps%3Aao-encoding-taglib&metric=coverage)](https://sonarcloud.io/component_measures?branch=javaee&id=com.aoapps%3Aao-encoding-taglib&metric=Coverage)
 
-High performance streaming character encoding in a JSP environment.
+High performance, composable, streaming character encoding in a JSP environment.
 
 ## Project Links
 * [Project Home](https://oss.aoapps.com/encoding/taglib/)

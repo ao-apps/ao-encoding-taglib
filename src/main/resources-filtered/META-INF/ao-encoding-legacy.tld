@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
-Copyright (C) 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023  AO Industries, Inc.
+ao-encoding-taglib - High performance, composable, streaming character encoding in a JSP environment.
+Copyright (C) 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2026  AO Industries, Inc.
     support@aoindustries.com
     7262 Bull Pen Cir
     Mobile, AL 36695
@@ -42,7 +42,7 @@ When JSP scriptlets are not required, please use &lt;a href=&quot;@{project.url}
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
   version="2.1">
   <!-- datePublished="2020-11-18T11:39:31-06:00" -->
-  <!-- dateModified="2021-09-09T01:33:34-05:00" -->
+  <!-- dateModified="2026-11-24T16:34:40Z" -->
 <!-- </common> -->
   <!-- allowRobots="false" -->
 <!-- <common> -->

@@ -1,6 +1,6 @@
 /*
- * ao-encoding-taglib - High performance streaming character encoding in a JSP environment.
- * Copyright (C) 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2020, 2021, 2022  AO Industries, Inc.
+ * ao-encoding-taglib - High performance, composable, streaming character encoding in a JSP environment.
+ * Copyright (C) 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2026  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
